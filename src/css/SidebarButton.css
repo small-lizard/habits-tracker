@@ -1,0 +1,30 @@
+.sidebar-button {
+    width: 300px;
+    height: 60px;
+    background-color: #2C2E39;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sidebar-button svg{
+    margin-left: 25px;
+}
+
+span {
+    font-size: 20px;
+    color: #F5F5F5;
+    margin-top: 2px;
+}
+
+.sidebar-button:hover{
+    background-color: #505365;
+}
+
+.sidebar-button:focus{
+    background-color: #4A64FD;
+}
