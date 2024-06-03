@@ -11,19 +11,18 @@
     background-color: #4A64FD;
     border-radius: 0 20px 0 0;
     margin-bottom: 5px;
+    padding-left: 50px;
+    padding-top: 50px;
 }
 
 h2 {
     font-size: 32px;
     color: #F5F5F5;
-    padding-left: 50px;
-    padding-top: 50px;
 }
 
 p {
     font-size: 16px;
     color: #F5F5F5;
-    padding-left: 50px;
 }
 
 .menu {

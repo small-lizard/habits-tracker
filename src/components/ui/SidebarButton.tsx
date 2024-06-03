@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 
 export function SidebarButton(props: any) {
     return (
-        <button className="sidebar-button">
+        <Link to={props.route} className="sidebar-button">
             {props.icon}
             <span>{props.children}</span>
-        </button>
+        </Link>
     );
 }
 

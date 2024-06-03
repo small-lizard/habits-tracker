@@ -9,6 +9,8 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .sidebar-button svg{
@@ -19,6 +21,7 @@ span {
     font-size: 20px;
     color: #F5F5F5;
     margin-top: 2px;
+    text-decoration: none;
 }
 
 .sidebar-button:hover{
