@@ -1,0 +1,28 @@
+.pop-up-background {
+    background-color: rgba(9, 10, 12, 0.5);
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-up {
+    width: 500px;
+    height: 700px;
+    background-color: #2C2E39;
+    border-radius: 20px;
+    position: relative;
+    z-index: 11; 
+}
+
+.close-icon {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 12; 
+}

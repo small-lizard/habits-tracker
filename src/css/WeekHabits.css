@@ -8,7 +8,6 @@ button {
     outline: none;
     cursor: pointer;
     background: none;
-    padding-top: 10px;
 }
 
 .header {
@@ -16,6 +15,21 @@ button {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+}
+
+.left-content {
+    flex: 1;
+}
+
+.right-content {
+    display: flex;
+    align-items: center;
+}
+
+.text {
+    font-size: 16px;
+    color: #F5F5F5;
+    margin-right: 40px;
 }
 
 .icon-container {
@@ -29,9 +43,12 @@ button {
 }
 
 thead {
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
+}
+
+thead tr{
+    margin: 20px 0 20px 0;
 }
 
 .add-habit {
@@ -46,7 +63,7 @@ thead {
 .calendar-header {
     display: flex;
     text-align: center;
-    gap: 49px;
+    gap: 50px;
 }
 
 .day {
@@ -55,21 +72,30 @@ thead {
     width: 80px;
 }
 
-.date{
+.date {
     font-size: 24px;
     color: #666C82;
     padding-left: 15px;
 }
 
+.day.active{
+    color: #F5F5F5;
+}
+
+.date.active{
+    color: #F5F5F5;
+}
+
 .result {
+    width: 80px;
     font-size: 18px;
     color: #F5F5F5;
     padding-right: 40px;
-    text-align: right;
+    text-align: center;
 }
 
-thead td.result {
-    padding-left: 70px;
+thead th.result {
+    padding-left: 65px;
 }
 
 table {
@@ -84,7 +110,6 @@ tbody {
 }
 
 tr {
-    height: 100px;
     display: flex;
     align-items: center;
 }
@@ -94,18 +119,34 @@ tr {
     padding: 0 20px 0 40px;
 }
 
+.task.completed {
+    text-decoration: line-through;
+    color:#666C82;
+    margin-right: 24px;
+}
+
 .line {
     height: 100px;
     border-left: 1px solid #464B65;
     padding-right: 70px;
 }
 
-.first-line {
+.habit-line {
     border-radius: 20px;
     background-color: #2C2E39;
-} 
+    margin-bottom: 10px;
+}
+
+.habit-line.completed {
+    background-color: #262832;
+}
+
+.icon-edit {
+    margin-top: 10px;
+}
 
 .icon-trash {
+    margin-top: 10px;
     padding-left: 20px;
     padding-right: 60px;
 }
@@ -113,3 +154,16 @@ tr {
 .progress {
     padding-right: 90px;
 }
+
+.checkbox {
+    position: absolute;
+    appearance: none;
+}
+
+.checkbox-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+

@@ -1,0 +1,19 @@
+.checkbox-label {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #666C82;
+}
+
+.checkbox-label.active {
+    background-color: #4A64FD;
+    border: none;
+}
+
+.disabled-checkbox {
+    background-color: #3c3f51;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
