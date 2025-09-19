@@ -1,0 +1,10 @@
+.habit-line{
+    display: flex;
+    flex-direction: row;
+    marker: none;
+}
+
+.check-box-line{
+    display: flex;
+    flex-direction: row;
+}
