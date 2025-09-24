@@ -1,7 +1,7 @@
 .check-circle {
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   position: relative;
   cursor: pointer;
 }
@@ -14,19 +14,19 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid #666C82; 
-  background-color: #fff;
+  border: 2px solid #92959F; 
+  background-color: none;
   transition: background-color 0.2s, border-color 0.2s;
   box-sizing: border-box;
 }
 
 .check-circle input:checked + .checkbox {
-  border-color: #254ee2;
-  background-color: #254ee2;
+  border-color: #4A64FD;
+  background-color: #4A64FD;
 }
 
 .check-circle input:disabled + .checkbox {
-  border-color: #333646;
-  background-color: #333646;
+  border-color: #DDDDDD;
+  background-color: #DDDDDD;
 }
 

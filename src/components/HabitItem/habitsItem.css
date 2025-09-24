@@ -1,10 +1,44 @@
-.habit-line{
+.habit-line {
     display: flex;
     flex-direction: row;
+    align-items: center;
     marker: none;
+    background-color: #F4F3F3;
+    border-radius: 15px;
+    width: 1280px;
+    height: 80px;
+    margin-bottom: 10px;
 }
 
-.check-box-line{
+.habit-name {
+    font-size: 18px;
+    width: 305px;
+    padding-left: 25px;
+    padding-right: 20px;
+    color: #262E4E;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 20px;
+}
+
+.check-box-line {
     display: flex;
     flex-direction: row;
+    gap: 70px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.progress-number {
+    font-size: 18px;
+    color: #262E4E;
+    margin-right: 25px;
 }

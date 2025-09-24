@@ -16,7 +16,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
-        newDays[index] = checked ;
+        newDays[index] = checked;
         setDays(newDays);
     }
 
@@ -35,31 +35,36 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     return <div className='popup-overlay'>
         <form action="" className='popup-form' onSubmit={handleSubmit}>
-            <h3>New habits</h3>
-            <label>
-                Name habit
+            <h3>New habit</h3>
+            <label className='inp'>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    placeholder="Name habit"
+                    aria-label="Name"
                 />
             </label>
-            <div>
-                <p>Frequency</p>
-                {
-                    week.map((day, index) => (
-                        <label key={index}>
-                            <input
-                                type="checkbox"
-                                name="day"
-                                value={day}
-                                checked={days[index]}
-                                onChange={(e) => handleCheckBox(index, e.target.checked)}
-                            />
-                            {day}
-                        </label>
-                    ))
-                }
+
+            <div className="frequency-wrapper">
+                 <h4 className="frequency-title">Frequency</h4>
+                <div className='weekdays-checkbox'>
+                    {
+                        week.map((day, index) => (
+                            <label key={index} className="circle">
+                                <input
+                                    type="checkbox"
+                                    name="day"
+                                    value={day}
+                                    checked={days[index]}
+                                    onChange={(e) => handleCheckBox(index, e.target.checked)}
+                                />
+                                <span>{day}</span>
+                            </label>
+                        ))
+                    }
+                </div>
+
             </div>
             {addHabit ? (
                 <Button type="submit" className="submit">Create</Button>

@@ -23,13 +23,13 @@ export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateSta
     }
 
     return <li className='habit-line'>
-        <span>{name}</span>
+        <span className='habit-name'>{name}</span>
         <div>
-            <button aria-label="Edit" onClick={togglePopUp}><EditIcon /></button>
+            <button aria-label="Edit" className="icon-btn" onClick={togglePopUp}><EditIcon /></button>
             {isOpen && (
                 <HabitPopUp togglePopUp={togglePopUp} habit={{id, name, days, updateHabit}}></HabitPopUp>
             )}
-            <button aria-label="Delete" onClick={() => deleteHabit(id)}><DeleteIcon /></button>
+            <button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button>
         </div>
         <div className='check-box-line'>
             {
@@ -44,5 +44,6 @@ export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateSta
                 })
             }
         </div>
+        <p className='progress-number'>2/31</p>
     </li>
 }

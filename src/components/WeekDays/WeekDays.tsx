@@ -18,8 +18,9 @@ export function WeekDays() {
 
     return <div className='week-list'>
         {days.map((day, index) => (
-            <div key={index}>
-                {day.name} {day.number}
+            <div key={index} className='day'>
+                <p className='day-name'>{day.name}</p>
+                <p className='day-number'>{day.number}</p>
             </div>
         ))}
     </div>
