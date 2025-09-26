@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Button } from '../Button';
 import './HabitPopUp.css';
 import { HabitOptions } from '../../App';
+import { getStartOfWeek } from '../WeekDays/WeekDays';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
-    addHabit?: (habit: HabitOptions) => void;
-    habit?: { id: number; name: string; days: boolean[], updateHabit: (id: number, options: HabitOptions) => void };
+    addHabit?: (habit: HabitOptions, firstDay: number) => void;
+    habit?: { id: number; name: string; days: any[] | undefined, updateHabit: (id: number, options: {name: string, days: any[]}) => void };
 }
 
 export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.days ? habit.days.map((day) => !!day) : Array(7).fill(false));
+    const firstDay = getStartOfWeek(new Date());
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
@@ -20,10 +21,14 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
         setDays(newDays);
     }
 
+    const weeks = new Map()
+
+    weeks.set(firstDay, days)
+
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
         if (addHabit) {
-            addHabit({ name, days })
+            addHabit({ name, weeks }, firstDay)
         }
         else if (habit) {
             habit.updateHabit(habit.id, { name, days })
@@ -47,7 +52,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
             </label>
 
             <div className="frequency-wrapper">
-                 <h4 className="frequency-title">Frequency</h4>
+                <h4 className="frequency-title">Frequency</h4>
                 <div className='weekdays-checkbox'>
                     {
                         week.map((day, index) => (
@@ -67,11 +72,11 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
             </div>
             {addHabit ? (
-                <Button type="submit" className="submit">Create</Button>
+                <button type="submit" className="submit">Create</button>
             ) : habit ? (
-                <Button type="submit" className="edit">Edit</Button>
+                <button type="submit" className="edit">Edit</button>
             ) : null}
-            <Button type="button" className="cancel" onClick={togglePopUp}>Cancel</Button>
+            <button type="button" className="cancel" onClick={togglePopUp}>Cancel</button>
         </form>
     </div>
 }

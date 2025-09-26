@@ -15,6 +15,8 @@
   background: #FFF;
   padding: 40px;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 h3 {
@@ -38,7 +40,7 @@ h3 {
   background: transparent;
   font-size: 18px;
   line-height: 1;
-  outline: none;        
+  outline: none;
 }
 
 .inp input::placeholder {
@@ -98,7 +100,7 @@ h3 {
   user-select: none;
 }
 
-.circle input:checked + span {
+.circle input:checked+span {
   background-color: none;
   border-color: #262E4E;
   color: #262E4E;
@@ -109,11 +111,22 @@ h3 {
 .edit {
   color: #FFF;
   margin-bottom: 20px;
-    background-color: #4A64FD;
+  background-color: #4A64FD;
+  width: 375px;
+  height: 60px;
+  text-align: center;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
 }
 
 .cancel {
   color: #B2B2C9;
   background-color: white;
   border: 2px solid #B2B2C9;
+  width: 375px;
+  height: 60px;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
 }

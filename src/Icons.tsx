@@ -1,10 +1,29 @@
 
 export const PlusIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
-    <path d="M12.5 5V19" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M5.5 12H19.5" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="25"
+    height="24"
+    viewBox="0 0 25 24"
+    fill="none"
+  >
+    <path
+      d="M12.5 5V19"
+      stroke="#F5F5F5"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5.5 12H19.5"
+      stroke="#F5F5F5"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
-)
+);
+
 
 export const EditIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -51,6 +70,31 @@ export const DeleteIcon = () => (
     <path
       d="M14.5 11V17"
       stroke="#5C6171"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const ArrowCircle = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+  >
+    <circle
+      cx="20"
+      cy="20"
+      r="19"
+      stroke="#92959F"
+      strokeWidth="2"
+    />
+    <path
+      d="M22 26L16 20L22 14"
+      stroke="#92959F"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

@@ -1,12 +1,57 @@
-.nav {
+.title-bar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
 h1 {
     color: #262E4E;
     font-size: 32px;
+}
+
+.week-switcher {
+    display: flex;
+    gap: 25px;
+}
+
+.current-week-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    color: #262E4E;
+    display: flex;      
+    align-items: flex-end; 
+    height: 40px; 
+    cursor: pointer;
+}
+
+.week-switcher-arrow {
+    display: flex;
+    gap: 15px;
+}
+
+.week-switcher-arrow button {
+    background: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: #92959F;
+}
+
+.arrow-right {
+    transform: rotate(180deg);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -19,4 +64,10 @@ h1 {
 .primary {
     margin-right: 65px;
     background-color: #4A64FD;
+    width: 375px;
+    height: 60px;
+    text-align: center;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
 }

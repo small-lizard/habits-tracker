@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HabitsItem } from '../HabitItem/HabitItem';
-import { HabitOptions, DayOptions } from '../../App';
+import {  DayOptions, Status } from '../../App';
 
 type HabitListProps = {
-    habits: [{name: string, days: []}],
+    habits: [{name: string, weeks: Map<number, Status[]>}],
     deleteHabit: (id: number) => void, 
-    updateHabit: (id: number, options: HabitOptions) => void,
-    updateStatus: (options: DayOptions) => void,
+    updateHabit: (id: number, options: {name: string, days: any[]}) => void,
+    updateStatus: (options: DayOptions, firstDay: number) => void,
+    firstDay: number,
 }
 
-export function HabitList({ habits, deleteHabit, updateHabit, updateStatus }: HabitListProps) {
-
+export function HabitList({ habits, deleteHabit, updateHabit, updateStatus, firstDay }: HabitListProps) {
     return <ul>
         {habits.map((habit, index) => (
             <HabitsItem 
-            days={habit.days} 
+            days={habit.weeks.get(firstDay)}
             name={habit.name} 
             key={index} 
             deleteHabit={deleteHabit} 
             id={index} 
             updateHabit={updateHabit}
             updateStatus={updateStatus}
+            firstDay={firstDay}
             ></HabitsItem>
         ))}
     </ul>

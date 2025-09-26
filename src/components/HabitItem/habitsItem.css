@@ -18,6 +18,12 @@
     color: #262E4E;
 }
 
+.habit-actions {
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+}
+
 .icon-btn {
     background: none;
     border: none;
@@ -27,6 +33,7 @@
     width: 24px;
     height: 24px;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .check-box-line {
