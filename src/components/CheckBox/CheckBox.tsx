@@ -1,5 +1,5 @@
 import './CheckBox.css';
-import { Status, DayOptions } from '../App';
+import { Status, DayOptions } from '../../types';
 
 type CheckBoxProps = {
   status: Status,

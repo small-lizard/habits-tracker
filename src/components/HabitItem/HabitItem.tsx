@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { EditIcon, DeleteIcon } from '../../Icons';
-import { CheckBox } from '../CheckBox';
+import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
 import { HabitPopUp } from '../HabitPopUp/HabitPopUp';
-import { HabitOptions, DayOptions, Status } from '../../App';
+import {  DayOptions, Status } from '../../types';
 
 type HabitListProps = {
     name: string,
-    days: Status[] | undefined,
+    days: Status[],
     deleteHabit: (id: number) => void,
     id: number,
-    updateHabit: (id: number, options: {name: string, days: any[]}) => void,
+    updateHabit: (id: number, options: {name: string, days: boolean[]}) => void,
     updateStatus: (options: DayOptions, firstDay: number) => void,
     firstDay: number,
 }
 
 export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateStatus, firstDay }: HabitListProps) {
-
     const [isOpen, setIsOpen] = useState(false)
 
     function togglePopUp() {
@@ -47,6 +46,6 @@ export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateSta
                 })
             }
         </div>
-        <p className='progress-number'>2/31</p>
+        <p className='progress-number'>-</p>
     </li>
 }

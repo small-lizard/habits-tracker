@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import './HabitPopUp.css';
-import { HabitOptions } from '../../App';
-import { getStartOfWeek } from '../WeekDays/WeekDays';
+import { HabitOptions, Status } from '../../types';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
-    addHabit?: (habit: HabitOptions, firstDay: number) => void;
-    habit?: { id: number; name: string; days: any[] | undefined, updateHabit: (id: number, options: {name: string, days: any[]}) => void };
+    addHabit?: (habit: HabitOptions) => void;
+    habit?: {
+        id: number;
+        name: string;
+        days: Status[],
+        updateHabit: (id: number, options: { name: string, days: boolean[] }) => void
+    };
 }
 
 export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.days ? habit.days.map((day) => !!day) : Array(7).fill(false));
-    const firstDay = getStartOfWeek(new Date());
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
@@ -21,14 +24,10 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
         setDays(newDays);
     }
 
-    const weeks = new Map()
-
-    weeks.set(firstDay, days)
-
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
         if (addHabit) {
-            addHabit({ name, weeks }, firstDay)
+            addHabit({ name, template: days, weeks: {} });
         }
         else if (habit) {
             habit.updateHabit(habit.id, { name, days })
