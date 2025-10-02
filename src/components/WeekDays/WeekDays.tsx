@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import './weekDays.css';
 
-type WeekDaysProps = {
-    numberOfWeek: number,
-}
 
-export function WeekDays({ numberOfWeek }: WeekDaysProps) {
-    const date = new Date();
-    const firstDay = new Date(date);
-    firstDay.setDate(date.getDate() - date.getDay() + numberOfWeek * 7);
-    const startOfWeek = new Date(getStartOfWeek(firstDay));
-    
+export function WeekDays() {
+    const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
+    const startOfWeek = new Date(currentFirstDay);
+
     const days = []
 
     for (let i = 0; i < 7; i++) {
