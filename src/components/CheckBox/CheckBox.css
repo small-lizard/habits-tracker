@@ -15,14 +15,14 @@
   height: 100%;
   border-radius: 50%;
   border: 2px solid #92959F; 
-  background-color: none;
+  background-color: transparent;
   transition: background-color 0.2s, border-color 0.2s;
   box-sizing: border-box;
 }
 
 .check-circle input:checked + .checkbox {
-  border-color: #4A64FD;
-  background-color: #4A64FD;
+  border: 2px solid var(--habit-color);
+  background-color: var(--habit-color);
 }
 
 .check-circle input:disabled + .checkbox {

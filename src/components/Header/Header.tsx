@@ -64,7 +64,7 @@ export function Header({ addHabit }: HeaderProps) {
             )}
 
             <WeekDays></WeekDays>
-            <p className='progress'>Done</p>
+            <p className='progress'>Streak</p>
         </div>
     </div>
 }

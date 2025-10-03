@@ -7,8 +7,9 @@ export enum Status {
 export type HabitOptions = {
   name: string;
   template: boolean[];
+  selectedColor: string,
   weeks: {
-    [weekNumber: number]: Status[];
+    [weekNumber: string]: Status[];
   };
 };
 

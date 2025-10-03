@@ -47,5 +47,6 @@
 .progress-number {
     font-size: 18px;
     color: #262E4E;
-    margin-right: 25px;
+    width: 40px;
+    text-align: center;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './HabitPopUp.css';
 import { HabitOptions, Status } from '../../types';
+import { CheckIcon } from '../../Icons';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
@@ -9,7 +10,8 @@ type HabitPopUpProps = {
         id: number;
         name: string;
         days: Status[],
-        updateHabit: (id: number, options: { name: string, days: boolean[] }) => void
+        color: string,
+        updateHabit: (id: number, options: { name: string, days: boolean[], selectedColor: string }) => void
     };
 }
 
@@ -17,6 +19,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.days ? habit.days.map((day) => !!day) : Array(7).fill(false));
+    const [selectedColor, setColor] = useState(habit?.color ?? "#4A64FD");
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
@@ -27,19 +30,22 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
         if (addHabit) {
-            addHabit({ name, template: days, weeks: {} });
+            addHabit({ name, template: days, weeks: {}, selectedColor });
         }
         else if (habit) {
-            habit.updateHabit(habit.id, { name, days })
+            habit.updateHabit(habit.id, { name, days, selectedColor})
         }
         togglePopUp()
     }
 
+    const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#65C763', '#F4C358', '#F55B7A'];
     const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     return <div className='popup-overlay'>
         <form action="" className='popup-form' onSubmit={handleSubmit}>
-            <h3>New habit</h3>
+            {
+                habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
+            }
             <label className='inp'>
                 <input
                     type="text"
@@ -69,6 +75,25 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
                     }
                 </div>
 
+            </div>
+
+            <div className="color-wrapper">
+                <h4 className="color-title">Choose color</h4>
+                <div className='color-radio-btn'>
+                    {colors.map((color) => (
+                        <label key={color} className="color-label" >
+                            <input
+                                type="radio"
+                                name="habitColor"
+                                value={color}
+                                checked={selectedColor === color}
+                                onChange={() => setColor(color)}
+                            />
+                            <span style={{ backgroundColor: color }}></span>
+                            {selectedColor === color && <span className='tick'><CheckIcon /></span>}
+                        </label>
+                    ))}
+                </div>
             </div>
             {addHabit ? (
                 <button type="submit" className="submit">Create</button>

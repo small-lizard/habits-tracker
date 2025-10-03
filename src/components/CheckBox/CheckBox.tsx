@@ -7,16 +7,21 @@ type CheckBoxProps = {
   updateStatus: (options: DayOptions, firstDay: number) => void,
   id: number,
   firstDay: number,
+  color: string
 }
 
-export function CheckBox({ status, index, updateStatus, id, firstDay }: CheckBoxProps) {
+export function CheckBox({ status, index, updateStatus, id, firstDay, color }: CheckBoxProps) {
 
   function changeStatus(event: any) {
     updateStatus({ id, index, status: event.target.checked ? Status.Done : Status.Pending }, firstDay)
   }
 
-  return <label className="check-circle" >
-    <input type="checkbox"
+  return <label
+    className="check-circle"
+    style={{ "--habit-color": color } as React.CSSProperties}
+  >
+    <input
+      type="checkbox"
       disabled={status === Status.Disabled}
       checked={status === Status.Done}
       onChange={changeStatus}

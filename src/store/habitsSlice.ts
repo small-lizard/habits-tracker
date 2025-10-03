@@ -3,9 +3,9 @@ import { Status, HabitOptions, DayOptions } from '../types';
 import { getStartOfWeek } from '../components/WeekDays/WeekDays';
 
 type HabitsState = {
-  habits: HabitOptions[];
-  currentFirstDay: number;
-  week: number;
+  habits: HabitOptions[],
+  currentFirstDay: number,
+  week: number,
 };
 
 const saved = localStorage.getItem("habits");
@@ -38,7 +38,7 @@ const habitsSlice = createSlice({
         weeks: { [state.currentFirstDay]: mappedWeek },
       });
     },
-    updateHabit: (state, action: PayloadAction<{ id: number; options: { name: string; days: boolean[] } }>) => {
+    updateHabit: (state, action: PayloadAction<{ id: number; options: { name: string; days: boolean[], selectedColor: string } }>) => {
       const { id, options } = action.payload;
 
       const habit = state.habits[id];
@@ -46,6 +46,7 @@ const habitsSlice = createSlice({
 
       habit.name = options.name;
       habit.template = options.days
+      habit.selectedColor = options.selectedColor
 
       Object.entries(habit.weeks).forEach(([key, days]) => {
         const weekNumber = Number(key);

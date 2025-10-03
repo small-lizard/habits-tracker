@@ -20,7 +20,7 @@ const App = () => {
     localStorage.setItem("habits", JSON.stringify(habits));
   }, [habits]);
 
-  const updateHabit = (id: number, options: { name: string, days: boolean[] }) => {
+  const updateHabit = (id: number, options: { name: string, days: boolean[], selectedColor: string }) => {
     dispatch(habitsActions.updateHabit({ id, options }));
   }
 
