@@ -5,7 +5,7 @@ export const selectWeekStreak = (habit: HabitOptions): number => {
 
     const currentWeek = getStartOfWeek(new Date())
     const weeksKeys = Object.keys(habit.weeks).sort((a, b) => Number(b) - Number(a));
-    const sortedWeeks = weeksKeys.filter((key) => Number(key) <= currentWeek);
+    const sortedWeeks = weeksKeys.filter((key) => Number(key) < currentWeek);
     const weeks = sortedWeeks.map((key: string) => habit.weeks[Number(key)]);
 
     let streak = 0;
@@ -13,9 +13,14 @@ export const selectWeekStreak = (habit: HabitOptions): number => {
     for (const week of weeks) {
         if (!week.includes(Status.Pending)) {
             streak++;
-        } else {
+        }
+        else {
             break;
         }
+    }
+
+    if (!habit.weeks[currentWeek].includes(Status.Pending)) {
+        streak++;
     }
 
     return streak;
