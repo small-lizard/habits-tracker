@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Status, HabitOptions, DayOptions } from '../types';
+import { Status, HabitOptions, DayOptions, HabitForUpdate } from '../types';
 import { getStartOfWeek } from '../components/WeekDays/WeekDays';
 
 type HabitsState = {
@@ -38,20 +38,20 @@ const habitsSlice = createSlice({
         weeks: { [state.currentFirstDay]: mappedWeek },
       });
     },
-    updateHabit: (state, action: PayloadAction<{ id: number; options: { name: string; days: boolean[], selectedColor: string } }>) => {
-      const { id, options } = action.payload;
+    updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate}>) => {
+      const { options } = action.payload;
 
-      const habit = state.habits[id];
+      const habit = state.habits.find(habit => habit.id === options.id);
       if (!habit) return;
 
       habit.name = options.name;
-      habit.template = options.days
-      habit.selectedColor = options.selectedColor
+      habit.template = options.template;
+      habit.selectedColor = options.selectedColor;
 
       Object.entries(habit.weeks).forEach(([key, days]) => {
         const weekNumber = Number(key);
 
-        const updatedDays = options.days.map((day, index) => {
+        const updatedDays = options.template.map((day, index) => {
           if (day === false) {
             return Status.Disabled;
           }
@@ -62,8 +62,7 @@ const habitsSlice = createSlice({
     },
     updateStatus: (state, action: PayloadAction<{ options: DayOptions, firstDay: number }>) => {
       const { options, firstDay } = action.payload;
-
-      const habit = state.habits[options.id];
+      const habit = state.habits.find(habit => habit.id === options.id);
       if (!habit) return;
 
       const currentWeek = habit.weeks[firstDay];
@@ -74,10 +73,11 @@ const habitsSlice = createSlice({
 
       habit.weeks[firstDay] = updatedWeek;
     },
-    deleteHabit: (state, action: PayloadAction<{ id: number }>) => {
+    deleteHabit: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
-      state.habits = state.habits.filter((_, index) => index !== id);
+      state.habits = state.habits.filter(habit => habit.id !== id);
     },
+
     addNewWeek: (state) => {
       state.habits = state.habits.map(habit => generateWeek(habit, state.currentFirstDay));
     },

@@ -11,23 +11,28 @@ import { RootState } from '../../store/store';
 type HabitListProps = {
     name: string,
     days: Status[],
-    deleteHabit: (id: number) => void,
-    id: number,
-    updateHabit: (id: number, options: { name: string, days: boolean[], selectedColor: string }) => void,
+    deleteHabit: (id: string) => void,
+    id: string,
     updateStatus: (options: DayOptions, firstDay: number) => void,
     firstDay: number,
     color: string,
+    togglePopUp: any,
 }
 
-export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateStatus, firstDay, color }: HabitListProps) {
+export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp }: HabitListProps) {
+    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit.id === id));
+    if (!habit) return null;
 
-    const habit = useSelector((state: RootState) => state.habits.habits[id]);
     const weekStreak = selectWeekStreak(habit);
 
-    const [isOpen, setIsOpen] = useState(false)
-
-    function togglePopUp() {
-        setIsOpen(!isOpen);
+    function handleEditClick() {
+        if (!habit) return;
+        togglePopUp({
+            id: habit.id,
+            name: habit.name,
+            template: habit.template,
+            selectedColor: habit.selectedColor,
+        });
     }
 
     return <tr className='habit-line'>

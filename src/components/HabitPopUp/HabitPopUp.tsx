@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HabitPopUp.css';
-import { HabitOptions, Status } from '../../types';
+import { HabitOptions, Status, HabitForUpdate } from '../../types';
 import { CheckIcon } from '../../Icons';
+import { nanoid } from 'nanoid';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
     addHabit?: (habit: HabitOptions) => void;
-    habit?: {
-        id: number;
-        name: string;
-        days: Status[],
-        color: string,
-        updateHabit: (id: number, options: { name: string, days: boolean[], selectedColor: string }) => void
-    };
+    habit?: HabitForUpdate,
+    updateHabit: (options: HabitForUpdate) => void
 }
 
-export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
+export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitPopUpProps) {
 
     const [name, setName] = React.useState(habit?.name ?? '');
-    const [days, setDays] = useState(habit?.days ? habit.days.map((day) => !!day) : Array(7).fill(false));
-    const [selectedColor, setColor] = useState(habit?.color ?? "#4A64FD");
+    const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
+    const [selectedColor, setColor] = useState(habit?.selectedColor ?? "#4A64FD");
+    const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#65C763', '#F4C358', '#F55B7A'];
+    const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
@@ -29,17 +27,38 @@ export function HabitPopUp({ togglePopUp, addHabit, habit }: HabitPopUpProps) {
 
     function handleSubmit(event: { preventDefault: () => void; }) {
         event.preventDefault();
-        if (addHabit) {
-            addHabit({ name, template: days, weeks: {}, selectedColor });
+        if (habit && updateHabit) {
+            debugger
+            const updatedHabit: HabitForUpdate = {
+                id: habit.id,
+                name,
+                template: days,
+                selectedColor,
+            };
+            updateHabit(updatedHabit);
         }
-        else if (habit) {
-            habit.updateHabit(habit.id, { name, days, selectedColor})
+        else if (addHabit) {
+            const newHabit: HabitOptions = {
+                id: nanoid(),
+                name,
+                template: days,
+                weeks: {},
+                selectedColor,
+            };
+            addHabit(newHabit);
         }
+        // else if (habit && updateHabit) {
+        //     debugger
+        //     const updatedHabit: HabitForUpdate = {
+        //         id: habit.id,
+        //         name,
+        //         template: days,
+        //         selectedColor,
+        //     };
+        //     updateHabit(updatedHabit);
+        // }
         togglePopUp()
     }
-
-    const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#65C763', '#F4C358', '#F55B7A'];
-    const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     return <div className='popup-overlay'>
         <form action="" className='popup-form' onSubmit={handleSubmit}>

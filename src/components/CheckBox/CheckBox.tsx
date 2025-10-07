@@ -5,7 +5,7 @@ type CheckBoxProps = {
   status: Status,
   index: number,
   updateStatus: (options: DayOptions, firstDay: number) => void,
-  id: number,
+  id: string,
   firstDay: number,
   color: string
 }

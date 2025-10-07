@@ -5,6 +5,7 @@ export enum Status {
 }
 
 export type HabitOptions = {
+  id: string;
   name: string;
   template: boolean[];
   selectedColor: string,
@@ -14,7 +15,14 @@ export type HabitOptions = {
 };
 
 export type DayOptions = {
-  id: number,
+  id: string,
   index: number,
   status: Status
 }
+
+export type HabitForUpdate= {
+  id: string;
+  name: string;
+  template: boolean[];
+  selectedColor: string;
+};
