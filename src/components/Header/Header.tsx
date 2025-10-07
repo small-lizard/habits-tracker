@@ -1,27 +1,15 @@
-import React, { useState } from 'react';
-import { WeekDays } from '../WeekDays/WeekDays';
 import './Header.css';
-import { HabitPopUp } from '../HabitPopUp/HabitPopUp';
-import { PlusIcon, ArrowCircle } from '../../Icons';
+import { ArrowCircle } from '../../Icons';
 import { useSelector, useDispatch } from 'react-redux';
 import * as habitsActions from '../../store/habitsSlice';
 import { RootState, AppDispatch } from '../../store/store';
-import { HabitOptions } from '../../types';
+import { useState } from 'react';
 
-type HeaderProps = {
-    addHabit: (options: HabitOptions) => void,
-}
-
-export function Header({ addHabit }: HeaderProps) {
+export function Header() {
 
     const week = useSelector((state: RootState) => state.habits.week)
     const dispatch = useDispatch<AppDispatch>();
-    const [isOpen, setIsOpen] = useState(false)
     const [isArrowClicked, setIsArrowClicked] = useState(false)
-
-    function togglePopUp() {
-        setIsOpen(!isOpen);
-    }
 
     function prevWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: week - 1 }));
@@ -55,16 +43,6 @@ export function Header({ addHabit }: HeaderProps) {
                     <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
                 </div>
             </div>
-        </div>
-        <div className='nav'>
-            <button className='primary' onClick={togglePopUp}><PlusIcon></PlusIcon></button>
-
-            {isOpen && (
-                <HabitPopUp togglePopUp={togglePopUp} addHabit={addHabit}></HabitPopUp>
-            )}
-
-            <WeekDays></WeekDays>
-            <p className='progress'>Streak</p>
         </div>
     </div>
 }

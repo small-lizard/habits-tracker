@@ -30,31 +30,25 @@ export function HabitsItem({ name, days, deleteHabit, id, updateHabit, updateSta
         setIsOpen(!isOpen);
     }
 
-    return <li className='habit-line'>
-        <span className='habit-name'>{name}</span>
-        <div className='habit-actions'>
-            <button aria-label="Edit" className="icon-btn" onClick={togglePopUp}><EditIcon /></button>
-            {isOpen && (
-                <HabitPopUp togglePopUp={togglePopUp} habit={{ id, name, days, color, updateHabit }}></HabitPopUp>
-            )}
-            <button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button>
-        </div>
-        <div className='check-box-line'>
-            {
-                days!.map((status, index) => {
+    return <tr className='habit-line'>
+        <td className='habit-name'>{name}</td>
+        <td><button aria-label="Edit" className="icon-btn" onClick={handleEditClick}><EditIcon /></button></td>
+        <td><button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button></td>
+        {
+            days!.map((status, index) => {
 
-                    return <CheckBox
-                        status={status}
-                        key={index}
-                        index={index}
-                        updateStatus={updateStatus}
-                        id={id}
-                        firstDay={firstDay}
-                        color={color}
-                    ></CheckBox>
-                })
-            }
-        </div>
-        <p className='progress-number'>{weekStreak}</p>
-    </li>
+                return <CheckBox
+                    status={status}
+                    key={index}
+                    index={index}
+                    updateStatus={updateStatus}
+                    id={id}
+                    firstDay={firstDay}
+                    color={color}
+                ></CheckBox>
+
+            })
+        }
+        <td className='progress-number'>{weekStreak}</td>
+    </tr>
 }

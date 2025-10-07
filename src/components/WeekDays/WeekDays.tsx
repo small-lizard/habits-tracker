@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import './weekDays.css';
 
-
 export function WeekDays() {
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
     const startOfWeek = new Date(currentFirstDay);
@@ -18,17 +17,17 @@ export function WeekDays() {
         days.push({ name: nameOfDay, number: numberOfDay })
     }
 
-    return <div className='week-list'>
+    return <>
         {days.map((day, index) => {
             const isActive = Number(day.number) == new Date().getDate()
 
-            return <div key={index} className='day'>
+            return <th key={index} className='day'>
                 <p className={isActive ? 'today-name' : 'day-name'}>{day.name}</p>
                 <p className={isActive ? 'today-number' : 'day-number'}>{day.number}</p>
-            </div>
+            </th>
         })
         }
-    </div>
+    </>
 }
 
 export function getStartOfWeek(date: Date) {
