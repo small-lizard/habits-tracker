@@ -48,26 +48,3 @@ h1 {
 .arrow-right {
     transform: rotate(180deg);
 }
-
-.nav {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.progress {
-    font-size: 16px;
-    color: #262E4E;
-    margin-left: 25px;
-}
-
-.primary {
-    margin-right: 65px;
-    background-color: #4A64FD;
-    width: 375px;
-    height: 60px;
-    text-align: center;
-    border-radius: 15px;
-    border: none;
-    cursor: pointer;
-}

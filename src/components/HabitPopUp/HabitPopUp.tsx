@@ -47,16 +47,6 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
             };
             addHabit(newHabit);
         }
-        // else if (habit && updateHabit) {
-        //     debugger
-        //     const updatedHabit: HabitForUpdate = {
-        //         id: habit.id,
-        //         name,
-        //         template: days,
-        //         selectedColor,
-        //     };
-        //     updateHabit(updatedHabit);
-        // }
         togglePopUp()
     }
 

@@ -1,0 +1,34 @@
+table {
+    border-collapse: separate;
+    font-family: 'Poppins', sans-serif;
+    border-spacing: 0 10px;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  padding-right: 60px;
+}
+
+th:nth-child(n+2):not(:last-child),
+td:nth-child(n+2):not(:last-child) {
+  padding-right: 30px;
+}
+
+thead th {
+  padding-bottom: 10px;
+}
+
+.primary {
+    background-color: #4A64FD;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.progress {
+    font-size: 16px;
+    color: #262E4E;
+}

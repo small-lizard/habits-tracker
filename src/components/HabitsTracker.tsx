@@ -8,6 +8,7 @@ import { WeekDays } from './WeekDays/WeekDays';
 import { PlusIcon } from '../Icons';
 import { HabitPopUp } from './HabitPopUp/HabitPopUp';
 import { HabitsItem } from './HabitItem/HabitItem';
+import './habitsTracker.css';
 
 export function HabitsTracker() {
 
@@ -38,17 +39,24 @@ export function HabitsTracker() {
     const [isOpen, setIsOpen] = useState(false);
     const [habitToEdit, setHabitToEdit] = useState<HabitForUpdate | undefined>(undefined);
 
-   function togglePopUp(habitData?: HabitForUpdate) {
-    setHabitToEdit(habitData);
-    setIsOpen(prev => !prev);
-}
+    function togglePopUp(habitData?: HabitForUpdate) {
+        setHabitToEdit(habitData);
+        setIsOpen(prev => !prev);
+    }
 
     return <>
         <Header></Header>
         <table>
+            <colgroup>
+                <col style={{ width: '430px' }} />
+                {[...Array(7)].map((_, i) => (
+                    <col key={i} style={{ width: '110px' }} />
+                ))}
+                <col style={{ width: '80px' }} />
+            </colgroup>
             <thead>
-                <tr className='nav'>
-                    <th colSpan={3}>
+                <tr>
+                    <th>
                         <button className='primary' onClick={() => togglePopUp()}><PlusIcon></PlusIcon></button>
                     </th>
                     <WeekDays></WeekDays>

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import { EditIcon, DeleteIcon } from '../../Icons';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
-import { HabitPopUp } from '../HabitPopUp/HabitPopUp';
 import { DayOptions, Status } from '../../types';
 import { selectWeekStreak } from '../../store/selectors';
 import { useSelector } from 'react-redux';
@@ -36,9 +34,13 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
     }
 
     return <tr className='habit-line'>
-        <td className='habit-name'>{name}</td>
-        <td><button aria-label="Edit" className="icon-btn" onClick={handleEditClick}><EditIcon /></button></td>
-        <td><button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button></td>
+        <td>
+            <div className='habit-details'>
+                <span className='habit-name'>{name}</span>
+                <button aria-label="Edit" className="icon-btn edit-btn" onClick={handleEditClick}><EditIcon /></button>
+                <button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button>
+            </div>
+        </td>
         {
             days!.map((status, index) => {
 

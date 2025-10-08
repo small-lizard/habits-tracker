@@ -1,16 +1,11 @@
-.week-list {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-}
-
 .day {
-    color: #92959F;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
+    color: #92959F;
     gap: 15px;
     width: 80px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .day-name {

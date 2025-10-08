@@ -1,3 +1,10 @@
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .check-circle {
   display: flex;
   width: 40px;
@@ -14,19 +21,16 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid #92959F; 
+  border: 2px solid #92959F;
   background-color: transparent;
-  transition: background-color 0.2s, border-color 0.2s;
-  box-sizing: border-box;
 }
 
-.check-circle input:checked + .checkbox {
+.check-circle input:checked+.checkbox {
   border: 2px solid var(--habit-color);
   background-color: var(--habit-color);
 }
 
-.check-circle input:disabled + .checkbox {
+.check-circle input:disabled+.checkbox {
   border-color: #DDDDDD;
   background-color: #DDDDDD;
 }
-
