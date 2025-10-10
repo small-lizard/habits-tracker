@@ -1,17 +1,19 @@
 table {
-    border-collapse: separate;
-    font-family: 'Poppins', sans-serif;
-    border-spacing: 0 10px;
+  border-collapse: separate;
+  font-family: 'Poppins', sans-serif;
+  border-spacing: 0 10px;
+  width: 100%;
+  table-layout: fixed;
 }
 
 th:nth-child(1),
 td:nth-child(1) {
-  padding-right: 60px;
+  padding-right: clamp(20px, 4vw, 60px);
 }
 
 th:nth-child(n+2):not(:last-child),
 td:nth-child(n+2):not(:last-child) {
-  padding-right: 30px;
+  padding-right: clamp(10px, 2vw, 30px);
 }
 
 thead th {
@@ -19,16 +21,16 @@ thead th {
 }
 
 .primary {
-    background-color: #4A64FD;
-    width: 100%;
-    height: 60px;
-    text-align: center;
-    border-radius: 15px;
-    border: none;
-    cursor: pointer;
+  background-color: #4A64FD;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
 }
 
 .progress {
-    font-size: 16px;
-    color: #262E4E;
+  font-size: 16px;
+  color: #262E4E;
 }

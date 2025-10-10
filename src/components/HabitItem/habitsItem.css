@@ -3,13 +3,13 @@
 }
 
 tr td:first-child {
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
 tr td:last-child {
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .habit-line td {
@@ -31,6 +31,9 @@ tr td:last-child {
     color: #262E4E;
     margin-right: 20px;
     margin-left: 25px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .icon-btn {
@@ -40,7 +43,6 @@ tr td:last-child {
     width: 25px;
     height: 25px;
     cursor: pointer;
-    padding-top: 2px;
 }
 
 .edit-btn {

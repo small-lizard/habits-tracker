@@ -17,15 +17,15 @@ export function CheckBox({ status, index, updateStatus, id, firstDay, color }: C
   }
 
   return <td>
-    <div className="centered">
-      <label className="check-circle" style={{ "--habit-color": color } as React.CSSProperties}>
+    <div className='centered'>
+      <label className='check-circle' style={{ '--habit-color': color } as React.CSSProperties}>
         <input
-          type="checkbox"
+          type='checkbox'
           disabled={status === Status.Disabled}
           checked={status === Status.Done}
           onChange={changeStatus}
         />
-        <span className="checkbox"></span>
+        <span className='checkbox'></span>
       </label>
     </div>
   </td>

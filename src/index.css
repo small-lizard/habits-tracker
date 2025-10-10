@@ -26,18 +26,26 @@ a {
 @font-face {
   font-family: 'Poppins';
   src: url('../src/assets/fonts/Poppins-Medium.woff2') format('woff2'),
-       url('../src/assets/fonts/Poppins-Medium.woff') format('woff'),
-       url('../src/assets/fonts/Poppins-Medium.ttf') format('truetype');
-  font-weight: 500; 
+    url('../src/assets/fonts/Poppins-Medium.woff') format('woff'),
+    url('../src/assets/fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: white;
-  margin-top: 20px;
-  margin-left: 20px;
   display: flex;
   justify-content: center;
+  max-width: 1280px;
+  margin: 20px auto 0;
+  overflow-x: hidden;
+}
+
+@media (max-width: 1280px) {
+  body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

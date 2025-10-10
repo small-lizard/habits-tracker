@@ -21,7 +21,7 @@ export function HabitsTracker() {
     }
 
     useEffect(() => {
-        localStorage.setItem("habits", JSON.stringify(habits));
+        localStorage.setItem('habits', JSON.stringify(habits));
     }, [habits]);
 
     const updateHabit = (options: HabitForUpdate) => {
@@ -48,11 +48,11 @@ export function HabitsTracker() {
         <Header></Header>
         <table>
             <colgroup>
-                <col style={{ width: '430px' }} />
+                <col style={{ width: '34%' }} />
                 {[...Array(7)].map((_, i) => (
-                    <col key={i} style={{ width: '110px' }} />
+                    <col key={i} style={{ width: '8.5%'}} />
                 ))}
-                <col style={{ width: '80px' }} />
+                <col style={{ width: '6%' }} />
             </colgroup>
             <thead>
                 <tr>

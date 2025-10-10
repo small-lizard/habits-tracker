@@ -8,7 +8,7 @@ type HabitsState = {
   week: number,
 };
 
-const saved = localStorage.getItem("habits");
+const saved = localStorage.getItem('habits');
 
 const initialHabits: HabitOptions[] = saved ? JSON.parse(saved) : [];
 

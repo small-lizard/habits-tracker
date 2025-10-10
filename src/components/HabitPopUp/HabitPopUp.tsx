@@ -15,20 +15,51 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
 
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
-    const [selectedColor, setColor] = useState(habit?.selectedColor ?? "#4A64FD");
+    const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#65C763', '#F4C358', '#F55B7A'];
     const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+
+    const [errors, setErrors] = useState({ name: '', days: '' });
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
         newDays[index] = checked;
         setDays(newDays);
+        
+        if (newDays.some(day => day)) {
+            setErrors(prev => ({ ...prev, days: '' }));
+        } else {
+            setErrors(prev => ({ ...prev, days: 'Please select at least one day' }));
+        }
     }
 
-    function handleSubmit(event: { preventDefault: () => void; }) {
+    function handleNameChange(value: string) {
+        setName(value);
+
+        if (value.trim()) {
+            setErrors(prev => ({ ...prev, name: '' }));
+        } else {
+            setErrors(prev => ({ ...prev, name: 'Enter the name of the habit' }));
+        }
+    };
+
+    function handleSubmit(event: { preventDefault: () => void }) {
         event.preventDefault();
+
+        let newErrors = { name: '', days: '' };
+
+        if (!name.trim()) {
+            newErrors.name = 'Enter the name of the habit';
+        }
+        if (days.every(day => !day)) {
+            newErrors.days = 'Please select at least one day';
+        }
+        if (newErrors.name || newErrors.days) {
+            setErrors(newErrors);
+            return;
+        }
+
         if (habit && updateHabit) {
-            debugger
             const updatedHabit: HabitForUpdate = {
                 id: habit.id,
                 name,
@@ -36,8 +67,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
                 selectedColor,
             };
             updateHabit(updatedHabit);
-        }
-        else if (addHabit) {
+        } else if (addHabit) {
             const newHabit: HabitOptions = {
                 id: nanoid(),
                 name,
@@ -47,33 +77,39 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
             };
             addHabit(newHabit);
         }
-        togglePopUp()
+
+        togglePopUp();
     }
 
     return <div className='popup-overlay'>
-        <form action="" className='popup-form' onSubmit={handleSubmit}>
+        <form action='' className='popup-form' onSubmit={handleSubmit}>
             {
                 habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
             }
-            <label className='inp'>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Name habit"
-                    aria-label="Name"
-                />
-            </label>
+            <div className='name-wrapper'>
+                <label className='inp'>
+                    <input
+                        type='text'
+                        value={name}
+                        onChange={(e) => handleNameChange(e.target.value)}
+                        placeholder='Name habit'
+                        aria-label='Name'
+                    />
+                </label>
+                {errors.name && (
+                    <div className='name-error'>{errors.name}</div>
+                )}
+            </div>
 
-            <div className="frequency-wrapper">
-                <h4 className="frequency-title">Frequency</h4>
+            <div className='frequency-wrapper'>
+                <h4 className='frequency-title'>Frequency</h4>
                 <div className='weekdays-checkbox'>
                     {
                         week.map((day, index) => (
-                            <label key={index} className="circle">
+                            <label key={index} className='circle'>
                                 <input
-                                    type="checkbox"
-                                    name="day"
+                                    type='checkbox'
+                                    name='day'
                                     value={day}
                                     checked={days[index]}
                                     onChange={(e) => handleCheckBox(index, e.target.checked)}
@@ -82,18 +118,19 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
                             </label>
                         ))
                     }
+                    {errors.days && <div className='checkbox-error'>{errors.days}</div>}
                 </div>
 
             </div>
 
-            <div className="color-wrapper">
-                <h4 className="color-title">Choose color</h4>
+            <div className='color-wrapper'>
+                <h4 className='color-title'>Choose color</h4>
                 <div className='color-radio-btn'>
                     {colors.map((color) => (
-                        <label key={color} className="color-label" >
+                        <label key={color} className='color-label' >
                             <input
-                                type="radio"
-                                name="habitColor"
+                                type='radio'
+                                name='habitColor'
                                 value={color}
                                 checked={selectedColor === color}
                                 onChange={() => setColor(color)}
@@ -105,11 +142,11 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
                 </div>
             </div>
             {addHabit ? (
-                <button type="submit" className="submit">Create</button>
+                <button type='submit' className='submit'>Create</button>
             ) : habit ? (
-                <button type="submit" className="edit">Edit</button>
+                <button type='submit' className='edit'>Edit</button>
             ) : null}
-            <button type="button" className="cancel" onClick={togglePopUp}>Cancel</button>
+            <button type='button' className='cancel' onClick={togglePopUp}>Cancel</button>
         </form>
     </div>
 }

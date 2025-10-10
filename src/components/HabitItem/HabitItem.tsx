@@ -37,8 +37,8 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
         <td>
             <div className='habit-details'>
                 <span className='habit-name'>{name}</span>
-                <button aria-label="Edit" className="icon-btn edit-btn" onClick={handleEditClick}><EditIcon /></button>
-                <button aria-label="Delete" className="icon-btn" onClick={() => deleteHabit(id)}><DeleteIcon /></button>
+                <button aria-label='Edit' className='icon-btn edit-btn' onClick={handleEditClick}><EditIcon /></button>
+                <button aria-label='Delete' className='icon-btn' onClick={() => deleteHabit(id)}><DeleteIcon /></button>
             </div>
         </td>
         {

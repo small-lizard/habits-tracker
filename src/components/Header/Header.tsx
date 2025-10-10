@@ -32,10 +32,10 @@ export function Header() {
     return <div>
         <div className='title-bar'>
             <h1>This week's habits</h1>
-            <div className="week-switcher">
+            <div className='week-switcher'>
                 {isArrowClicked && week !== 0
                     ? (
-                        <button onClick={handleCurrentWeek} className="current-week-button">today</button>
+                        <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
                     )
                     : null}
                 <div className='week-switcher-arrow'>
