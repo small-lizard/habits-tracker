@@ -29,19 +29,17 @@ export function Header() {
         setIsArrowClicked(false);
     }
 
-    return <div>
-        <div className='title-bar'>
-            <h1>This week's habits</h1>
-            <div className='week-switcher'>
-                {isArrowClicked && week !== 0
-                    ? (
-                        <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
-                    )
-                    : null}
-                <div className='week-switcher-arrow'>
-                    <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
-                    <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
-                </div>
+    return <div className='title-bar'>
+        <h1>This week's habits</h1>
+        <div className='week-switcher'>
+            {isArrowClicked && week !== 0
+                ? (
+                    <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
+                )
+                : null}
+            <div className='week-switcher-arrow'>
+                <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
+                <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
             </div>
         </div>
     </div>
