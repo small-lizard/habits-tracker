@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './HabitPopUp.css';
-import { HabitOptions, Status, HabitForUpdate } from '../../types';
-import { CheckIcon } from '../../Icons';
 import { nanoid } from 'nanoid';
+import { CheckIcon } from '../../../../components/Icons';
+import { HabitOptions, HabitForUpdate } from '../../types';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;

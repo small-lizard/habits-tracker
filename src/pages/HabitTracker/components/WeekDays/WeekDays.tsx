@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import './weekDays.css';
+import { RootState } from '../../../../store/store';
 
 export function WeekDays() {
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
@@ -30,11 +30,4 @@ export function WeekDays() {
         })
         }
     </>
-}
-
-export function getStartOfWeek(date: Date) {
-    const start = new Date(date);
-    start.setDate(date.getDate() - date.getDay());
-    start.setHours(0, 0, 0, 0);
-    return start.getTime();
 }

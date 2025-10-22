@@ -1,14 +1,14 @@
-import { Header } from './Header/Header';
 import { useSelector, useDispatch } from 'react-redux';
-import * as habitsActions from '../store/habitsSlice';
-import { RootState, AppDispatch } from '../store/store';
+import * as habitsActions from '../../store/habitsSlice';
+import { RootState, AppDispatch } from '../../store/store';
 import { useEffect, useState } from 'react';
-import { DayOptions, HabitOptions, HabitForUpdate } from '../types';
-import { WeekDays } from './WeekDays/WeekDays';
-import { PlusIcon } from '../Icons';
-import { HabitPopUp } from './HabitPopUp/HabitPopUp';
-import { HabitsItem } from './HabitItem/HabitItem';
+import { DayOptions, HabitOptions, HabitForUpdate } from './types';
+import { PlusIcon } from '../../components/Icons';
 import './habitsTracker.css';
+import { WeekDays } from './components/WeekDays/WeekDays';
+import { HabitsItem } from './components/HabitItem/HabitItem';
+import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
+import { Header } from './components/Header/Header';
 
 export function HabitsTracker() {
 

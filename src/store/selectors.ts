@@ -1,5 +1,5 @@
-import { getStartOfWeek } from '../components/WeekDays/WeekDays';
-import { Status, HabitOptions } from '../types';
+import { Status, HabitOptions } from '../pages/HabitTracker/types';
+import { getStartOfWeek } from '../utils/data-calculating';
 
 export const selectWeekStreak = (habit: HabitOptions): number => {
 

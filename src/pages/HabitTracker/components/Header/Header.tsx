@@ -1,9 +1,9 @@
 import './Header.css';
-import { ArrowCircle } from '../../Icons';
 import { useSelector, useDispatch } from 'react-redux';
-import * as habitsActions from '../../store/habitsSlice';
-import { RootState, AppDispatch } from '../../store/store';
+import * as habitsActions from '../../../../store/habitsSlice';
 import { useState } from 'react';
+import { ArrowCircle } from '../../../../components/Icons';
+import { RootState, AppDispatch } from '../../../../store/store';
 
 export function Header() {
 
@@ -29,8 +29,8 @@ export function Header() {
         setIsArrowClicked(false);
     }
 
-    return <div className='title-bar'>
-        <h1>This week's habits</h1>
+    return <header>
+        <h2>This week's habits</h2>
         <div className='week-switcher'>
             {isArrowClicked && week !== 0
                 ? (
@@ -42,6 +42,6 @@ export function Header() {
                 <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
             </div>
         </div>
-    </div>
+    </header>
 }
 

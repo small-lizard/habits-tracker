@@ -1,10 +1,10 @@
-import { EditIcon, DeleteIcon } from '../../Icons';
+import { EditIcon, DeleteIcon } from '../../../../components/Icons';
+import { selectWeekStreak } from '../../../../store/selectors';
+import { RootState } from '../../../../store/store';
+import { Status, DayOptions } from '../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
-import { DayOptions, Status } from '../../types';
-import { selectWeekStreak } from '../../store/selectors';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 
 type HabitListProps = {
     name: string,

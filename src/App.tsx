@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { HabitsTracker } from './components/HabitsTracker';
-import { LeftSideBar } from './LeftSideBar';
+import { HabitsTracker } from './pages/HabitTracker/HabitsTracker';
+import { LeftSideBar } from './components/LeftSideBar';
+import { Calendar } from './pages/Calendar/Calendar';
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<HabitsTracker />} />
-            <Route path="/calendar" element={<div>Сalendar</div>} />
+            <Route path="/calendar" element={<Calendar />} />
           </Routes>
         </div>
       </main>

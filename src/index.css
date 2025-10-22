@@ -37,6 +37,9 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: white;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 .layout {

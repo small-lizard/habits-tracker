@@ -9,13 +9,13 @@ export const LeftSideBar = () => (
                 <li>
                     <NavLink to='/' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                         <CheckSquareIcon />
-                        <span>This week</span>
+                        <span className='nav-item-text'>This week</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to='/calendar' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                         <CalendarIcon />
-                        <span>Calendar</span>
+                        <span className='nav-item-text'>Calendar</span>
                     </NavLink>
                 </li>
             </ul>

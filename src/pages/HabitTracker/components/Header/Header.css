@@ -1,11 +1,11 @@
-.title-bar {
+header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-h1 {
+h2 {
     color: #262E4E;
     font-size: 32px;
 }

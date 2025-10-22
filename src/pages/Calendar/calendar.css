@@ -1,0 +1,49 @@
+.container {
+    display: grid;
+    height: calc(100vh - 120px);
+    grid-template-rows: [row1-start] 30px [row1-end] repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.week-day {
+    text-align: right;
+    padding-right: 15px;
+    color: #92959F;
+    font-size: 16px;
+}
+
+.item {
+    color: #92959F;
+    background-color: #DDDDDD;
+    border-radius: 10px;
+    position: relative;
+}
+
+.item.current-month {
+    color: #262E4E;
+    background-color: #F4F3F3;
+    border-radius: 10px;
+    position: relative;
+}
+
+.item-number {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+
+.today-item {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #4A64FD;
+    color: #F5F5F5;
+}

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Status, HabitOptions, DayOptions, HabitForUpdate } from '../types';
-import { getStartOfWeek } from '../components/WeekDays/WeekDays';
+import { Status, HabitOptions, DayOptions, HabitForUpdate } from '../pages/HabitTracker/types';
+import { getStartOfWeek } from '../utils/data-calculating';
 
 type HabitsState = {
   habits: HabitOptions[],
