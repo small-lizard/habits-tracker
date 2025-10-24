@@ -1,14 +1,14 @@
 import { EditIcon, DeleteIcon } from '../../../../components/Icons';
 import { selectWeekStreak } from '../../../../store/selectors';
 import { RootState } from '../../../../store/store';
-import { Status, DayOptions } from '../../types';
+import { HabitStatus, DayOptions } from '../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
 import { useSelector } from 'react-redux';
 
 type HabitListProps = {
     name: string,
-    days: Status[],
+    days: HabitStatus[],
     deleteHabit: (id: string) => void,
     id: string,
     updateStatus: (options: DayOptions, firstDay: number) => void,

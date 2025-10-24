@@ -1,4 +1,4 @@
-import { Status, HabitOptions } from '../pages/HabitTracker/types';
+import { HabitStatus, HabitOptions } from '../pages/HabitTracker/types';
 import { getStartOfWeek } from '../utils/data-calculating';
 
 export const selectWeekStreak = (habit: HabitOptions): number => {
@@ -11,7 +11,7 @@ export const selectWeekStreak = (habit: HabitOptions): number => {
     let streak = 0;
 
     for (const week of weeks) {
-        if (!week.includes(Status.Pending)) {
+        if (!week.includes(HabitStatus.Pending)) {
             streak++;
         }
         else {
@@ -19,7 +19,7 @@ export const selectWeekStreak = (habit: HabitOptions): number => {
         }
     }
 
-    if (!habit.weeks[currentWeek].includes(Status.Pending)) {
+    if (!habit.weeks[currentWeek].includes(HabitStatus.Pending)) {
         streak++;
     }
 

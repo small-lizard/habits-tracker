@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Status, HabitOptions, DayOptions, HabitForUpdate } from '../pages/HabitTracker/types';
+import { HabitStatus, HabitOptions, DayOptions, HabitForUpdate } from '../pages/HabitTracker/types';
 import { getStartOfWeek } from '../utils/data-calculating';
 
 type HabitsState = {
@@ -30,7 +30,7 @@ const habitsSlice = createSlice({
       const { options } = action.payload;
 
       const mappedWeek = options.template.map(day =>
-        day ? Status.Pending : Status.Disabled
+        day ? HabitStatus.Pending : HabitStatus.Disabled
       );
 
       state.habits.push({
@@ -53,9 +53,9 @@ const habitsSlice = createSlice({
 
         const updatedDays = options.template.map((day, index) => {
           if (day === false) {
-            return Status.Disabled;
+            return HabitStatus.Disabled;
           }
-          return days[index] || Status.Pending;
+          return days[index] || HabitStatus.Pending;
         });
         habit.weeks[weekNumber] = updatedDays;
       });
@@ -100,7 +100,7 @@ export default habitsSlice.reducer;
 
 function generateWeek(habit: HabitOptions, currentFirstDay: number): HabitOptions {
   if (!habit.weeks[currentFirstDay]) {
-    const sampleWeek = habit.template.map(day => day ? Status.Pending : Status.Disabled);
+    const sampleWeek = habit.template.map(day => day ? HabitStatus.Pending : HabitStatus.Disabled);
     return { ...habit, weeks: { ...habit.weeks, [currentFirstDay]: sampleWeek } };
   }
   return habit;

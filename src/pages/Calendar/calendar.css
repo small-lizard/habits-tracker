@@ -6,6 +6,12 @@
     gap: 5px;
 }
 
+.top-left-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
 .week-day {
     text-align: right;
     padding-right: 15px;
@@ -33,6 +39,17 @@
     right: 15px;
 }
 
+.item.status-1,
+.item.current-month.status-1 {
+    color: white;
+    background-color: var(--habit-color);
+}
+
+.item.status-2,
+.item.current-month.status-2 {
+    color: var(--habit-color);
+    background-color: color-mix(in srgb, var(--habit-color) 15%, transparent);
+}
 
 .today-item {
     position: absolute;
@@ -44,6 +61,6 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: #4A64FD;
-    color: #F5F5F5;
+    background-color: var(--habit-color);
+    color: var(--habit-text-color);
 }

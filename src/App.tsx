@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HabitsTracker />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/calendar/:habitId" element={<Calendar />} />
           </Routes>
         </div>
       </main>

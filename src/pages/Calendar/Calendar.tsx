@@ -3,6 +3,11 @@ import { ArrowCircle } from "../../components/Icons";
 import "./calendar.css";
 import { CalendarTile } from "./CalendarTile";
 import { getStartOfWeek } from "../../utils/data-calculating";
+import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { HabitStatusCalendar } from "../HabitTracker/types";
 
 class Day {
     public date: number;
@@ -16,14 +21,35 @@ class Day {
     }
 }
 
+class HabitDay extends Day {
+    public status?: HabitStatusCalendar;
+
+    constructor(options: { date: number; currentMonth?: boolean; currentDay: boolean; status?: HabitStatusCalendar }) {
+        super({
+            date: options.date,
+            currentMonth: options.currentMonth,
+            currentDay: options.currentDay,
+        });
+
+        this.status = options.status;
+    }
+}
+
 export function Calendar() {
+    const { habitId } = useParams();
+    const habits = useSelector((state: RootState) => state.habits.habits)
+    const habit = habits.find((habit) => habit.id === habitId);
+    let habitWeeks: any = {}
+
+    if (habitId) {
+        habitWeeks = habit!.weeks;
+    }
+
     const today = new Date();
     const [isArrowClicked, setIsArrowClicked] = useState(false);
     const [month, setMonth] = useState(0);
-
     const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
-
-    const calendarDays: Day[] = [];
+    const calendarDays: HabitDay[] = [];
     const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     function prevMonth() {
@@ -44,17 +70,47 @@ export function Calendar() {
     for (let index = 0; index < 42; index++) {
         const firstDate = new Date(getStartOfWeek(displayDate));
         const date = new Date(firstDate.setDate(firstDate.getDate() + index));
+        const weekStart = getStartOfWeek(date);
+        const indexOfDay = date.getDay();
 
-        calendarDays.push(new Day({
+        let status: HabitStatusCalendar | undefined;
+
+        if (!habitId) {
+            status = undefined;
+        }
+        else if (habitId && !habitWeeks[weekStart] || date.getMonth() !== displayDate.getMonth()) {
+            status = undefined;
+        }
+        else {
+            const week = habitWeeks[weekStart];
+            const value = week[indexOfDay];
+
+            if (week.includes(2) && !week.includes(1)) {
+                status = value === 2
+                    ? HabitStatusCalendar.Done
+                    : HabitStatusCalendar.DisabledInStreak;
+            }
+            else {
+                status = value === 2
+                    ? HabitStatusCalendar.Done
+                    : undefined;
+            }
+        }
+
+        calendarDays.push(new HabitDay({
             date: date.getDate(),
-            currentMonth: date.getMonth() == displayDate.getMonth(),
+            currentMonth: date.getMonth() === displayDate.getMonth(),
             currentDay: date.getMonth() === today.getMonth() && date.getDate() === today.getDate(),
+            status,
         }));
     }
 
     return <>
         <header>
-            <h2>{displayDate.toLocaleString('default', { month: 'long' })}</h2>
+            <div className="top-left-container">
+                <h2>{displayDate.toLocaleString('default', { month: 'long' })}</h2>
+                <CalendarDropdown></CalendarDropdown>
+            </div>
             <div className='week-switcher'>
                 {isArrowClicked && month !== 0
                     ? (
@@ -72,8 +128,12 @@ export function Calendar() {
                 week.map((day) => <p className="week-day" key={day}>{day}</p>)
             }
             {
-                calendarDays.map((data: any, index: number) => (
-                    <CalendarTile key={index} data={data} />
+                calendarDays.map((data: {
+                    date: number;
+                    currentMonth: boolean;
+                    currentDay: boolean;
+                }, index: number) => (
+                    <CalendarTile key={index} data={data} color={habit?.selectedColor} />
                 ))
             }
         </div>

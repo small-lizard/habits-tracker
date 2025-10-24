@@ -16,7 +16,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
-    const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#65C763', '#F4C358', '#F55B7A'];
+    const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
     const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     const [errors, setErrors] = useState({ name: '', days: '' });
