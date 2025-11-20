@@ -1,38 +1,40 @@
 import './Header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import * as habitsActions from '../../../../store/habitsSlice';
-import { useState } from 'react';
 import { ArrowCircle } from '../../../../components/Icons';
 import { RootState, AppDispatch } from '../../../../store/store';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export function Header() {
+    let location = useLocation()
+
+    useEffect(() => {
+        dispatch(habitsActions.setWeek({ weekNumber: 0 }));
+    }, [location.pathname])
 
     const week = useSelector((state: RootState) => state.habits.week)
     const dispatch = useDispatch<AppDispatch>();
-    const [isArrowClicked, setIsArrowClicked] = useState(false)
 
     function prevWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: week - 1 }));
         dispatch(habitsActions.addNewWeek())
-        setIsArrowClicked(true);
     }
 
     function nextWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: week + 1 }));
         dispatch(habitsActions.addNewWeek())
-        setIsArrowClicked(true);
     }
 
     function handleCurrentWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
         dispatch(habitsActions.addNewWeek())
-        setIsArrowClicked(false);
     }
 
     return <header>
         <h2>This week's habits</h2>
         <div className='week-switcher'>
-            {isArrowClicked && week !== 0
+            {week !== 0
                 ? (
                     <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
                 )

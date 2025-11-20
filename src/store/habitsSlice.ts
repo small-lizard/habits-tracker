@@ -8,16 +8,10 @@ type HabitsState = {
   week: number,
 };
 
-const saved = localStorage.getItem('habits');
-
-const initialHabits: HabitOptions[] = saved ? JSON.parse(saved) : [];
-
 const currentFirstDay = getStartOfWeek(new Date());
 
-const habitsWithCurrentWeek = initialHabits.map(habit => generateWeek(habit, currentFirstDay));
-
 const initialState: HabitsState = {
-  habits: habitsWithCurrentWeek,
+  habits: [],
   currentFirstDay: currentFirstDay,
   week: 0,
 };
@@ -26,6 +20,10 @@ const habitsSlice = createSlice({
   name: 'habits',
   initialState,
   reducers: {
+    setHabits: (state, action: PayloadAction<{ habits: HabitOptions[] }>) => {
+      const habits = action.payload.habits;
+      state.habits = habits.map(habit => generateWeek(habit, state.currentFirstDay));
+    },
     addHabit: (state, action: PayloadAction<{ options: HabitOptions }>) => {
       const { options } = action.payload;
 
@@ -38,7 +36,7 @@ const habitsSlice = createSlice({
         weeks: { [state.currentFirstDay]: mappedWeek },
       });
     },
-    updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate}>) => {
+    updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate }>) => {
       const { options } = action.payload;
 
       const habit = state.habits.find(habit => habit.id === options.id);
@@ -95,7 +93,7 @@ const habitsSlice = createSlice({
   },
 });
 
-export const { addHabit, updateHabit, updateStatus, deleteHabit, addNewWeek, setWeek } = habitsSlice.actions;
+export const { addHabit, updateHabit, updateStatus, deleteHabit, addNewWeek, setWeek, setHabits } = habitsSlice.actions;
 export default habitsSlice.reducer;
 
 function generateWeek(habit: HabitOptions, currentFirstDay: number): HabitOptions {
@@ -105,3 +103,4 @@ function generateWeek(habit: HabitOptions, currentFirstDay: number): HabitOption
   }
   return habit;
 }
+

@@ -3,7 +3,6 @@ import { ArrowIcon, CheckSquareIcon } from "../../../components/Icons";
 import "./calendarDropdown.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { HabitOptions } from "../../HabitTracker/types";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -17,11 +16,19 @@ export function CalendarDropdown() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (habitId) {
-            const habit = habits.find(h => h.id === habitId);
-            setSelectedHabit(habit || null);
+        if (!habitId) {
+            setSelectedHabit(null);
+            return;
         }
-    }, [habitId]);
+
+        const found = habits.find(h => h.id === habitId) || null;
+        setSelectedHabit(found);
+    }, [habitId, habits]);
+
+    if (habitId && !selectedHabit) {
+        navigate("/calendar");
+        return null;
+    }
 
     return <div className="dropdown">
         {
@@ -67,7 +74,7 @@ export function CalendarDropdown() {
                                             onClick={() => {
                                                 setSelectedHabit(habit);
                                                 setOpen(false);
-                                                navigate(`/calendar/${habit.id}`)
+                                                navigate(`/calendar/${habit.id}`);
                                             }}
                                         >
                                             <span

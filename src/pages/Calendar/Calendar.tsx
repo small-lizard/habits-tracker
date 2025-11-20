@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowCircle } from "../../components/Icons";
 import "./calendar.css";
 import { CalendarTile } from "./CalendarTile";
 import { getStartOfWeek } from "../../utils/data-calculating";
 import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
 import { HabitStatusCalendar } from "../HabitTracker/types";
+import { initHabits } from '../../store/habitsThunks';
+import { checkAuth } from "../../api/auth";
+import * as userActions from '../../store/authSlice';
+
 
 class Day {
     public date: number;
@@ -38,19 +42,43 @@ class HabitDay extends Day {
 export function Calendar() {
     const { habitId } = useParams();
     const habits = useSelector((state: RootState) => state.habits.habits)
-    const habit = habits.find((habit) => habit.id === habitId);
-    let habitWeeks: any = {}
-
-    if (habitId) {
-        habitWeeks = habit!.weeks;
-    }
-
+    const habit = habits.find(h => h.id === habitId) || null;
+    const habitWeeks = habit?.weeks ?? {};
     const today = new Date();
     const [isArrowClicked, setIsArrowClicked] = useState(false);
     const [month, setMonth] = useState(0);
     const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
     const calendarDays: HabitDay[] = [];
     const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const user = useSelector((state: RootState) => state.auth)
+    const dispatch = useDispatch<AppDispatch>();
+
+    useEffect(() => {
+        const fetchAuth = async () => {
+            const response = await checkAuth();
+
+            if (response.isAuth) {
+                dispatch(userActions.setUser({
+                    id: response.userId,
+                    isAuth: response.isAuth,
+                }));
+            } else {
+                dispatch(userActions.setUser({
+                    id: '',
+                    isAuth: false,
+                }));
+            }
+        }
+
+        fetchAuth()
+    }, []);
+
+    useEffect(() => {
+        if (user.isAuth) {
+            dispatch(initHabits());
+        }
+    }, [user.isAuth]);
 
     function prevMonth() {
         setMonth(prev => prev - 1);

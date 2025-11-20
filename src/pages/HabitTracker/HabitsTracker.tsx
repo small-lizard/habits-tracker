@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-import * as habitsActions from '../../store/habitsSlice';
 import { RootState, AppDispatch } from '../../store/store';
 import { useEffect, useState } from 'react';
 import { DayOptions, HabitOptions, HabitForUpdate } from './types';
@@ -9,31 +8,58 @@ import { WeekDays } from './components/WeekDays/WeekDays';
 import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { Header } from './components/Header/Header';
+import { addHabitThunk, deleteHabitThunk, initHabits, updateHabitThunk, updateStatusHabitThunk } from '../../store/habitsThunks';
+import { checkAuth } from '../../api/auth';
+import * as userActions from '../../store/authSlice';
 
 export function HabitsTracker() {
 
     const habits = useSelector((state: RootState) => state.habits.habits)
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
+    const user = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
 
-    const addHabit = (options: HabitOptions) => {
-        dispatch(habitsActions.addHabit({ options }));
-    }
+    useEffect(() => {
+        const fetchAuth = async () => {
+            const response = await checkAuth();
+
+            if (response.isAuth) {
+                dispatch(userActions.setUser({
+                    id: response.userId,
+                    isAuth: response.isAuth,
+                }));
+            } else {
+                dispatch(userActions.setUser({
+                    id: '',
+                    isAuth: false,
+                }));
+            }
+        }
+
+        fetchAuth()
+    }, []);
 
     useEffect(() => {
-        localStorage.setItem('habits', JSON.stringify(habits));
-    }, [habits]);
+        if (user.isAuth) {
+            dispatch(initHabits());
+        }
+    }, [user.isAuth]);
+
+    const addHabit = (options: HabitOptions) => {
+        dispatch(addHabitThunk(options));
+    };
 
     const updateHabit = (options: HabitForUpdate) => {
-        dispatch(habitsActions.updateHabit({ options }));
+        dispatch(updateHabitThunk(options));
     }
 
     const updateStatus = (options: DayOptions, firstDay: number) => {
-        dispatch(habitsActions.updateStatus({ options, firstDay }))
+        const data = { options, firstDay };
+        dispatch(updateStatusHabitThunk(data));
     }
 
-    const deleteHabit = (id: string) => {
-        dispatch(habitsActions.deleteHabit({ id }))
+    const deleteHabit = async (id: string) => {
+        dispatch(deleteHabitThunk(id))
     }
 
     const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +76,7 @@ export function HabitsTracker() {
             <colgroup>
                 <col style={{ width: '34%' }} />
                 {[...Array(7)].map((_, i) => (
-                    <col key={i} style={{ width: '8.5%'}} />
+                    <col key={i} style={{ width: '8.5%' }} />
                 ))}
                 <col style={{ width: '6%' }} />
             </colgroup>
@@ -84,3 +110,4 @@ export function HabitsTracker() {
         )}
     </>
 }
+

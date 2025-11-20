@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './HabitPopUp.css';
-import { nanoid } from 'nanoid';
+import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../types';
 
@@ -69,7 +69,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
             updateHabit(updatedHabit);
         } else if (addHabit) {
             const newHabit: HabitOptions = {
-                id: nanoid(),
+                id: new ObjectId().toString(),
                 name,
                 template: days,
                 weeks: {},

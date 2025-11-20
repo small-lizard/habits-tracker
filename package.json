@@ -12,12 +12,17 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.9.0",
-    "nanoid": "^5.1.6",
+    "axios": "^1.13.2",
+    "bson": "^7.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.66.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.9.4",
+    "redux-thunk": "^3.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
