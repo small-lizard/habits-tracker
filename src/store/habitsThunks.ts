@@ -56,7 +56,7 @@ export const updateHabitThunk = createAsyncThunk<
         dispatch(habitsActions.updateHabit({ options }));
         const state = getState();
         const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.id)
+        const newHabit = state.habits.habits.find(habit => habit._id === options._id)
 
         if (isAuth && newHabit) {
             await updateHabit(newHabit);
@@ -77,7 +77,7 @@ export const updateStatusHabitThunk = createAsyncThunk<
         dispatch(habitsActions.updateStatus(options));
         const state = getState();
         const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.options.id)
+        const newHabit = state.habits.habits.find(habit => habit._id === options.options._id)
 
         if (isAuth && newHabit) {
             await updateHabit(newHabit);

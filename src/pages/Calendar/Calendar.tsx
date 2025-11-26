@@ -42,7 +42,7 @@ class HabitDay extends Day {
 export function Calendar() {
     const { habitId } = useParams();
     const habits = useSelector((state: RootState) => state.habits.habits)
-    const habit = habits.find(h => h.id === habitId) || null;
+    const habit = habits.find(h => h._id === habitId) || null;
     const habitWeeks = habit?.weeks ?? {};
     const today = new Date();
     const [isArrowClicked, setIsArrowClicked] = useState(false);
@@ -62,12 +62,17 @@ export function Calendar() {
                 dispatch(userActions.setUser({
                     id: response.userId,
                     isAuth: response.isAuth,
+                    name: response.user.name,
+                    email: response.user.email,
                 }));
             } else {
                 dispatch(userActions.setUser({
                     id: '',
                     isAuth: false,
+                    name: '',
+                    email: '',
                 }));
+                dispatch(initHabits());
             }
         }
 

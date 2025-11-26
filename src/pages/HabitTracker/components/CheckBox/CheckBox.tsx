@@ -13,7 +13,7 @@ type CheckBoxProps = {
 export function CheckBox({ status, index, updateStatus, id, firstDay, color }: CheckBoxProps) {
 
   function changeStatus(event: any) {
-    updateStatus({ id, index, status: event.target.checked ? HabitStatus.Done : HabitStatus.Pending }, firstDay)
+    updateStatus({ _id :id, index, status: event.target.checked ? HabitStatus.Done : HabitStatus.Pending }, firstDay)
   }
 
   return <td>

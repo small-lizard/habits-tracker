@@ -5,15 +5,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 
 export function CalendarDropdown() {
+    const ref = useRef<HTMLUListElement | null>(null);
+    const buttonRef1 = useRef<HTMLButtonElement>(null);
+    const buttonRef2 = useRef<HTMLButtonElement>(null);
     const { habitId } = useParams();
     const [open, setOpen] = useState(false);
     const habits = useSelector((state: RootState) => state.habits.habits)
     const [selectedHabit, setSelectedHabit] = useState(() =>
-        habitId ? habits.find(h => h.id === habitId) || null : null
+        habitId ? habits.find(h => h._id === habitId) || null : null
     );
     const navigate = useNavigate();
+
+    useOnClickOutside(ref, () => setOpen(false), true, [buttonRef1, buttonRef2]);
 
     useEffect(() => {
         if (!habitId) {
@@ -21,7 +28,7 @@ export function CalendarDropdown() {
             return;
         }
 
-        const found = habits.find(h => h.id === habitId) || null;
+        const found = habits.find(h => h._id === habitId) || null;
         setSelectedHabit(found);
     }, [habitId, habits]);
 
@@ -33,7 +40,7 @@ export function CalendarDropdown() {
     return <div className="dropdown">
         {
             selectedHabit ? (
-                <button onClick={() => {
+                <button ref={buttonRef1} onClick={() => {
                     setOpen(!open)
                 }} className="dropdown-button" style={{ '--habit-color': selectedHabit.selectedColor } as React.CSSProperties}>
                     <span className="item-icon" style={{ '--habit-color': selectedHabit.selectedColor } as React.CSSProperties}></span>
@@ -41,7 +48,7 @@ export function CalendarDropdown() {
                     <ArrowIcon className={`arrow ${open ? "open" : ""}`} />
                 </button>
             ) : (
-                <button onClick={() => { setOpen(!open) }} className="dropdown-button" style={{ '--habit-color': '#4A64FD' } as React.CSSProperties}>
+                <button ref={buttonRef2} onClick={() => { setOpen(!open) }} className="dropdown-button" style={{ '--habit-color': '#4A64FD' } as React.CSSProperties}>
                     <CheckSquareIcon size={20} />
                     <span className="text">Your habits</span>
                     <ArrowIcon className={`arrow ${open ? "open" : ""}`} />
@@ -50,7 +57,7 @@ export function CalendarDropdown() {
         }
         {
             open && (
-                <ul className="dropdown-list">
+                <ul ref={ref} className="dropdown-list">
                     {
                         habits.length !== 0 ? (
                             <>
@@ -68,13 +75,13 @@ export function CalendarDropdown() {
                                 </li>
 
                                 {habits.map((habit) => (
-                                    <li key={habit.id}>
+                                    <li key={habit._id}>
                                         <button
                                             className="list-item"
                                             onClick={() => {
                                                 setSelectedHabit(habit);
                                                 setOpen(false);
-                                                navigate(`/calendar/${habit.id}`);
+                                                navigate(`/calendar/${habit._id}`);
                                             }}
                                         >
                                             <span

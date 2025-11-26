@@ -26,7 +26,7 @@ h3 {
 }
 
 .name-wrapper {
-    position: relative;
+  position: relative;
 }
 
 .inp {
@@ -170,7 +170,7 @@ h3 {
 }
 
 .cancel {
-  color: #B2B2C9;
+  color: #262E4E;
   background-color: white;
   border: 2px solid #B2B2C9;
   width: 375px;
@@ -185,7 +185,7 @@ h3 {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 10px);
-  background: rgb(239, 155, 155);
+  background: #ef9b9b;
   border-radius: 10px;
   border: none;
   color: #fff;

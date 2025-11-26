@@ -3,16 +3,19 @@ import './HabitPopUp.css';
 import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../types';
+import { useRef } from "react";
+import { useOnClickOutside } from "../../../../hooks/useOnClickOutside";
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
     addHabit?: (habit: HabitOptions) => void;
     habit?: HabitForUpdate,
-    updateHabit: (options: HabitForUpdate) => void
+    updateHabit: (options: HabitForUpdate) => void,
+    onClose: () => void,
 }
 
-export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitPopUpProps) {
-
+export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose }: HabitPopUpProps) {
+    const ref = useRef<HTMLFormElement | null>(null);
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
@@ -21,11 +24,13 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
 
     const [errors, setErrors] = useState({ name: '', days: '' });
 
+    useOnClickOutside(ref, onClose , true);
+
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
         newDays[index] = checked;
         setDays(newDays);
-        
+
         if (newDays.some(day => day)) {
             setErrors(prev => ({ ...prev, days: '' }));
         } else {
@@ -61,7 +66,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
 
         if (habit && updateHabit) {
             const updatedHabit: HabitForUpdate = {
-                id: habit.id,
+                _id: habit._id,
                 name,
                 template: days,
                 selectedColor,
@@ -69,7 +74,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
             updateHabit(updatedHabit);
         } else if (addHabit) {
             const newHabit: HabitOptions = {
-                id: new ObjectId().toString(),
+                _id: new ObjectId().toString(),
                 name,
                 template: days,
                 weeks: {},
@@ -82,7 +87,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
     }
 
     return <div className='popup-overlay'>
-        <form action='' className='popup-form' onSubmit={handleSubmit}>
+        <form ref={ref} action='' className='popup-form' onSubmit={handleSubmit}>
             {
                 habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
             }

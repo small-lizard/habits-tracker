@@ -27,12 +27,17 @@ export function HabitsTracker() {
                 dispatch(userActions.setUser({
                     id: response.userId,
                     isAuth: response.isAuth,
+                    name: response.user.name,
+                    email: response.user.email,
                 }));
             } else {
                 dispatch(userActions.setUser({
                     id: '',
                     isAuth: false,
+                    name: '',
+                    email: '',
                 }));
+                dispatch(initHabits());
             }
         }
 
@@ -70,6 +75,8 @@ export function HabitsTracker() {
         setIsOpen(prev => !prev);
     }
 
+    const closePopUp = () => setIsOpen(false);
+
     return <>
         <Header></Header>
         <table>
@@ -97,7 +104,7 @@ export function HabitsTracker() {
                         name={habit.name}
                         key={index}
                         deleteHabit={deleteHabit}
-                        id={habit.id}
+                        id={habit._id}
                         updateStatus={updateStatus}
                         firstDay={currentFirstDay}
                         togglePopUp={togglePopUp}
@@ -106,7 +113,7 @@ export function HabitsTracker() {
             </tbody>
         </table>
         {isOpen && (
-            <HabitPopUp togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+            <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
         )}
     </>
 }

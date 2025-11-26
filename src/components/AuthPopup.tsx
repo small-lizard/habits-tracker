@@ -6,6 +6,7 @@ import { registerUser, loginUser } from "../api/auth";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
+import { AxiosError } from "axios";
 
 export function AuthPopup({ onClose }: { onClose: () => void }) {
     const [mode, setMode] = useState<"login" | "register">("login");
@@ -27,20 +28,47 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
 
     const schema = mode === "login" ? loginSchema : registerSchema;
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<AuthFormData>({
+    const { register, handleSubmit, formState: { errors }, reset, setError } = useForm<AuthFormData>({
         resolver: zodResolver(schema),
     });
 
     const onSubmit = async (data: AuthFormData) => {
-        if (mode === "register") {
-            const userData = await registerUser(data);
-            dispatch(userActions.setUser({id: userData.data.userId , isAuth: true }));
-        } else {
-            const userData = await loginUser(data);
-            dispatch(userActions.setUser({id: userData.data.userId, isAuth: true  }));
-        }
+        try {
+            let userData;
 
-        onClose();
+            if (mode === "register") {
+                userData = await registerUser(data);
+            } else {
+                userData = await loginUser(data);
+            }
+
+            dispatch(userActions.setUser({
+                _id: userData.data._id,
+                isAuth: true,
+                name: userData.data.name,
+                email: userData.data.email
+            }));
+
+            onClose();
+
+        } catch (err) {
+            const axiosErr = err as AxiosError<{ message: string }>;
+            const serverMessage = axiosErr.response?.data?.message;
+
+            if (serverMessage?.toLowerCase().includes("email")) {
+                setError("email", { type: "server", message: serverMessage });
+
+                return;
+            }
+
+            if (serverMessage?.toLowerCase().includes("password")) {
+                setError("password", { type: "server", message: serverMessage });
+                
+                return;
+            }
+
+            alert(serverMessage || "Server error");
+        }
     };
 
     const toggleMode = () => {

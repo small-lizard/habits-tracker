@@ -18,7 +18,7 @@ type HabitListProps = {
 }
 
 export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp }: HabitListProps) {
-    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit.id === id));
+    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit._id === id));
     if (!habit) return null;
 
     const weekStreak = selectWeekStreak(habit);
@@ -26,7 +26,7 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
     function handleEditClick() {
         if (!habit) return;
         togglePopUp({
-            id: habit.id,
+            _id: habit._id,
             name: habit.name,
             template: habit.template,
             selectedColor: habit.selectedColor,

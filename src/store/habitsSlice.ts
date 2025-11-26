@@ -39,7 +39,7 @@ const habitsSlice = createSlice({
     updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate }>) => {
       const { options } = action.payload;
 
-      const habit = state.habits.find(habit => habit.id === options.id);
+      const habit = state.habits.find(habit => habit._id === options._id);
       if (!habit) return;
 
       habit.name = options.name;
@@ -60,7 +60,7 @@ const habitsSlice = createSlice({
     },
     updateStatus: (state, action: PayloadAction<{ options: DayOptions, firstDay: number }>) => {
       const { options, firstDay } = action.payload;
-      const habit = state.habits.find(habit => habit.id === options.id);
+      const habit = state.habits.find(habit => habit._id === options._id);
       if (!habit) return;
 
       const currentWeek = habit.weeks[firstDay];
@@ -73,7 +73,7 @@ const habitsSlice = createSlice({
     },
     deleteHabit: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
-      state.habits = state.habits.filter(habit => habit.id !== id);
+      state.habits = state.habits.filter(habit => habit._id !== id);
     },
 
     addNewWeek: (state) => {

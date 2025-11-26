@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ObjectId } from "bson";
 
 const API_URL = "http://localhost:5000";
 
@@ -14,7 +15,12 @@ export const checkAuth = async () => {
 
 export const registerUser = async (data: { name?: string; email: string; password: string }) => {
   try {
-    const response = await axios.post(`${API_URL}/auth`, data, { withCredentials: true });
+    const _id = new ObjectId().toString();
+    const userData = {
+      _id,
+      ...data,
+    };
+    const response = await axios.post(`${API_URL}/auth`, userData, { withCredentials: true });
     await syncData();
     return response;
   } catch (error) {
@@ -46,6 +52,26 @@ export const logoutUser = async () => {
   try {
     const response = await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
     return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deleteUser = async () => {
+  try {
+    const response = await axios.delete(`${API_URL}/delete-account`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const changePassword = async (data: { password: string, newPassword: string }) => {
+  try {
+    const response = await axios.put(`${API_URL}/change-password`, data, { withCredentials: true });
+    return response;
   } catch (error) {
     console.error(error);
     throw error;
