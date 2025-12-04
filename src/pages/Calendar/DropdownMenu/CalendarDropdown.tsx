@@ -16,7 +16,7 @@ export function CalendarDropdown() {
     const [open, setOpen] = useState(false);
     const habits = useSelector((state: RootState) => state.habits.habits)
     const [selectedHabit, setSelectedHabit] = useState(() =>
-        habitId ? habits.find(h => h._id === habitId) || null : null
+        habitId ? habits.find(habit => habit.id === habitId) || null : null
     );
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export function CalendarDropdown() {
             return;
         }
 
-        const found = habits.find(h => h._id === habitId) || null;
+        const found = habits.find(habit => habit.id === habitId) || null;
         setSelectedHabit(found);
     }, [habitId, habits]);
 
@@ -75,13 +75,13 @@ export function CalendarDropdown() {
                                 </li>
 
                                 {habits.map((habit) => (
-                                    <li key={habit._id}>
+                                    <li key={habit.id}>
                                         <button
                                             className="list-item"
                                             onClick={() => {
                                                 setSelectedHabit(habit);
                                                 setOpen(false);
-                                                navigate(`/calendar/${habit._id}`);
+                                                navigate(`/calendar/${habit.id}`);
                                             }}
                                         >
                                             <span

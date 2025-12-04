@@ -66,7 +66,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
 
         if (habit && updateHabit) {
             const updatedHabit: HabitForUpdate = {
-                _id: habit._id,
+                id: habit.id,
                 name,
                 template: days,
                 selectedColor,
@@ -74,7 +74,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
             updateHabit(updatedHabit);
         } else if (addHabit) {
             const newHabit: HabitOptions = {
-                _id: new ObjectId().toString(),
+                id: new ObjectId().toString(),
                 name,
                 template: days,
                 weeks: {},

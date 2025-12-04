@@ -1,12 +1,12 @@
 import './sideBar.css';
-import { CalendarIcon, CheckSquareIcon, LoginIcon, ToggleIcon, AccountOptionsIcon } from "./Icons";
+import { CalendarIcon, CheckSquareIcon, LoginIcon, ToggleIcon } from "./Icons";
 import { NavLink } from "react-router-dom";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthPopup } from './AuthPopup';
 import { AppDispatch, RootState } from '../store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sidebarActions from '../store/sidebarUISlice';
-import { OpthionsDropdown } from './OpthionsDropdown';
+import { Account } from './Account';
 
 export const LeftSideBar = () => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
@@ -14,7 +14,6 @@ export const LeftSideBar = () => {
     const user = useSelector((state: RootState) => state.auth);
     const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
     const dispatch = useDispatch<AppDispatch>();
-    const buttonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         if (window.innerWidth < 1280) {
@@ -59,21 +58,12 @@ export const LeftSideBar = () => {
 
             {
                 user.isAuth && (
-                    <div className='account'>
-                        <div className='account-info'>
-                            <span className='account-icon'>{user.name.charAt(0).toUpperCase()}</span>
-                            <div className='account-text'>
-                                <p className='account-name'>{user.name}</p>
-                                <p className='account-email'>{user.email}</p>
-                            </div>
-                        </div>
-                        <button ref={buttonRef} className='options-button' onClick={() => setIsAccOpthions(prev => !prev)}><AccountOptionsIcon /></button>
-                        {
-                            isAccOpthionsOpen && (
-                                <OpthionsDropdown onClose={() => setIsAccOpthions(false)} ignoreButtonRef={buttonRef} />
-                            )
-                        }
-                    </div>
+                    <Account
+                        name={user.name}
+                        email={user.email}
+                        isAccOpthionsOpen={isAccOpthionsOpen}
+                        onClose={setIsAccOpthions}
+                    />
                 )
             }
 

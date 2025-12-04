@@ -43,7 +43,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
             }
 
             dispatch(userActions.setUser({
-                _id: userData.data._id,
+                id: userData.data.id,
                 isAuth: true,
                 name: userData.data.name,
                 email: userData.data.email
@@ -52,8 +52,9 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
             onClose();
 
         } catch (err) {
-            const axiosErr = err as AxiosError<{ message: string }>;
-            const serverMessage = axiosErr.response?.data?.message;
+            console.log(err)
+            const axiosErr = err as AxiosError<{ error: string }>;
+            const serverMessage = axiosErr.response?.data?.error;
 
             if (serverMessage?.toLowerCase().includes("email")) {
                 setError("email", { type: "server", message: serverMessage });

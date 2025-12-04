@@ -9,7 +9,7 @@ function App() {
   const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
 
   return (
-    <div className='layout'>
+    <>
       <LeftSideBar />
       <main className={sidebarOpen ? "main sidebar-open" : "main sidebar-closed"}>
         <div className="content">
@@ -20,7 +20,7 @@ function App() {
           </Routes>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

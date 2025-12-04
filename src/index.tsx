@@ -19,3 +19,5 @@ root.render(
         </Provider>
     </React.StrictMode>
 );
+
+ // TODO: не забыть HashRouter

@@ -15,9 +15,9 @@ export const checkAuth = async () => {
 
 export const registerUser = async (data: { name?: string; email: string; password: string }) => {
   try {
-    const _id = new ObjectId().toString();
+    const id = new ObjectId().toString();
     const userData = {
-      _id,
+      id,
       ...data,
     };
     const response = await axios.post(`${API_URL}/auth`, userData, { withCredentials: true });

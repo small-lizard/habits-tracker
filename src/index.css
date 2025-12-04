@@ -42,6 +42,6 @@ body {
   height: 100%;
 }
 
-.layout {
+#root {
   display: flex;
 }

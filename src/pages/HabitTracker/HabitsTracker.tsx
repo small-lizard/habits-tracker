@@ -13,7 +13,6 @@ import { checkAuth } from '../../api/auth';
 import * as userActions from '../../store/authSlice';
 
 export function HabitsTracker() {
-
     const habits = useSelector((state: RootState) => state.habits.habits)
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
     const user = useSelector((state: RootState) => state.auth);
@@ -23,29 +22,19 @@ export function HabitsTracker() {
         const fetchAuth = async () => {
             const response = await checkAuth();
 
-            if (response.isAuth) {
-                dispatch(userActions.setUser({
-                    id: response.userId,
-                    isAuth: response.isAuth,
-                    name: response.user.name,
-                    email: response.user.email,
-                }));
-            } else {
-                dispatch(userActions.setUser({
-                    id: '',
-                    isAuth: false,
-                    name: '',
-                    email: '',
-                }));
-                dispatch(initHabits());
-            }
+            dispatch(userActions.setUser({
+                id: response.userId ?? '',
+                isAuth: response.isAuth,
+                name: response.name ?? '',
+                email: response.email ?? '',
+            }));
         }
 
         fetchAuth()
     }, []);
 
     useEffect(() => {
-        if (user.isAuth) {
+        if (user.isAuth !== null) {
             dispatch(initHabits());
         }
     }, [user.isAuth]);
@@ -104,7 +93,7 @@ export function HabitsTracker() {
                         name={habit.name}
                         key={index}
                         deleteHabit={deleteHabit}
-                        id={habit._id}
+                        id={habit.id}
                         updateStatus={updateStatus}
                         firstDay={currentFirstDay}
                         togglePopUp={togglePopUp}

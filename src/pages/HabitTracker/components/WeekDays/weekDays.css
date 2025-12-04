@@ -5,6 +5,7 @@
     color: #92959F;
     gap: 10px;
     font-family: 'Poppins', sans-serif;
+    flex-direction: row;
 }
 
 .day-name {
@@ -23,4 +24,11 @@
 .today-number {
     font-size: 24px;
     color: #262E4E;
+}
+
+@media (max-width: 1280px) {
+  .day {
+    flex-direction: column;
+    gap: 5px;
+  }
 }

@@ -32,8 +32,8 @@ export function ChangePasswordPopup({ onClose, resetPassword }: ChangePasswordPr
             reset();
             onClose();
         } catch (error) {
-            const axiosErr = error as AxiosError<{ message: string }>;
-            const serverMessage = axiosErr.response?.data?.message;
+            const axiosErr = error as AxiosError<{ error: string }>;
+            const serverMessage = axiosErr.response?.data?.error;
 
             if (serverMessage?.toLowerCase().includes("password")) {
                 setError("password", { type: "server", message: serverMessage });

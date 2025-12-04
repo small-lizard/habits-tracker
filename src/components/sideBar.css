@@ -11,7 +11,7 @@
 }
 
 .out.sidebar-open {
-  width: 270px;
+  width: clamp(240px, 20vw, 270px);
 }
 
 .out.sidebar-closed {
@@ -26,14 +26,13 @@
 }
 
 .main {
-  width: 100%;
-  padding-bottom: 20px;
-  transition: margin-left 0.3s ease;
+  flex: 1;
   margin: 20px;
+  transition: margin-left 0.3s ease;
 }
 
 .main.sidebar-open {
-  margin-left: 290px;
+  margin-left: clamp(260px, 22vw, 290px);
 }
 
 .main.sidebar-closed {
@@ -42,7 +41,6 @@
 
 .content {
   max-width: 1280px;
-  width: 100%;
   margin: 0 auto;
 }
 
@@ -140,7 +138,7 @@ nav ul {
 
 .account-name,
 .account-email {
-  width: 150px;
+  width: clamp(100px, 12vw, 150px);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -160,7 +158,3 @@ nav ul {
   background: none;
   position: relative;
 }
-
-/* .out.sidebar-closed .account {
-  background-color: transparent;
-} */

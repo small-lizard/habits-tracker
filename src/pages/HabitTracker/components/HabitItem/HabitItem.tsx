@@ -18,15 +18,19 @@ type HabitListProps = {
 }
 
 export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp }: HabitListProps) {
-    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit._id === id));
-    if (!habit) return null;
+    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit.id === id));
+    if (!habit) {
+        return null;
+    }
 
     const weekStreak = selectWeekStreak(habit);
 
     function handleEditClick() {
-        if (!habit) return;
+        if (!habit) {
+            return null;
+        }
         togglePopUp({
-            _id: habit._id,
+            id: habit.id,
             name: habit.name,
             template: habit.template,
             selectedColor: habit.selectedColor,
@@ -43,7 +47,6 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
         </td>
         {
             days!.map((status, index) => {
-
                 return <CheckBox
                     status={status}
                     key={index}

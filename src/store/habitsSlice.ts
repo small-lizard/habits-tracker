@@ -22,6 +22,7 @@ const habitsSlice = createSlice({
   reducers: {
     setHabits: (state, action: PayloadAction<{ habits: HabitOptions[] }>) => {
       const habits = action.payload.habits;
+
       state.habits = habits.map(habit => generateWeek(habit, state.currentFirstDay));
     },
     addHabit: (state, action: PayloadAction<{ options: HabitOptions }>) => {
@@ -38,9 +39,11 @@ const habitsSlice = createSlice({
     },
     updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate }>) => {
       const { options } = action.payload;
-
-      const habit = state.habits.find(habit => habit._id === options._id);
-      if (!habit) return;
+      const habit = state.habits.find(habit => habit.id === options.id);
+      
+      if (!habit) {
+        return;
+      }
 
       habit.name = options.name;
       habit.template = options.template;
@@ -60,7 +63,7 @@ const habitsSlice = createSlice({
     },
     updateStatus: (state, action: PayloadAction<{ options: DayOptions, firstDay: number }>) => {
       const { options, firstDay } = action.payload;
-      const habit = state.habits.find(habit => habit._id === options._id);
+      const habit = state.habits.find(habit => habit.id === options.id);
       if (!habit) return;
 
       const currentWeek = habit.weeks[firstDay];
@@ -73,7 +76,7 @@ const habitsSlice = createSlice({
     },
     deleteHabit: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
-      state.habits = state.habits.filter(habit => habit._id !== id);
+      state.habits = state.habits.filter(habit => habit.id !== id);
     },
 
     addNewWeek: (state) => {
@@ -101,6 +104,7 @@ function generateWeek(habit: HabitOptions, currentFirstDay: number): HabitOption
     const sampleWeek = habit.template.map(day => day ? HabitStatus.Pending : HabitStatus.Disabled);
     return { ...habit, weeks: { ...habit.weeks, [currentFirstDay]: sampleWeek } };
   }
+  
   return habit;
 }
 
