@@ -24,12 +24,10 @@ export function WeekDays() {
         {days.map((day, index) => {
             const isActive = Number(day.number) == today.getDate() && Number(day.month) == today.getMonth() + 1
 
-            return <th key={index}>
-                <div className='day'>
-                    <p className={isActive ? 'today-name' : 'day-name'}>{day.name}</p>
-                    <p className={isActive ? 'today-number' : 'day-number'}>{day.number}</p>
-                </div>
-            </th>
+            return <div className='day' key={index}>
+                <p className={isActive ? 'today-name' : 'day-name'}>{day.name}</p>
+                <p className={isActive ? 'today-number' : 'day-number'}>{day.number}</p>
+            </div>
         })
         }
     </>

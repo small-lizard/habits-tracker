@@ -16,19 +16,16 @@ export function CheckBox({ status, index, updateStatus, id, firstDay, color }: C
     updateStatus({ id, index, status: event.target.checked ? HabitStatus.Done : HabitStatus.Pending }, firstDay)
   }
 
-  return <td>
-    <div className='centered'>
-      <label className='check-circle' style={{ '--habit-color': color } as React.CSSProperties}>
-        <input
-          type='checkbox'
-          disabled={status === HabitStatus.Disabled}
-          checked={status === HabitStatus.Done}
-          onChange={changeStatus}
-        />
-        <span className='checkbox'></span>
-      </label>
-    </div>
-  </td>
-
+  return <div className='habit-check'>
+    <label className='habit-check-label' style={{ '--habit-color': color } as React.CSSProperties}>
+      <input
+        type='checkbox'
+        disabled={status === HabitStatus.Disabled}
+        checked={status === HabitStatus.Done}
+        onChange={changeStatus}
+      />
+      <span className='checkbox'></span>
+    </label>
+  </div>
 }
 

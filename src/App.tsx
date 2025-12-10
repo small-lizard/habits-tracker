@@ -1,22 +1,36 @@
 import { Route, Routes } from 'react-router-dom';
-import { HabitsTracker } from './pages/HabitTracker/HabitsTracker';
 import { LeftSideBar } from './components/LeftSideBar';
-import { Calendar } from './pages/Calendar/Calendar';
+import { CalendarContainer } from './pages/Calendar/CalendarContainer';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
+import { useIsMobile } from './hooks/useIsMobile';
+import { HabitsTrackerContainer } from './pages/HabitTracker/HabitsTrackerContainer';
+import { MobileNavbar } from './components/variants/MobileNavbar';
 
 function App() {
+  const isMobile = useIsMobile();
   const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
+
+  function getMainClass(isMobile: boolean, sidebarOpen: boolean) {
+    if (isMobile) {
+      return "main-mobile";
+    }
+
+    return sidebarOpen ? "main sidebar-open" : "main sidebar-closed";
+  }
+
 
   return (
     <>
-      <LeftSideBar />
-      <main className={sidebarOpen ? "main sidebar-open" : "main sidebar-closed"}>
+      {
+        isMobile ? (<MobileNavbar />) : (<LeftSideBar />)
+      }
+      <main className={getMainClass(isMobile, sidebarOpen)}>
         <div className="content">
           <Routes>
-            <Route path="/" element={<HabitsTracker />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/calendar/:habitId" element={<Calendar />} />
+            <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} />} />
+            <Route path="/calendar" element={<CalendarContainer isMobile={isMobile} />} />
+            <Route path="/calendar/:habitId" element={<CalendarContainer isMobile={isMobile} />} />
           </Routes>
         </div>
       </main>

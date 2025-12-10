@@ -1,18 +1,7 @@
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-h2 {
-    color: #262E4E;
-    font-size: 32px;
-}
-
 .week-switcher {
     display: flex;
     gap: 25px;
+    position: relative;
 }
 
 .current-week-button {
@@ -22,15 +11,15 @@ h2 {
     margin: 0;
     font-size: 16px;
     color: #262E4E;
-    display: flex;      
-    align-items: flex-end; 
-    height: 40px; 
+    display: flex;
+    align-items: flex-end;
+    height: 40px;
     cursor: pointer;
 }
 
 .week-switcher-arrow {
     display: flex;
-    gap: 15px;
+    gap: clamp(5px, calc(10 * (100vw - 375px) / 105), 15px);
 }
 
 .week-switcher-arrow button {
@@ -47,4 +36,13 @@ h2 {
 
 .arrow-right {
     transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+    .current-week-button {
+        position: absolute;
+        font-size: 14px;
+        right: 0;
+        bottom: calc(100% + 20px);
+    }
 }

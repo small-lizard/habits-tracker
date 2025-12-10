@@ -27,8 +27,23 @@
 }
 
 @media (max-width: 1280px) {
-  .day {
-    flex-direction: column;
-    gap: 5px;
-  }
+    .day {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .day {
+        gap: 2px;
+        width: 36px;
+    }
+
+    .day-name, .today-name{
+        font-size: 12px;
+    }
+
+    .day-number, .today-number {
+        font-size: 16px;
+    }
 }

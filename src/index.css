@@ -45,3 +45,27 @@ body {
 #root {
   display: flex;
 }
+
+.main {
+  margin: 20px;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+}
+
+.main.sidebar-open {
+  margin-left: clamp(260px, 22vw, 290px);
+}
+
+.main.sidebar-closed {
+  margin-left: 114px;
+}
+
+.main-mobile {
+  margin: 16px;
+  width: 100%;
+}
+
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+}

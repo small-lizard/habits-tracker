@@ -1,23 +1,26 @@
-table {
-  border-collapse: separate;
-  font-family: 'Poppins', sans-serif;
-  border-spacing: 0 10px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.habit-title {
+  color: #262E4E;
+  font-size: 30px;
+}
+
+.habits-table-header {
+  display: grid;
+  grid-template-columns: 34% repeat(7, 8.5%) 6%;
+  align-items: center;
+  justify-items: center;
+  margin-bottom: 20px;
+}
+
+.primary-button {
+  display: flex;
   width: 100%;
-  table-layout: fixed;
-}
-
-th:nth-child(1),
-td:nth-child(1) {
-  padding-right: clamp(20px, 4vw, 60px);
-}
-
-th:nth-child(n+2):not(:last-child),
-td:nth-child(n+2):not(:last-child) {
-  padding-right: clamp(10px, 2vw, 30px);
-}
-
-thead th {
-  padding-bottom: 10px;
 }
 
 .primary {
@@ -25,12 +28,59 @@ thead th {
   width: 100%;
   height: 60px;
   text-align: center;
-  border-radius: 15px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
+  justify-self: start;
+  margin-right: clamp(20px, 3vw, 60px);
 }
 
 .progress {
   font-size: 16px;
   color: #262E4E;
+}
+
+@media (max-width: 786px) {
+  .habit-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+}
+
+.mobile-primary {
+  position: fixed;
+  right: 22px;
+  bottom: 122px;
+  display: flex;
+  background-color: #4A64FD;
+  width: 60px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-habits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-left: 12px;
+  position: sticky;
+  top: 0;
+  background: var(--your-bg-color, #fff);
+  z-index: 1;
+}
+
+.mobile-weekdays {
+  display: flex;
+  gap: clamp(0px, calc(10 * (100vw - 375px) / 105), 10px);
+}
+
+.mobile-habits-list {
+  overflow-y: auto;
+  max-height: calc(100vh - 160px);
+  padding-bottom: 160px;
 }

@@ -32,3 +32,17 @@ export type HabitForUpdate= {
   template: boolean[];
   selectedColor: string;
 };
+
+export type HabitsTrackerLayoutProps = {
+  habits: HabitOptions[];
+  togglePopUp: (habit?: HabitForUpdate) => void;
+  deleteHabit: (id: string) => void;
+  updateStatus: (options: DayOptions, firstDay: number) => void;
+  closePopUp: () => void;
+  addHabit: (options: HabitOptions) => void;
+  updateHabit: (options: HabitForUpdate) => void;
+  habitToEdit: HabitForUpdate | undefined;
+  currentFirstDay: number;
+  isOpen: boolean;
+  isMobile: boolean;
+};

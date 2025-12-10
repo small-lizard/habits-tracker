@@ -15,9 +15,10 @@ type HabitListProps = {
     firstDay: number,
     color: string,
     togglePopUp: any,
+    isMobile: boolean
 }
 
-export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp }: HabitListProps) {
+export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp, isMobile }: HabitListProps) {
     const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit.id === id));
     if (!habit) {
         return null;
@@ -37,28 +38,54 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
         });
     }
 
-    return <tr className='habit-line'>
-        <td>
-            <div className='habit-details'>
-                <span className='habit-name'>{name}</span>
+    return <div className='habit-line'>
+        <div className='habit-details'>
+            <span className='habit-name'>{name}</span>
+            <div className='habit-details-buttons'>
                 <button aria-label='Edit' className='icon-btn edit-btn' onClick={handleEditClick}><EditIcon /></button>
                 <button aria-label='Delete' className='icon-btn' onClick={() => deleteHabit(id)}><DeleteIcon /></button>
             </div>
-        </td>
+        </div>
         {
-            days!.map((status, index) => {
-                return <CheckBox
-                    status={status}
-                    key={index}
-                    index={index}
-                    updateStatus={updateStatus}
-                    id={id}
-                    firstDay={firstDay}
-                    color={color}
-                ></CheckBox>
+            isMobile ? (
+                <div className='second-habit-line'>
+                    <div className='checkbox-line'>
+                        {
+                            days!.map((status, index) => {
+                                return <CheckBox
+                                    status={status}
+                                    key={index}
+                                    index={index}
+                                    updateStatus={updateStatus}
+                                    id={id}
+                                    firstDay={firstDay}
+                                    color={color}
+                                ></CheckBox>
 
-            })
+                            })
+                        }
+                    </div>
+                    <div className='progress-number'>{weekStreak}</div>
+                </div>
+            ) : (
+                <>
+                    {
+                        days!.map((status, index) => {
+                            return <CheckBox
+                                status={status}
+                                key={index}
+                                index={index}
+                                updateStatus={updateStatus}
+                                id={id}
+                                firstDay={firstDay}
+                                color={color}
+                            ></CheckBox>
+
+                        })
+                    }
+                    <div className='progress-number'>{weekStreak}</div>
+                </>
+            )
         }
-        <td className='progress-number'>{weekStreak}</td>
-    </tr>
+    </div>
 }

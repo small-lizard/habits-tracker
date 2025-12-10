@@ -1,4 +1,4 @@
-import './Header.css';
+import './WeekSwitchButtons.css';
 import { useSelector, useDispatch } from 'react-redux';
 import * as habitsActions from '../../../../store/habitsSlice';
 import { ArrowCircle } from '../../../../components/Icons';
@@ -6,7 +6,7 @@ import { RootState, AppDispatch } from '../../../../store/store';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-export function Header() {
+export function WeekSwitchButtons() {
     let location = useLocation()
 
     useEffect(() => {
@@ -31,19 +31,16 @@ export function Header() {
         dispatch(habitsActions.addNewWeek())
     }
 
-    return <header>
-        <h2>This week's habits</h2>
-        <div className='week-switcher'>
-            {week !== 0
-                ? (
-                    <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
-                )
-                : null}
-            <div className='week-switcher-arrow'>
-                <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
-                <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
-            </div>
+    return <div className='week-switcher'>
+        {week !== 0
+            ? (
+                <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
+            )
+            : null}
+        <div className='week-switcher-arrow'>
+            <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
+            <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
         </div>
-    </header>
+    </div>
 }
 

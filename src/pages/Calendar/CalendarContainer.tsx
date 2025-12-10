@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { ArrowCircle } from "../../components/Icons";
 import "./calendar.css";
-import { CalendarTile } from "./CalendarTile";
 import { getStartOfWeek } from "../../utils/data-calculating";
-import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -11,7 +8,8 @@ import { HabitStatusCalendar } from "../HabitTracker/types";
 import { initHabits } from '../../store/habitsThunks';
 import { checkAuth } from "../../api/auth";
 import * as userActions from '../../store/authSlice';
-
+import { CalendarDesktop } from "./CalendarDesktop";
+import { CalendarMobile } from "./CalendarMobile";
 
 class Day {
     public date: number;
@@ -39,7 +37,11 @@ class HabitDay extends Day {
     }
 }
 
-export function Calendar() {
+type CalendarProps = {
+    isMobile: boolean;
+}
+
+export function CalendarContainer({isMobile} : CalendarProps) {
     const { habitId } = useParams();
     const habits = useSelector((state: RootState) => state.habits.habits)
     const habit = habits.find(habit => habit.id === habitId) || null;
@@ -128,37 +130,19 @@ export function Calendar() {
         }));
     }
 
-    return <>
-        <header>
-            <div className="top-left-container">
-                <h2>{displayDate.toLocaleString('default', { month: 'long' })}</h2>
-                <CalendarDropdown></CalendarDropdown>
-            </div>
-            <div className='week-switcher'>
-                {isArrowClicked && month !== 0
-                    ? (
-                        <button onClick={handleCurrentMonth} className='current-week-button'>today</button>
-                    )
-                    : null}
-                <div className='week-switcher-arrow'>
-                    <button className='arrow-left' onClick={prevMonth}><ArrowCircle></ArrowCircle></button>
-                    <button className='arrow-right' onClick={nextMonth}><ArrowCircle></ArrowCircle></button>
-                </div>
-            </div>
-        </header>
-        <div className="container">
-            {
-                week.map((day) => <p className="week-day" key={day}>{day}</p>)
-            }
-            {
-                calendarDays.map((data: {
-                    date: number;
-                    currentMonth: boolean;
-                    currentDay: boolean;
-                }, index: number) => (
-                    <CalendarTile key={index} data={data} color={habit?.selectedColor} />
-                ))
-            }
-        </div>
-    </>
+    const layoutProps = {
+        displayDate,
+        isArrowClicked,
+        month,
+        handleCurrentMonth,
+        prevMonth,
+        nextMonth,
+        week,
+        calendarDays,
+        habit
+    }
+
+    return isMobile
+        ? <CalendarMobile {...layoutProps} />
+        : <CalendarDesktop {...layoutProps} />;
 }

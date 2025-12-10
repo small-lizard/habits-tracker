@@ -1,11 +1,11 @@
-.centered {
+.habit-check {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
 
-.check-circle {
+.habit-check-label {
   display: flex;
   width: 40px;
   height: 40px;
@@ -13,11 +13,11 @@
   cursor: pointer;
 }
 
-.check-circle input {
+.habit-check-label input {
   display: none;
 }
 
-.check-circle .checkbox {
+.habit-check-label .checkbox {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -25,12 +25,19 @@
   background-color: transparent;
 }
 
-.check-circle input:checked+.checkbox {
+.habit-check-label input:checked+.checkbox {
   border: 2px solid var(--habit-color);
   background-color: var(--habit-color);
 }
 
-.check-circle input:disabled+.checkbox {
+.habit-check-label input:disabled+.checkbox {
   border-color: #DDDDDD;
   background-color: #DDDDDD;
+}
+
+@media (max-width: 786px) {
+  .habit-check-label {
+    width: 32px;
+    height: 32px;
+  }
 }

@@ -1,18 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 import { useEffect, useState } from 'react';
-import { DayOptions, HabitOptions, HabitForUpdate } from './types';
-import { PlusIcon } from '../../components/Icons';
+import { DayOptions, HabitOptions, HabitForUpdate, HabitsTrackerLayoutProps } from './types';
 import './habitsTracker.css';
-import { WeekDays } from './components/WeekDays/WeekDays';
-import { HabitsItem } from './components/HabitItem/HabitItem';
-import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
-import { Header } from './components/Header/Header';
 import { addHabitThunk, deleteHabitThunk, initHabits, updateHabitThunk, updateStatusHabitThunk } from '../../store/habitsThunks';
 import { checkAuth } from '../../api/auth';
 import * as userActions from '../../store/authSlice';
+import { HabitsTrackerDesktop } from './HabitsTrackerDesktop';
+import { HabitsTrackerMobile } from './HabitsTrackerMobile';
 
-export function HabitsTracker() {
+type HabitsTrackerProps = {
+    isMobile: boolean;
+}
+
+export function HabitsTrackerContainer( {isMobile} : HabitsTrackerProps) {
     const habits = useSelector((state: RootState) => state.habits.habits)
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
     const user = useSelector((state: RootState) => state.auth);
@@ -66,44 +67,21 @@ export function HabitsTracker() {
 
     const closePopUp = () => setIsOpen(false);
 
-    return <>
-        <Header></Header>
-        <table>
-            <colgroup>
-                <col style={{ width: '34%' }} />
-                {[...Array(7)].map((_, i) => (
-                    <col key={i} style={{ width: '8.5%' }} />
-                ))}
-                <col style={{ width: '6%' }} />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>
-                        <button className='primary' onClick={() => togglePopUp()}><PlusIcon></PlusIcon></button>
-                    </th>
-                    <WeekDays></WeekDays>
-                    <th className='progress'>Streak</th>
-                </tr>
-            </thead>
-            <tbody>
-                {habits.map((habit, index) => (
-                    <HabitsItem
-                        days={habit.weeks[currentFirstDay]}
-                        color={habit.selectedColor}
-                        name={habit.name}
-                        key={index}
-                        deleteHabit={deleteHabit}
-                        id={habit.id}
-                        updateStatus={updateStatus}
-                        firstDay={currentFirstDay}
-                        togglePopUp={togglePopUp}
-                    ></HabitsItem>
-                ))}
-            </tbody>
-        </table>
-        {isOpen && (
-            <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
-        )}
-    </>
-}
+    const layoutProps: HabitsTrackerLayoutProps = {
+        habits,
+        togglePopUp,
+        deleteHabit,
+        updateStatus,
+        closePopUp,
+        addHabit,
+        updateHabit,
+        habitToEdit,
+        currentFirstDay,
+        isOpen,
+        isMobile
+    }
 
+    return isMobile
+    ? <HabitsTrackerMobile {...layoutProps} />
+    : <HabitsTrackerDesktop {...layoutProps} />;
+}
