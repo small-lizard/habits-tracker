@@ -5,7 +5,6 @@ import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
 
 type CalendarDesktopProps = {
     displayDate: any,
-    isArrowClicked: any,
     month: any,
     handleCurrentMonth: any,
     prevMonth: any,
@@ -15,16 +14,16 @@ type CalendarDesktopProps = {
     habit: any
 }
 
-export function CalendarDesktop({ displayDate, isArrowClicked, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarDesktopProps) {
+export function CalendarDesktop({ displayDate, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarDesktopProps) {
 
     return <>
         <header className="calendar-head">
             <div className="top-left-container">
-                <h2 className="calendar-title">{displayDate.toLocaleString('default', { month: 'long' })}</h2>
+                <h2 className="calendar-title">{displayDate.toLocaleString('en-US', { month: 'long' })}</h2>
                 <CalendarDropdown></CalendarDropdown>
             </div>
             <div className='week-switcher'>
-                {isArrowClicked && month !== 0
+                {month !== 0
                     ? (
                         <button onClick={handleCurrentMonth} className='current-month-button'>today</button>
                     )

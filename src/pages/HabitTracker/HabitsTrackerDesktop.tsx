@@ -5,6 +5,7 @@ import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
 import { HabitsTrackerLayoutProps } from './types';
+import { PopupWrapperDesctope } from '../../components/modalWindowVariants/PopupWrapperDesctope';
 
 export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, currentFirstDay, isOpen, isMobile }: HabitsTrackerLayoutProps) {
     return (
@@ -37,7 +38,9 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
                 ))}
             </div>
             {isOpen && (
-                <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                <PopupWrapperDesctope onClose={closePopUp}>
+                    <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                </PopupWrapperDesctope>
             )}
         </>
     )

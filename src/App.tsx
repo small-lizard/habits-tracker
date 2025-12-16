@@ -19,12 +19,13 @@ function App() {
     return sidebarOpen ? "main sidebar-open" : "main sidebar-closed";
   }
 
-
   return (
     <>
-      {
-        isMobile ? (<MobileNavbar />) : (<LeftSideBar />)
-      }
+      <nav>
+        {
+          isMobile ? (<MobileNavbar isMobile={isMobile} />) : (<LeftSideBar isMobile={isMobile} />)
+        }
+      </nav>
       <main className={getMainClass(isMobile, sidebarOpen)}>
         <div className="content">
           <Routes>

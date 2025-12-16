@@ -18,3 +18,14 @@
     padding: 10px;
     border-radius: 7px;
 }
+
+@media (max-width: 768px) {
+    .options-list {
+        padding: 8px;
+        gap: 2px;
+        max-width: 320px;
+        right: 0;
+        left: auto;
+        margin-right: 16px;
+    }
+}

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
 import { AxiosError } from "axios";
+import './popupDetails.css';
 
 export function AuthPopup({ onClose }: { onClose: () => void }) {
     const [mode, setMode] = useState<"login" | "register">("login");
@@ -64,7 +65,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
 
             if (serverMessage?.toLowerCase().includes("password")) {
                 setError("password", { type: "server", message: serverMessage });
-                
+
                 return;
             }
 
@@ -78,51 +79,49 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
     };
 
     return (
-        <div className='popup-overlay'>
-            <form onSubmit={handleSubmit(onSubmit)} className='popup-form'>
-                {mode === "register" && (
-                    <div className='name-wrapper'>
-                        <label className='inp'>
-                            <input
-                                type='text'
-                                placeholder='Name'
-                                {...register("name")}
-                            />
-                            {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
-                        </label>
-                    </div>
-                )}
-                <div className='name-wrapper'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            {mode === "register" && (
+                <>
+                    <h3>Create account</h3>
                     <label className='inp'>
                         <input
-                            type='email'
-                            placeholder='Email'
-                            {...register("email")}
+                            type='text'
+                            placeholder='Name'
+                            {...register("name")}
                         />
-                        {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+                        {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
                     </label>
-                </div>
-                <div className='name-wrapper'>
-                    <label className='inp'>
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            {...register("password")}
-                        />
-                        {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
-                    </label>
-                </div>
-                <button type="submit" className='submit'>
-                    {mode === "login" ? "Log in" : "Sign up"}
-                </button>
-                <button type="button" onClick={onClose} className='cancel'>Cancel</button>
-                <p>
-                    {mode === "login" ? "No account?" : "Already have an account?"}
-                    <span onClick={toggleMode} style={{ cursor: "pointer", color: "blue", marginLeft: 4 }}>
-                        {mode === "login" ? "Register" : "Log in"}
-                    </span>
-                </p>
-            </form>
-        </div>
+                </>
+            )}
+            {mode === "login" && (
+                <h3>Log in</h3>
+            )}
+            <label className='inp'>
+                <input
+                    type='email'
+                    placeholder='Email'
+                    {...register("email")}
+                />
+                {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+            </label>
+            <label className='inp'>
+                <input
+                    type='password'
+                    placeholder='Password'
+                    {...register("password")}
+                />
+                {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+            </label>
+            <button type="submit" className='submit'>
+                {mode === "login" ? "Log in" : "Sign up"}
+            </button>
+            <button type="button" onClick={onClose} className='cancel'>Cancel</button>
+            <p>
+                {mode === "login" ? "No account?" : "Already have an account?"}
+                <span onClick={toggleMode} style={{ cursor: "pointer", color: "blue", marginLeft: 4 }}>
+                    {mode === "login" ? "Register" : "Log in"}
+                </span>
+            </p>
+        </form>
     );
 }

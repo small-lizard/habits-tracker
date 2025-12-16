@@ -65,7 +65,7 @@
 
 }
 
-@media (max-width: 786px) {
+@media (max-width: 767px) {
     .habit-line {
         display: flex;
         flex-direction: column;

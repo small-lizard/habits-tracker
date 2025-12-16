@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import './HabitPopUp.css';
+import '../../../../components/popupDetails.css';
 import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../types';
-import { useRef } from "react";
-import { useOnClickOutside } from "../../../../hooks/useOnClickOutside";
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
@@ -15,7 +13,6 @@ type HabitPopUpProps = {
 }
 
 export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose }: HabitPopUpProps) {
-    const ref = useRef<HTMLFormElement | null>(null);
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
@@ -23,8 +20,6 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
     const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
     const [errors, setErrors] = useState({ name: '', days: '' });
-
-    useOnClickOutside(ref, onClose , true);
 
     function handleCheckBox(index: number, checked: boolean) {
         const newDays = [...days];
@@ -86,72 +81,68 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
         togglePopUp();
     }
 
-    return <div className='popup-overlay'>
-        <form ref={ref} action='' className='popup-form' onSubmit={handleSubmit}>
-            {
-                habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
-            }
-            <div className='name-wrapper'>
-                <label className='inp'>
-                    <input
-                        type='text'
-                        value={name}
-                        onChange={(e) => handleNameChange(e.target.value)}
-                        placeholder='Name habit'
-                        aria-label='Name'
-                    />
-                </label>
-                {errors.name && (
-                    <div className='name-error'>{errors.name}</div>
-                )}
-            </div>
-
-            <div className='frequency-wrapper'>
-                <h4 className='frequency-title'>Frequency</h4>
-                <div className='weekdays-checkbox'>
-                    {
-                        week.map((day, index) => (
-                            <label key={index} className='circle'>
-                                <input
-                                    type='checkbox'
-                                    name='day'
-                                    value={day}
-                                    checked={days[index]}
-                                    onChange={(e) => handleCheckBox(index, e.target.checked)}
-                                />
-                                <span>{day}</span>
-                            </label>
-                        ))
-                    }
-                    {errors.days && <div className='checkbox-error'>{errors.days}</div>}
-                </div>
-
-            </div>
-
-            <div className='color-wrapper'>
-                <h4 className='color-title'>Choose color</h4>
-                <div className='color-radio-btn'>
-                    {colors.map((color) => (
-                        <label key={color} className='color-label' >
+    return <form action='' onSubmit={handleSubmit}>
+        {
+            habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
+        }
+        <div className='input-wrapper'>
+            <label className='inp'>
+                <input
+                    type='text'
+                    value={name}
+                    onChange={(e) => handleNameChange(e.target.value)}
+                    placeholder='Name habit'
+                    aria-label='Name'
+                />
+            </label>
+            {errors.name && (
+                <div className='name-error'>{errors.name}</div>
+            )}
+        </div>
+        <div className='frequency-wrapper'>
+            <h4 className='frequency-title'>Frequency</h4>
+            <div className='weekdays-checkbox'>
+                {
+                    week.map((day, index) => (
+                        <label key={index} className='circle'>
                             <input
-                                type='radio'
-                                name='habitColor'
-                                value={color}
-                                checked={selectedColor === color}
-                                onChange={() => setColor(color)}
+                                type='checkbox'
+                                name='day'
+                                value={day}
+                                checked={days[index]}
+                                onChange={(e) => handleCheckBox(index, e.target.checked)}
                             />
-                            <span style={{ backgroundColor: color }}></span>
-                            {selectedColor === color && <span className='tick'><CheckIcon /></span>}
+                            <span>{day}</span>
                         </label>
-                    ))}
-                </div>
+                    ))
+                }
+                {errors.days && <div className='checkbox-error'>{errors.days}</div>}
             </div>
-            {addHabit ? (
-                <button type='submit' className='submit'>Create</button>
-            ) : habit ? (
-                <button type='submit' className='edit'>Edit</button>
-            ) : null}
-            <button type='button' className='cancel' onClick={togglePopUp}>Cancel</button>
-        </form>
-    </div>
+        </div>
+
+        <div className='color-wrapper'>
+            <h4 className='color-title'>Choose color</h4>
+            <div className='color-radio-btn'>
+                {colors.map((color) => (
+                    <label key={color} className='color-label' >
+                        <input
+                            type='radio'
+                            name='habitColor'
+                            value={color}
+                            checked={selectedColor === color}
+                            onChange={() => setColor(color)}
+                        />
+                        <span style={{ backgroundColor: color }}></span>
+                        {selectedColor === color && <span className='tick'><CheckIcon /></span>}
+                    </label>
+                ))}
+            </div>
+        </div>
+        {addHabit ? (
+            <button type='submit' className='submit'>Create</button>
+        ) : habit ? (
+            <button type='submit' className='edit'>Edit</button>
+        ) : null}
+        <button type='button' className='cancel' onClick={togglePopUp}>Cancel</button>
+    </form>
 }

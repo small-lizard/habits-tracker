@@ -40,7 +40,7 @@
   color: #262E4E;
 }
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
   .habit-title {
     font-size: 24px;
     margin-bottom: 16px;

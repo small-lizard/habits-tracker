@@ -5,6 +5,7 @@ import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
 import { HabitsTrackerLayoutProps } from './types';
+import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
 
 export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, currentFirstDay, isOpen, isMobile }: HabitsTrackerLayoutProps) {
 
@@ -39,7 +40,9 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
             <button className='mobile-primary' onClick={() => togglePopUp()}><PlusIcon></PlusIcon></button>
 
             {isOpen && (
-                <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                <BottomSheetWrapperMobile onClose={closePopUp}>
+                    <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                </BottomSheetWrapperMobile>
             )}
         </>
     )

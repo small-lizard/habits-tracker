@@ -4,19 +4,22 @@ import * as userActions from '../store/authSlice';
 import * as habitsActions from '../store/habitsSlice';
 import { AppDispatch } from '../store/store';
 import { LockIcon, LogoutIcon, TrashIcon } from './Icons';
-import "./opthionsDropdown.css";
+import "./optionsDropdown.css";
 import { useState } from 'react';
 import { DeleteAccountPopup } from './modals/DeleteAccountPopup';
 import { ChangePasswordPopup } from './modals/ChangePasswordPopup';
 import { useRef } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
+import { BottomSheetWrapperMobile } from './modalWindowVariants/BottomSheetWrapperMobile';
 
 type DropdownProps = {
     onClose: () => void;
     ignoreButtonRef?: React.RefObject<HTMLButtonElement | null>;
+    isMobile: boolean;
 };
 
-export const OpthionsDropdown = ({ onClose, ignoreButtonRef }: DropdownProps) => {
+export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: DropdownProps) => {
     const ref = useRef<HTMLUListElement | null>(null);
     const dispatch = useDispatch<AppDispatch>();
     const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +48,8 @@ export const OpthionsDropdown = ({ onClose, ignoreButtonRef }: DropdownProps) =>
         onClose()
     }
 
+    const Wrapper = isMobile ? BottomSheetWrapperMobile : PopupWrapperDesctope;
+
     return <>
         <ul ref={ref} className='options-list'>
             <li>
@@ -68,12 +73,24 @@ export const OpthionsDropdown = ({ onClose, ignoreButtonRef }: DropdownProps) =>
         </ul>
         {
             isOpen && (
-                <DeleteAccountPopup onClose={() => setIsOpen(false)} deleteUser={() => deleteAccount()}></DeleteAccountPopup>
+                <Wrapper onClose={() => setIsOpen(false)} >
+                    <DeleteAccountPopup
+                        onClose={() => setIsOpen(false)}
+                        deleteUser={() => deleteAccount()}
+                        closeOpthions={onClose}
+                    ></DeleteAccountPopup>
+                </Wrapper>
             )
         }
         {
             isResetPopupOpen && (
-                <ChangePasswordPopup onClose={() => setIsResetPopupOpen(false)} resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}></ChangePasswordPopup>
+                <Wrapper onClose={() => setIsResetPopupOpen(false)}>
+                    <ChangePasswordPopup
+                        onClose={() => setIsResetPopupOpen(false)}
+                        resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}
+                        closeOpthions={onClose}
+                    ></ChangePasswordPopup>
+                </Wrapper>
             )
         }
     </>

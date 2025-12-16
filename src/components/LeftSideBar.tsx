@@ -7,10 +7,10 @@ import { AppDispatch, RootState } from '../store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sidebarActions from '../store/sidebarUISlice';
 import { Account } from './Account';
+import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 
-export const LeftSideBar = () => {
+export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
-    const [isAccOpthionsOpen, setIsAccOpthions] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
     const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
     const dispatch = useDispatch<AppDispatch>();
@@ -61,14 +61,15 @@ export const LeftSideBar = () => {
                     <Account
                         name={user.name}
                         email={user.email}
-                        isAccOpthionsOpen={isAccOpthionsOpen}
-                        onClose={setIsAccOpthions}
+                        isMobile={isMobile}
                     />
                 )
             }
 
             {isAuthOpen && (
-                <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                <PopupWrapperDesctope onClose={() => setIsAuthOpen(false)}>
+                    <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                </PopupWrapperDesctope>
             )}
         </div>
     )

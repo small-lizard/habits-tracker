@@ -1,21 +1,16 @@
-import "./popup.css";
-import { useRef } from "react";
-import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import '../popupDetails.css';
 
 type DeleteAccountProps = {
     onClose: () => void,
-    deleteUser:  () => void,
+    deleteUser: () => void,
+    closeOpthions: () => void,
 }
 
-export function DeleteAccountPopup({ onClose, deleteUser } : DeleteAccountProps) {
-    const ref = useRef<HTMLDivElement | null>(null);
-    useOnClickOutside(ref, onClose, true)
+export function DeleteAccountPopup({ onClose, deleteUser, closeOpthions }: DeleteAccountProps) {
 
-    return <div className='popup-overlay'>
-        <div ref={ref} className='popup-form'>
-            <p className="delete-popup-text"><span>Delete account?</span> All habits will be deleted.</p>
-            <button className='delete-btn' onClick={deleteUser}>Delete</button>
-            <button className='cancel' onClick={onClose}>Cancel</button>
-        </div>
+    return <div className='delete-popup'>
+        <p className="delete-popup-text"><span>Delete account?</span> All habits will be deleted.</p>
+        <button className='submit delete-btn' onClick={deleteUser}>Delete</button>
+        <button className='cancel' onClick={() => {onClose(); closeOpthions()}}>Cancel</button>
     </div>
 }

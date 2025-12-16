@@ -1,64 +1,36 @@
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.popup-form {
-  background: #FFF;
-  padding: 40px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
 h3 {
   font-size: 24px;
   color: #262E4E;
   margin-bottom: 30px;
 }
 
-.name-wrapper {
+form,
+.delete-popup {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
   position: relative;
 }
 
-.inp {
-  position: relative;
-  display: inline-block;
-  width: 375px;
-  padding-bottom: 10px;
-  font-family: inherit;
+input {
+  font: inherit;
+  width: 100%;
+  height: 60px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #262E4E;
+  background-color: white;
+  border: 2px solid #B2B2C9;
+  padding-left: 15px;
+  font-size: 18px;
   margin-bottom: 25px;
 }
 
-.inp input {
-  width: 100%;
-  border: none;
-  background: transparent;
-  font-size: 18px;
-  line-height: 1;
-  outline: none;
-}
-
-.inp input::placeholder {
+input::placeholder {
   color: #B2B2C9;
-}
-
-.inp::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: #4A64FD;
+  font-size: 16px;
 }
 
 .frequency-wrapper {
@@ -76,7 +48,7 @@ h3 {
 
 .weekdays-checkbox {
   display: flex;
-  width: 375px;
+  width: 100%;
   justify-content: space-between;
 }
 
@@ -125,7 +97,7 @@ h3 {
 
 .color-radio-btn {
   display: flex;
-  width: 375px;
+  width: 100%;
   justify-content: space-between;
 }
 
@@ -216,4 +188,62 @@ h3 {
   height: 15px;
   background: rgb(239, 155, 155);
   transform: translateX(-50%) rotate(45deg);
+}
+
+.delete-popup-text {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.delete-popup-text span {
+  font-size: 20px;
+}
+
+.submit.delete-btn {
+  background-color: #ee4e4e;
+}
+
+@media (max-width: 768px) {
+
+  form,
+  .delete-popup {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+  }
+
+  .submit,
+  .edit {
+    width: 100%;
+    margin-bottom: 18px;
+    margin-top: 26px;
+  }
+
+  .cancel {
+    width: 100%;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  input {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+
+  .frequency-wrapper,
+  .color-wrapper {
+    margin-bottom: 18px;
+  }
+
+  .frequency-title,
+  .color-title {
+    font-size: 16px;
+  }
 }

@@ -35,7 +35,7 @@
   background-color: #DDDDDD;
 }
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
   .habit-check-label {
     width: 32px;
     height: 32px;

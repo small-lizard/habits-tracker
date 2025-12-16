@@ -47,7 +47,6 @@ export function CalendarContainer({isMobile} : CalendarProps) {
     const habit = habits.find(habit => habit.id === habitId) || null;
     const habitWeeks = habit?.weeks ?? {};
     const today = new Date();
-    const [isArrowClicked, setIsArrowClicked] = useState(false);
     const [month, setMonth] = useState(0);
     const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
     const calendarDays: HabitDay[] = [];
@@ -79,17 +78,14 @@ export function CalendarContainer({isMobile} : CalendarProps) {
 
     function prevMonth() {
         setMonth(prev => prev - 1);
-        setIsArrowClicked(true);
     }
 
     function nextMonth() {
         setMonth(prev => prev + 1);
-        setIsArrowClicked(true);
     }
 
     function handleCurrentMonth() {
         setMonth(0);
-        setIsArrowClicked(false);
     }
 
     for (let index = 0; index < 42; index++) {
@@ -132,7 +128,6 @@ export function CalendarContainer({isMobile} : CalendarProps) {
 
     const layoutProps = {
         displayDate,
-        isArrowClicked,
         month,
         handleCurrentMonth,
         prevMonth,

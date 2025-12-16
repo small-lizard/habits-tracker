@@ -1,20 +1,16 @@
-import "./popup.css";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
-import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { AxiosError } from "axios";
+import '../popupDetails.css';
 
 type ChangePasswordProps = {
     onClose: () => void;
     resetPassword: (password: string, newPassword: string) => Promise<void> | void;
+    closeOpthions: () => void,
 };
 
-export function ChangePasswordPopup({ onClose, resetPassword }: ChangePasswordProps) {
-    const ref = useRef<HTMLFormElement | null>(null);
-
-    useOnClickOutside(ref, onClose, true)
+export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: ChangePasswordProps) {
 
     const resetSchema = z.object({
         password: z.string().min(6, "Password must be at least 6 characters long"),
@@ -39,40 +35,35 @@ export function ChangePasswordPopup({ onClose, resetPassword }: ChangePasswordPr
                 setError("password", { type: "server", message: serverMessage });
                 return;
             }
-            
+
             alert(serverMessage || "Server error");
 
         }
     };
 
     return (
-        <div className="popup-overlay">
-            <form ref={ref} onSubmit={handleSubmit(onSubmit)} className="popup-form">
-                <div className="name-wrapper">
-                    <label className="inp">
-                        <input
-                            type="password"
-                            placeholder="Current password"
-                            {...register("password")}
-                        />
-                        {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
-                    </label>
-                </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <h3>Change password</h3>
+            <label className="inp">
+                <input
+                    type="password"
+                    placeholder="Current password"
+                    {...register("password")}
+                />
+                {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
+            </label>
 
-                <div className="name-wrapper">
-                    <label className="inp">
-                        <input
-                            type="password"
-                            placeholder="New password"
-                            {...register("newPassword")}
-                        />
-                        {errors.newPassword && <p style={{ color: "red" }}>{errors.newPassword.message}</p>}
-                    </label>
-                </div>
+            <label className="inp">
+                <input
+                    type="password"
+                    placeholder="New password"
+                    {...register("newPassword")}
+                />
+                {errors.newPassword && <p style={{ color: "red" }}>{errors.newPassword.message}</p>}
+            </label>
 
-                <button type="submit" className="submit">Change</button>
-                <button type="button" onClick={() => { reset(); onClose(); }} className="cancel">Cancel</button>
-            </form>
-        </div>
+            <button type="submit" className="submit">Change</button>
+            <button type="button" onClick={() => { reset(); onClose(); closeOpthions()}} className="cancel">Cancel</button>
+        </form>
     );
 }

@@ -5,7 +5,6 @@ import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
 
 type CalendarMobileProps = {
     displayDate: any,
-    isArrowClicked: any,
     month: any,
     handleCurrentMonth: any,
     prevMonth: any,
@@ -15,13 +14,13 @@ type CalendarMobileProps = {
     habit: any
 }
 
-export function CalendarMobile({ displayDate, isArrowClicked, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarMobileProps) {
+export function CalendarMobile({ displayDate, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarMobileProps) {
 
     return <>
         <header className="calendar-head">
-            <h2 className="calendar-title">{displayDate.toLocaleString('default', { month: 'long' })}</h2>
+            <h2 className="calendar-title">{displayDate.toLocaleString('en-US', { month: 'long' })}</h2>
             <div className='week-switcher'>
-                {isArrowClicked && month !== 0
+                {month !== 0
                     ? (
                         <button onClick={handleCurrentMonth} className='current-month-button'>today</button>
                     )

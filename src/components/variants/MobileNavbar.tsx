@@ -4,10 +4,11 @@ import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
 import { AuthPopup } from "../AuthPopup";
 import { CheckSquareIcon, CalendarIcon, LoginIcon } from "../Icons";
-import { OpthionsDropdown } from "../OpthionsDropdown";
 import './mobileNavBar.css';
+import { OptionsDropdown } from "../OptionsDropdown";
+import { BottomSheetWrapperMobile } from "../modalWindowVariants/BottomSheetWrapperMobile";
 
-export const MobileNavbar = () => {
+export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
     const [isAccOpthionsOpen, setIsAccOpthions] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
@@ -33,7 +34,10 @@ export const MobileNavbar = () => {
                             </button>
                             {
                                 isAccOpthionsOpen && (
-                                    <OpthionsDropdown onClose={() => setIsAccOpthions(false)} ignoreButtonRef={buttonRef} />
+                                    <OptionsDropdown 
+                                    onClose={() => setIsAccOpthions(false)} 
+                                    ignoreButtonRef={buttonRef} 
+                                    isMobile={isMobile}/>
                                 )
                             }
                         </>
@@ -49,7 +53,9 @@ export const MobileNavbar = () => {
 
             {
                 isAuthOpen && (
-                    <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                    <BottomSheetWrapperMobile onClose={() => setIsAuthOpen(false)}>
+                        <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                    </BottomSheetWrapperMobile>
                 )
             }
         </div>
