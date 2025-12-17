@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ObjectId } from "bson";
 
-const API_URL = "https://habits-tracker-server-r9wc.onrender.com";
+const API_URL = process.env.API_URL || "http://localhost:5000";
 
 export const checkAuth = async () => {
   try {
@@ -14,14 +14,19 @@ export const checkAuth = async () => {
 }
 
 export const registerUser = async (data: { name?: string; email: string; password: string }) => {
+  const localHabits = JSON.parse(localStorage.getItem('habits') || '[]');
+
   try {
     const id = new ObjectId().toString();
     const userData = {
       id,
+      habits: localHabits,
       ...data,
     };
     const response = await axios.post(`${API_URL}/auth`, userData, { withCredentials: true });
-    await syncData();
+
+    localStorage.removeItem('habits');
+
     return response;
   } catch (error) {
     console.error(error);
@@ -30,23 +35,25 @@ export const registerUser = async (data: { name?: string; email: string; passwor
 }
 
 export const loginUser = async (data: { email: string; password: string }) => {
+  const localHabits = JSON.parse(localStorage.getItem('habits') || '[]');
+
   try {
-    const response = await axios.post(`${API_URL}/login`, data, { withCredentials: true });
-    await syncData();
+
+    const userData = {
+      habits: localHabits,
+      ...data,
+    };
+
+    const response = await axios.post(`${API_URL}/login`, userData, { withCredentials: true });
+
+    localStorage.removeItem('habits');
+
     return response;
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
-
-export const syncData = async () => {
-  const localHabits = JSON.parse(localStorage.getItem('habits') || '[]');
-  if (localHabits.length > 0) {
-    await axios.post(`${API_URL}/habits/sync`, { habits: localHabits }, { withCredentials: true });
-    localStorage.removeItem('habits');
-  }
-}
 
 export const logoutUser = async () => {
   try {

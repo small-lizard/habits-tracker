@@ -51,8 +51,6 @@ export function CalendarContainer({isMobile} : CalendarProps) {
     const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
     const calendarDays: HabitDay[] = [];
     const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    const user = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -65,16 +63,12 @@ export function CalendarContainer({isMobile} : CalendarProps) {
                 name: response.name ?? '',
                 email: response.email ?? '',
             }));
+
+            await dispatch(initHabits(response.isAuth));
         }
 
         fetchAuth()
     }, []);
-
-    useEffect(() => {
-        if (user.isAuth !== null) {
-            dispatch(initHabits());
-        }
-    }, [user.isAuth]);
 
     function prevMonth() {
         setMonth(prev => prev - 1);
