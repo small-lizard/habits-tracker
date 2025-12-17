@@ -1,7 +1,7 @@
 import axios from "axios";
 import { HabitOptions } from "../pages/HabitTracker/types";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://habits-tracker-server-r9wc.onrender.com";
 
 export const getAllHabits = async () => {
     try {
