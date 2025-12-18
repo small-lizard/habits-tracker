@@ -22,7 +22,9 @@ export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
     useEffect(() => {
         const fetchAuth = async () => {
             const response = await checkAuth();
+            console.log('Auth check response:', response, response.isAuth);
 
+            
             dispatch(userActions.setUser({
                 id: response.userId ?? '',
                 isAuth: response.isAuth,

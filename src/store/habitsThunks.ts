@@ -7,13 +7,16 @@ import { RootState } from './store';
 export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
     "habitsSlice/setHabits",
     async (isAuth: boolean, { dispatch }) => {
+        console.log('Check isAuth in thank', isAuth)
         
         if (!isAuth) {
+            console.log('Check isAuth local', isAuth)
             const saved = localStorage.getItem('habits');
             const habits = saved ? JSON.parse(saved) : [];
 
             dispatch(habitsActions.setHabits({ habits }));
         } else {
+            console.log('Check isAuth server', isAuth)
             const response = await getAllHabits();
 
             dispatch(habitsActions.setHabits({ habits: response }));
