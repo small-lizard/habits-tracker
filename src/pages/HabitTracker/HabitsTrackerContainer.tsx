@@ -13,10 +13,9 @@ type HabitsTrackerProps = {
     isMobile: boolean;
 }
 
-export function HabitsTrackerContainer( {isMobile} : HabitsTrackerProps) {
+export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
     const habits = useSelector((state: RootState) => state.habits.habits)
     const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
-    const user = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
@@ -29,16 +28,12 @@ export function HabitsTrackerContainer( {isMobile} : HabitsTrackerProps) {
                 name: response.name ?? '',
                 email: response.email ?? '',
             }));
+
+            await dispatch(initHabits(response.isAuth));
         }
 
         fetchAuth()
     }, []);
-
-    useEffect(() => {
-        if (user.isAuth !== null) {
-            dispatch(initHabits());
-        }
-    }, [user.isAuth]);
 
     const addHabit = (options: HabitOptions) => {
         dispatch(addHabitThunk(options));
@@ -82,6 +77,6 @@ export function HabitsTrackerContainer( {isMobile} : HabitsTrackerProps) {
     }
 
     return isMobile
-    ? <HabitsTrackerMobile {...layoutProps} />
-    : <HabitsTrackerDesktop {...layoutProps} />;
+        ? <HabitsTrackerMobile {...layoutProps} />
+        : <HabitsTrackerDesktop {...layoutProps} />;
 }
