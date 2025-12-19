@@ -1,5 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+require('dotenv').config();
+const webpack = require('webpack');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -26,6 +29,16 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "public/index.html"
+    }),
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify(process.env.API_URL)
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, "public/manifest.json"), to: "manifest.json" },
+        { from: path.resolve(__dirname, "public/icon192.png"), to: "icon192.png" },
+        { from: path.resolve(__dirname, "public/icon512.png"), to: "icon512.png" }
+      ]
     })
   ],
   devServer: {
