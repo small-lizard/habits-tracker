@@ -3,6 +3,10 @@ import { HabitOptions } from "../pages/HabitTracker/types";
 
 const API_URL = process.env.API_URL || "http://localhost:5000";
 
+if (!API_URL) {
+  throw new Error('API_URL is not defined');
+}
+
 export const getAllHabits = async () => {
     try {
         const response = await axios.get(`${API_URL}/habits`, { withCredentials: true });

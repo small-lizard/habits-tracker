@@ -34,7 +34,7 @@ export function CalendarMobile({ displayDate, month, handleCurrentMonth, prevMon
         <CalendarDropdown></CalendarDropdown>
         <div className="container">
             {
-                week.map((day: any) => <p className="week-day" key={day}>{day}</p>)
+                week.map((day: string) => <p className="week-day" key={day}>{day}</p>)
             }
             {
                 calendarDays.map((data: {

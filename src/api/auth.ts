@@ -3,6 +3,10 @@ import { ObjectId } from "bson";
 
 const API_URL = process.env.API_URL || "http://localhost:5000";
 
+if (!API_URL) {
+  throw new Error('API_URL is not defined');
+}
+
 export const checkAuth = async () => {
   try {
     const response = await axios.get(`${API_URL}/auth/check`, { withCredentials: true });
