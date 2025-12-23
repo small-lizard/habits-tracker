@@ -1,7 +1,9 @@
 import axios from "axios";
 import { HabitOptions } from "../pages/HabitTracker/types";
 
-const API_URL = process.env.API_URL || "http://localhost:5000";
+const API_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5000'
+  : '/api';
 
 if (!API_URL) {
   throw new Error('API_URL is not defined');
