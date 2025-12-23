@@ -4,12 +4,10 @@ import { addHabit, deleteHabitApi, getAllHabits, updateHabit } from '../api/habi
 import { DayOptions, HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
 import { RootState } from './store';
 
-export const initHabits = createAsyncThunk<void, void, { state: RootState }>(
+export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
     "habitsSlice/setHabits",
-    async (_, { dispatch, getState }) => {
-        const state = getState();
-        const isAuth = state.auth.isAuth;
-
+    async (isAuth: boolean, { dispatch }) => {
+        
         if (!isAuth) {
             const saved = localStorage.getItem('habits');
             const habits = saved ? JSON.parse(saved) : [];
