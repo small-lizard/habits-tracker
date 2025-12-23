@@ -31,7 +31,11 @@ module.exports = {
       template: "public/index.html"
     }),
     new webpack.DefinePlugin({
-      'process.env.API_URL': JSON.stringify(process.env.API_URL)
+      'process.env.API_URL': JSON.stringify(
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5000'
+          : '/api'
+      )
     }),
     new CopyWebpackPlugin({
       patterns: [
