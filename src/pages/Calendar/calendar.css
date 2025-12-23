@@ -61,6 +61,7 @@
 .item.status-2,
 .item.current-month.status-2 {
     color: var(--habit-color);
+    background-color: rgba(var(--habit-color), 0.15);
     background-color: color-mix(in srgb, var(--habit-color) 15%, transparent);
 }
 
