@@ -1,11 +1,9 @@
 import axios from "axios";
 import { ObjectId } from "bson";
 
-const API_URL = process.env.API_URL || "http://localhost:5000";
-
-if (!API_URL) {
-  throw new Error('API_URL is not defined');
-}
+const API_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5000'
+  : '/api';
 
 export const checkAuth = async () => {
   try {
