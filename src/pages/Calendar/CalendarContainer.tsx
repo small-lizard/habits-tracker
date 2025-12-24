@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { HabitStatusCalendar } from "../HabitTracker/types";
 import { initHabits } from '../../store/habitsThunks';
-import { checkAuth } from "../../api/auth";
+import * as accountService from  "../../services/accountService";
 import * as userActions from '../../store/authSlice';
 import { CalendarDesktop } from "./CalendarDesktop";
 import { CalendarMobile } from "./CalendarMobile";
@@ -55,7 +55,7 @@ export function CalendarContainer({isMobile} : CalendarProps) {
 
     useEffect(() => {
         const fetchAuth = async () => {
-            const response = await checkAuth();
+            const response = await accountService.checkAuth();
 
             dispatch(userActions.setUser({
                 id: response.userId ?? '',

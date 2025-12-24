@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { changePassword, deleteUser, logoutUser } from '../api/auth';
+import * as accountService from '../services/accountService';
 import * as userActions from '../store/authSlice';
 import * as habitsActions from '../store/habitsSlice';
 import { AppDispatch } from '../store/store';
@@ -29,7 +29,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
 
     const logout = async () => {
         const habits: any[] = []
-        await logoutUser();
+        await accountService.logoutUser();
         dispatch(userActions.logout());
         dispatch(habitsActions.setHabits({ habits }));
         onClose()
@@ -37,14 +37,14 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
 
     const deleteAccount = async () => {
         const habits: any[] = []
-        await deleteUser();
+        await accountService.deleteUser();
         dispatch(userActions.logout());
         dispatch(habitsActions.setHabits({ habits }));
         onClose()
     }
 
     const resetPassword = async (password: string, newPassword: string) => {
-        await changePassword({ password, newPassword });
+        await accountService.changePassword({ password, newPassword });
         onClose()
     }
 

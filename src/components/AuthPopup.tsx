@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { registerUser, loginUser } from "../api/auth";
+import * as accountService from  "../services/accountService";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
@@ -38,16 +38,16 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
             let userData;
 
             if (mode === "register") {
-                userData = await registerUser(data);
+                userData = await accountService.registerUser(data);
             } else {
-                userData = await loginUser(data);
+                userData = await accountService.loginUser(data);
             }
 
             dispatch(userActions.setUser({
-                id: userData.data.id,
+                id: userData.id,
                 isAuth: true,
-                name: userData.data.name,
-                email: userData.data.email
+                name: userData.name,
+                email: userData.email
             }));
 
             onClose();
