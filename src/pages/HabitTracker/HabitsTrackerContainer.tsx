@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { DayOptions, HabitOptions, HabitForUpdate, HabitsTrackerLayoutProps } from './types';
 import './habitsTracker.css';
 import { addHabitThunk, deleteHabitThunk, initHabits, updateHabitThunk, updateStatusHabitThunk } from '../../store/habitsThunks';
-import { checkAuth } from '../../api/auth';
+import * as accountService from '../../services/accountService';
 import * as userActions from '../../store/authSlice';
 import { HabitsTrackerDesktop } from './HabitsTrackerDesktop';
 import { HabitsTrackerMobile } from './HabitsTrackerMobile';
@@ -20,7 +20,7 @@ export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
 
     useEffect(() => {
         const fetchAuth = async () => {
-            const response = await checkAuth();
+            const response = await accountService.checkAuth();
 
             dispatch(userActions.setUser({
                 id: response.userId ?? '',
