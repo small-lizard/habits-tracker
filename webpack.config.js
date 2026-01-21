@@ -1,8 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 require('dotenv').config();
-const webpack = require('webpack');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -30,13 +30,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "public/index.html"
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.BASE_URL': JSON.stringify(
-    //     process.env.NODE_ENV === 'development'
-    //       ? 'http://localhost:5000'
-    //       : '/api'
-    //   )
-    // }),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_BACKEND_URL': JSON.stringify(process.env.REACT_APP_BACKEND_URL),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
     new CopyWebpackPlugin({
       patterns: [
         { from: path.resolve(__dirname, "public/manifest.json"), to: "manifest.json" },
@@ -51,12 +48,11 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     proxy: [
-    {
-      context: ['/api'],
-      target: 'http://localhost:5000',
-      changeOrigin: true
-    },
-    
-  ]
+      {
+        context: ['/api'],
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      },
+    ]
   }
 };
