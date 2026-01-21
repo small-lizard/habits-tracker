@@ -49,12 +49,14 @@ module.exports = {
     port: 3000,
     hot: true,
     open: true,
+    historyApiFallback: true,
     proxy: [
     {
       context: ['/api'],
       target: 'http://localhost:5000',
       changeOrigin: true
-    }
+    },
+    
   ]
   }
 };
