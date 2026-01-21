@@ -30,9 +30,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "public/index.html"
     }),
-    new webpack.DefinePlugin({
-      'process.env.API_URL': JSON.stringify(process.env.API_URL)
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.BASE_URL': JSON.stringify(
+    //     process.env.NODE_ENV === 'development'
+    //       ? 'http://localhost:5000'
+    //       : '/api'
+    //   )
+    // }),
     new CopyWebpackPlugin({
       patterns: [
         { from: path.resolve(__dirname, "public/manifest.json"), to: "manifest.json" },
@@ -44,6 +48,15 @@ module.exports = {
   devServer: {
     port: 3000,
     hot: true,
-    open: true
+    open: true,
+    historyApiFallback: true,
+    proxy: [
+    {
+      context: ['/api'],
+      target: 'http://localhost:5000',
+      changeOrigin: true
+    },
+    
+  ]
   }
 };

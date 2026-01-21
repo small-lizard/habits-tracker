@@ -1,7 +1,20 @@
 {
   "rewrites": [
-    { "source": "/manifest.json", "destination": "/manifest.json" },
-    { "source": "/calendar/:habitId", "destination": "/" },
-    { "source": "/:path*", "destination": "/" }
+    {
+      "source": "/api/:path*",
+      "destination": "https://habits-tracker-server-1.onrender.com/:path*"
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/manifest.json"
+    },
+    {
+      "source": "/calendar/:habitId",
+      "destination": "/"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/"
+    }
   ]
 }
