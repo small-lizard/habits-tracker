@@ -8,7 +8,8 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: "/",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
@@ -30,13 +31,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "public/index.html"
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.BASE_URL': JSON.stringify(
-    //     process.env.NODE_ENV === 'development'
-    //       ? 'http://localhost:5000'
-    //       : '/api'
-    //   )
-    // }),
     new CopyWebpackPlugin({
       patterns: [
         { from: path.resolve(__dirname, "public/manifest.json"), to: "manifest.json" },
@@ -49,6 +43,7 @@ module.exports = {
     port: 3000,
     hot: true,
     open: true,
+    historyApiFallback: true,
     proxy: [
     {
       context: ['/api'],
@@ -56,5 +51,5 @@ module.exports = {
       changeOrigin: true
     }
   ]
-  }
+  },
 };

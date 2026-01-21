@@ -4,7 +4,7 @@ import { RootState } from '../../../../store/store';
 
 export function WeekDays() {
     const today = new Date();
-    const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
+    const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay);
     const startOfWeek = new Date(currentFirstDay);
 
     const days = []

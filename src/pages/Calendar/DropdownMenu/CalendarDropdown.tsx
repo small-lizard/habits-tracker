@@ -32,11 +32,6 @@ export function CalendarDropdown() {
         setSelectedHabit(found);
     }, [habitId, habits]);
 
-    if (habitId && !selectedHabit) {
-        navigate("/calendar");
-        return null;
-    }
-
     return <div className="dropdown">
         {
             selectedHabit ? (

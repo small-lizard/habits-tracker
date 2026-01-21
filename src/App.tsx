@@ -6,6 +6,7 @@ import { RootState } from './store/store';
 import { useIsMobile } from './hooks/useIsMobile';
 import { HabitsTrackerContainer } from './pages/HabitTracker/HabitsTrackerContainer';
 import { MobileNavbar } from './components/variants/MobileNavbar';
+import { Settings } from './pages/Settings/Settings';
 
 function App() {
   const isMobile = useIsMobile();
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} />} />
             <Route path="/calendar" element={<CalendarContainer isMobile={isMobile} />} />
             <Route path="/calendar/:habitId" element={<CalendarContainer isMobile={isMobile} />} />
+            <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
       </main>

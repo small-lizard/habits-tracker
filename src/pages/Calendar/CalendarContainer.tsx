@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { HabitStatusCalendar } from "../HabitTracker/types";
 import { initHabits } from '../../store/habitsThunks';
-import * as accountService from  "../../services/accountService";
+import * as accountService from "../../services/accountService";
 import * as userActions from '../../store/authSlice';
 import { CalendarDesktop } from "./CalendarDesktop";
 import { CalendarMobile } from "./CalendarMobile";
+import { getWeekDays } from "../../utils/getWeekDays";
 
 class Day {
     public date: number;
@@ -41,17 +42,18 @@ type CalendarProps = {
     isMobile: boolean;
 }
 
-export function CalendarContainer({isMobile} : CalendarProps) {
+export function CalendarContainer({ isMobile }: CalendarProps) {
     const { habitId } = useParams();
     const habits = useSelector((state: RootState) => state.habits.habits)
+    const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.weekStart)
     const habit = habits.find(habit => habit.id === habitId) || null;
     const habitWeeks = habit?.weeks ?? {};
     const today = new Date();
     const [month, setMonth] = useState(0);
     const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
     const calendarDays: HabitDay[] = [];
-    const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const dispatch = useDispatch<AppDispatch>();
+    const week = getWeekDays(firstDayOfWeekSetting)
 
     useEffect(() => {
         const fetchAuth = async () => {
@@ -83,7 +85,7 @@ export function CalendarContainer({isMobile} : CalendarProps) {
     }
 
     for (let index = 0; index < 42; index++) {
-        const firstDate = new Date(getStartOfWeek(displayDate));
+        const firstDate = new Date(getStartOfWeek(displayDate, firstDayOfWeekSetting));
         const date = new Date(firstDate.setDate(firstDate.getDate() + index));
         const weekStart = getStartOfWeek(date);
         const indexOfDay = date.getDay();
