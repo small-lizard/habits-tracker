@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://habits-tracker-server-1.onrender.com/:path*"
-    },
-    {
       "source": "/manifest.json",
       "destination": "/manifest.json"
     },
