@@ -23,38 +23,40 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
 
     return (
         <div className={sidebarOpen ? "out sidebar-open" : "out sidebar-closed"}>
-            <div className='sidebar-header'>
-                <p className='app-name'>Habit tracker</p>
-                <button className='toggle-button' onClick={() => dispatch(sidebarActions.toggleSidebar())}>
-                    <ToggleIcon />
-                </button>
+            <div>
+                <div className='sidebar-header'>
+                    <p className='app-name'>Habit tracker</p>
+                    <button className='toggle-button' onClick={() => dispatch(sidebarActions.toggleSidebar())}>
+                        <ToggleIcon />
+                    </button>
+                </div>
+                <nav>
+                    <ul className="nav-list">
+                        <li>
+                            <NavLink to='/' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
+                                <CheckSquareIcon />
+                                <span className='nav-item-text'>This week</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/calendar' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
+                                <CalendarIcon />
+                                <span className='nav-item-text'>Calendar</span>
+                            </NavLink>
+                        </li>
+                        {
+                            !user.isAuth && (
+                                <li>
+                                    <button className="nav-button" onClick={() => setIsAuthOpen(true)}>
+                                        <LoginIcon />
+                                        <span className='nav-item-text'>Log in</span>
+                                    </button>
+                                </li>
+                            )
+                        }
+                    </ul>
+                </nav>
             </div>
-            <nav>
-                <ul className="nav-list">
-                    <li>
-                        <NavLink to='/' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
-                            <CheckSquareIcon />
-                            <span className='nav-item-text'>This week</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to='/calendar' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
-                            <CalendarIcon />
-                            <span className='nav-item-text'>Calendar</span>
-                        </NavLink>
-                    </li>
-                    {
-                        !user.isAuth && (
-                            <li>
-                                <button className="nav-button" onClick={() => setIsAuthOpen(true)}>
-                                    <LoginIcon />
-                                    <span className='nav-item-text'>Log in</span>
-                                </button>
-                            </li>
-                        )
-                    }
-                </ul>
-            </nav>
 
             {
                 user.isAuth && (

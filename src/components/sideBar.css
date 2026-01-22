@@ -8,6 +8,9 @@
   z-index: 10;
   border-radius: 20px;
   transition: width 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .out.sidebar-open {
@@ -15,7 +18,7 @@
 }
 
 .out.sidebar-closed {
-  width: 94px;
+  width: 100px;
 }
 
 .out.sidebar-closed .nav-item-text,
@@ -31,7 +34,8 @@
   justify-content: space-between;
 }
 
-.out.sidebar-closed .sidebar-header {
+.out.sidebar-closed .sidebar-header,
+.out.sidebar-closed .nav-button {
   justify-content: center;
 }
 
@@ -73,6 +77,7 @@ nav ul {
   border-radius: 10px;
   display: flex;
   align-items: center;
+  justify-content: start;
   padding: 15px;
   gap: 10px;
 }
@@ -88,9 +93,8 @@ nav ul {
 }
 
 .account {
-  position: absolute;
-  bottom: 20px;
-  width: 100% - 40%;
+  position: relative;
+  width: 100%;
   background: #FFFFFF;
   border-radius: 10px;
   display: flex;
@@ -115,11 +119,19 @@ nav ul {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.account-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .account-name,
 .account-email {
-  width: clamp(100px, 12vw, 150px);
+  width: 100%;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -137,7 +149,6 @@ nav ul {
   border: none;
   cursor: pointer;
   background: none;
-  position: relative;
 }
 
 @media (max-width: 768px) {
