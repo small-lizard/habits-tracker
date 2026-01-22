@@ -1,23 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as habitsActions from '../store/habitsSlice';
-import * as habitsService from '../services/habitsService';
 import { DayOptions, HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
 import { RootState } from './store';
+import { habitsServicesAdapter } from './habitsServices/habitsServicesAdapter';
 
 export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
     "habitsSlice/setHabits",
     async (isAuth: boolean, { dispatch }) => {
+        const service = habitsServicesAdapter(isAuth);
+        const habits = await service.getAll();
 
-        if (!isAuth) {
-            const saved = localStorage.getItem('habits');
-            const habits = saved ? JSON.parse(saved) : [];
-
-            dispatch(habitsActions.setHabits({ habits }));
-        } else {
-            const response = await habitsService.getAllHabits();
-
-            dispatch(habitsActions.setHabits({ habits: response }));
-        }
+        dispatch(habitsActions.setHabits({ habits }));
     }
 )
 
@@ -26,14 +19,9 @@ export const addHabitThunk = createAsyncThunk<void, HabitOptions, { state: RootS
     async (options: HabitOptions, { dispatch, getState }) => {
         dispatch(habitsActions.addHabit({ options }));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.at(-1);
+        const service = habitsServicesAdapter(state.auth.isAuth);
 
-        if (isAuth && newHabit) {
-            await habitsService.addHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
+        await service.add(state.habits.habits)
     }
 )
 
@@ -42,47 +30,30 @@ export const updateHabitThunk = createAsyncThunk<void, HabitForUpdate, { state: 
     async (options: HabitForUpdate, { dispatch, getState }) => {
         dispatch(habitsActions.updateHabit({ options }));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.id)
+        const service = habitsServicesAdapter(state.auth.isAuth)
 
-        if (isAuth && newHabit) {
-            await habitsService.updateHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
+        await service.update(state.habits.habits, options.id)
     }
 )
-
 
 export const updateStatusHabitThunk = createAsyncThunk<void, { options: DayOptions; firstDay: number }, { state: RootState }>(
     "habitsSlice/updateStatus",
     async (options, { dispatch, getState }) => {
         dispatch(habitsActions.updateStatus(options));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.options.id)
+        const service = habitsServicesAdapter(state.auth.isAuth)
 
-        if (isAuth && newHabit) {
-            await habitsService.updateHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
+        await service.update(state.habits.habits, options.options.id)
     }
 );
 
-
 export const deleteHabitThunk = createAsyncThunk<void, string, { state: RootState }>(
-    "habitsSlice/addHabit",
+    "habitsSlice/deleteHabit",
     async (id: string, { dispatch, getState }) => {
         dispatch(habitsActions.deleteHabit({ id }))
         const state = getState();
-        const isAuth = state.auth.isAuth;
+        const service = habitsServicesAdapter(state.auth.isAuth)
 
-        if (isAuth) {
-            await habitsService.deleteHabit(id)
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
-
+        await service.delete(state.habits.habits, id)
     }
 )
