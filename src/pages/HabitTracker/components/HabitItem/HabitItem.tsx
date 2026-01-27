@@ -61,7 +61,6 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
                                     firstDay={firstDay}
                                     color={color}
                                 ></CheckBox>
-
                             })
                         }
                     </div>
