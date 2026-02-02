@@ -7,28 +7,24 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export function WeekSwitchButtons() {
-    let location = useLocation()
+    let location = useLocation();
+    const week = useSelector((state: RootState) => state.habits.week)
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
     }, [location.pathname])
 
-    const week = useSelector((state: RootState) => state.habits.week)
-    const dispatch = useDispatch<AppDispatch>();
-
     function prevWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: week - 1 }));
-        dispatch(habitsActions.addNewWeek())
     }
 
     function nextWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: week + 1 }));
-        dispatch(habitsActions.addNewWeek())
     }
 
     function handleCurrentWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
-        dispatch(habitsActions.addNewWeek())
     }
 
     return <div className='week-switcher'>

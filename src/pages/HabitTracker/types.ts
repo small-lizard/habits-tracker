@@ -15,8 +15,8 @@ export type HabitOptions = {
   name: string;
   template: boolean[];
   selectedColor: string,
-  weeks: {
-    [weekNumber: string]: HabitStatus[];
+  days: {
+    [day: string]: number;
   };
 };
 
@@ -31,18 +31,19 @@ export type HabitForUpdate= {
   name: string;
   template: boolean[];
   selectedColor: string;
+  weekDays: Date[];
 };
 
 export type HabitsTrackerLayoutProps = {
   habits: HabitOptions[];
   togglePopUp: (habit?: HabitForUpdate) => void;
   deleteHabit: (id: string) => void;
-  updateStatus: (options: DayOptions, firstDay: number) => void;
+  updateStatus: (id: any, dateKey: string) => void;
   closePopUp: () => void;
   addHabit: (options: HabitOptions) => void;
   updateHabit: (options: HabitForUpdate) => void;
   habitToEdit: HabitForUpdate | undefined;
-  currentFirstDay: number;
+  weekDates: any;
   isOpen: boolean;
   isMobile: boolean;
 };

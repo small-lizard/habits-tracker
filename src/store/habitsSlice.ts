@@ -1,19 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HabitOptions, DayOptions, HabitForUpdate } from '../pages/HabitTracker/types';
-import { getStartOfWeek } from '../utils/data-calculating';
+import { HabitOptions, HabitForUpdate } from '../pages/HabitTracker/types';
 import * as habitUtils from './habitUtils';
 
 type HabitsState = {
     habits: HabitOptions[],
-    currentFirstDay: number,
     week: number,
 };
 
-const currentFirstDay = getStartOfWeek(new Date());
-
 const initialState: HabitsState = {
     habits: [],
-    currentFirstDay: currentFirstDay,
     week: 0,
 };
 
@@ -22,14 +17,10 @@ const habitsSlice = createSlice({
     initialState,
     reducers: {
         setHabits: (state, action: PayloadAction<{ habits: HabitOptions[] }>) => {
-            const { habits } = action.payload;
-
-            state.habits = habitUtils.addCurrentWeek(habits, state.currentFirstDay);
+            state.habits = action.payload.habits;
         },
         addHabit: (state, action: PayloadAction<{ options: HabitOptions }>) => {
-            const { options } = action.payload;
-
-            state.habits = habitUtils.addHabit(state.habits, options, state.currentFirstDay);
+            state.habits.push(action.payload.options)
         },
         updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate }>) => {
             const { options } = action.payload;
@@ -41,12 +32,11 @@ const habitsSlice = createSlice({
             habit.name = options.name;
             habit.template = options.template;
             habit.selectedColor = options.selectedColor;
-
-            habitUtils.updateHabitWeeks(options.template, habit)
+            habit.days = habitUtils.updateHabitDays(options.template, habit, options.weekDays)
         },
-        updateStatus: (state, action: PayloadAction<{ options: DayOptions, firstDay: number }>) => {
-            const { options, firstDay } = action.payload;
-            state.habits = habitUtils.updateStatus(state.habits, options, firstDay);
+        updateStatus: (state, action: PayloadAction<{ id: any, dateKey: string }>) => {
+            const { id, dateKey } = action.payload;
+            state.habits = habitUtils.updateStatus(state.habits, id, dateKey);
         },
         deleteHabit: (state, action: PayloadAction<{ id: string }>) => {
             const { id } = action.payload;
@@ -55,13 +45,9 @@ const habitsSlice = createSlice({
         setWeek: (state, action: PayloadAction<{ weekNumber: number }>) => {
             const { weekNumber } = action.payload;
             state.week = weekNumber;
-            state.currentFirstDay = habitUtils.updateCurrentFirstDay(weekNumber);
-        },
-        addNewWeek: (state) => {
-            state.habits = habitUtils.addCurrentWeek(state.habits, state.currentFirstDay);
         }
     },
 });
 
-export const { addHabit, updateHabit, updateStatus, deleteHabit, setWeek, setHabits, addNewWeek } = habitsSlice.actions;
+export const { addHabit, updateHabit, updateStatus, deleteHabit, setWeek, setHabits } = habitsSlice.actions;
 export default habitsSlice.reducer;

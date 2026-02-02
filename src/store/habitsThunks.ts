@@ -1,14 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as habitsActions from './habitsSlice';
-import { DayOptions, HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
+import { HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
 import { RootState } from './store';
 import { habitsServicesAdapter } from '../services/habitsServices/habitsServicesAdapter';
+import { addCurrentWeek } from './habitUtils';
+import { useSelector } from 'react-redux';
+import { getWeekDates } from '../utils/dateUtils';
+import { selectUiFirstDay } from './selectors';
+
+type UpdateStatus = {
+    id: any,
+    dateKey: string
+}
 
 export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
     "habitsSlice/setHabits",
     async (isAuth: boolean, { dispatch }) => {
+        const uiFirstDay = useSelector(selectUiFirstDay);
+        const weekDates = getWeekDates(uiFirstDay);
         const service = habitsServicesAdapter(isAuth);
         const habits = await service.getAll();
+        
+        habits.map(habit => addCurrentWeek(habit.template, weekDates));;
 
         dispatch(habitsActions.setHabits({ habits }));
     }
@@ -38,15 +51,15 @@ export const updateHabitThunk = createAsyncThunk<void, HabitForUpdate, { state: 
     }
 )
 
-export const updateStatusHabitThunk = createAsyncThunk<void, { options: DayOptions; firstDay: number }, { state: RootState }>(
+export const updateStatusHabitThunk = createAsyncThunk<void, UpdateStatus, { state: RootState }>(
     "habitsSlice/updateStatus",
-    async (options, { dispatch, getState }) => {
+    async (options: UpdateStatus, { dispatch, getState }) => {
         dispatch(habitsActions.updateStatus(options));
         const state = getState();
         const service = habitsServicesAdapter(state.auth.isAuth)
         service.sync(state.habits.habits)
 
-        await service.update(options.options.id)
+        await service.update(options.id)
     }
 );
 

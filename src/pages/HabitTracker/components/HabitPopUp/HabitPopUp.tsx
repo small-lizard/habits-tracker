@@ -3,6 +3,7 @@ import '../../../../components/popupDetails.css';
 import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../types';
+import { addCurrentWeek } from '../../../../store/habitUtils';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
@@ -10,9 +11,10 @@ type HabitPopUpProps = {
     habit?: HabitForUpdate,
     updateHabit: (options: HabitForUpdate) => void,
     onClose: () => void,
+    weekDates:any,
 }
 
-export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose }: HabitPopUpProps) {
+export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDates }: HabitPopUpProps) {
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
@@ -65,6 +67,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
                 name,
                 template: days,
                 selectedColor,
+                weekDays: weekDates,
             };
             updateHabit(updatedHabit);
         } else if (addHabit) {
@@ -72,7 +75,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, onClose 
                 id: new ObjectId().toString(),
                 name,
                 template: days,
-                weeks: {},
+                days: addCurrentWeek(days, weekDates),
                 selectedColor,
             };
             addHabit(newHabit);

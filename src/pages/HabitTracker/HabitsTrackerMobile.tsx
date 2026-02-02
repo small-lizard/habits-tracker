@@ -7,7 +7,7 @@ import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButt
 import { HabitsTrackerLayoutProps } from './types';
 import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
 
-export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, currentFirstDay, isOpen, isMobile }: HabitsTrackerLayoutProps) {
+export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
 
     return (
         <>
@@ -23,17 +23,14 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
             <div className="mobile-habits-list">
                 {habits.map((habit, index) => (
                     <HabitsItem
-                        key={index}
-                        days={habit.weeks[currentFirstDay]}
-                        color={habit.selectedColor}
-                        name={habit.name}
+                        habit={habit}
+                        key={habit.id}
                         deleteHabit={deleteHabit}
-                        id={habit.id}
                         updateStatus={updateStatus}
-                        firstDay={currentFirstDay}
                         togglePopUp={togglePopUp}
                         isMobile={isMobile}
-                    />
+                        weekDates={weekDates}
+                    ></HabitsItem>
                 ))}
             </div>
 
@@ -41,7 +38,14 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
 
             {isOpen && (
                 <BottomSheetWrapperMobile onClose={closePopUp}>
-                    <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                    <HabitPopUp
+                        onClose={closePopUp}
+                        togglePopUp={() => togglePopUp()}
+                        addHabit={addHabit}
+                        updateHabit={updateHabit}
+                        habit={habitToEdit}
+                        weekDates={weekDates}
+                    ></HabitPopUp>
                 </BottomSheetWrapperMobile>
             )}
         </>

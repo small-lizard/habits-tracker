@@ -1,56 +1,60 @@
-import { DayOptions, HabitOptions, HabitStatus } from "../pages/HabitTracker/types";
-import { getStartOfWeek } from "../utils/data-calculating";
+import { HabitOptions } from "../pages/HabitTracker/types";
+import { formatDate } from "../utils/dateUtils";
 
-export function addCurrentWeek(habits: HabitOptions[], currentFirstDay: number): HabitOptions[] {
-    return habits.map(habit => generateWeek(habit, currentFirstDay));
-}
+export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<string, number> {
+    const days: Record<string, number> = {};
 
-export function addHabit(habits: HabitOptions[], habit: HabitOptions, currentFirstDay: number): HabitOptions[] {
-    const mappedWeek = habit.template.map(day => day ? HabitStatus.Pending : HabitStatus.Disabled);
-    return [...habits, { ...habit, weeks: { [currentFirstDay]: mappedWeek } }];
-}
+    weekDates.forEach(date => {
+        const dateKey = formatDate(date);
+        const dayOfWeek = date.getDay();
 
-export function updateHabitWeeks(newTemplate: boolean[], habit: HabitOptions): void {
-    Object.entries(habit.weeks).forEach(([key, days]) => {
-        const weekNumber = Number(key);
-
-        const updatedDays = newTemplate.map((day, index) => {
-            if (day === false) return HabitStatus.Disabled;
-            return days[index] || HabitStatus.Pending;
-        });
-
-        habit.weeks[weekNumber] = updatedDays;
+        if (template[dayOfWeek]) {
+            days[dateKey] = 0;
+        }
     });
-}
 
-export function updateStatus(habits: HabitOptions[], options: DayOptions, firstDay: number): HabitOptions[] {
-    return habits.map(habit => {
-        if (habit.id !== options.id) return habit;
+    return days;
+};
 
-        const currentWeek = habit.weeks[firstDay] || [];
-        const updatedWeek = [...currentWeek];
-        updatedWeek[options.index] = options.status;
+export function updateHabitDays(newTemplate: boolean[], habit: HabitOptions, weekDates: Date[]) {
+    const newDays = { ...habit.days };
 
-        return { ...habit, weeks: { ...habit.weeks, [firstDay]: updatedWeek } };
-    });
-}
+    weekDates.forEach(date => {
+        const dateKey = formatDate(date);
+        const dayOfWeek = date.getDay();
+
+        if (!newTemplate[dayOfWeek]) {
+            delete newDays[dateKey];
+        } else if (newTemplate[dayOfWeek] && newDays[dateKey] === undefined) {
+            newDays[dateKey] = 0;
+        }
+
+    })
+
+    return newDays;
+};
+
+export function updateStatus(habits: HabitOptions[], id: any, dateKey: string): any {
+    const habit = habits.find(habit => habit.id === id);
+
+    if (!habit) {
+        return null;
+    }
+
+    const newDays = { ...habit.days };
+
+    newDays[dateKey] = newDays[dateKey] === 1 ? 0 : 1;
+
+    const updatedHabit = {
+        ...habit,
+        days: newDays
+    };
+
+    habits[habits.indexOf(habit)] = updatedHabit;
+
+    return habits;
+};
 
 export function deleteHabit(habits: HabitOptions[], id: string): HabitOptions[] {
     return habits.filter(habit => habit.id !== id);
-}
-
-export function updateCurrentFirstDay(weekNumber: number): number {
-    const date = new Date();
-    date.setDate(date.getDate() - date.getDay() + weekNumber * 7);
-    return getStartOfWeek(date);
-}
-
-
-
-function generateWeek(habit: HabitOptions, currentFirstDay: number): HabitOptions {
-    if (!habit.weeks[currentFirstDay]) {
-        const sampleWeek = habit.template.map(day => day ? HabitStatus.Pending : HabitStatus.Disabled);
-        return { ...habit, weeks: { ...habit.weeks, [currentFirstDay]: sampleWeek } };
-    }
-    return habit;
-}
+};

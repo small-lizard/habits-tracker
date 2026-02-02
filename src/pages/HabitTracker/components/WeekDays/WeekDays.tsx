@@ -1,24 +1,21 @@
 import { useSelector } from 'react-redux';
 import './weekDays.css';
-import { RootState } from '../../../../store/store';
+import { selectUiFirstDay } from '../../../../store/selectors';
 
 export function WeekDays() {
+    const uiFirstDay = useSelector(selectUiFirstDay);
     const today = new Date();
-    const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
-    const startOfWeek = new Date(currentFirstDay);
-
     const days = []
 
     for (let i = 0; i < 7; i++) {
-        const dayDate = new Date(startOfWeek);
-        dayDate.setDate(startOfWeek.getDate() + i);
+        const dayDate = new Date(uiFirstDay);
+        dayDate.setDate(uiFirstDay.getDate() + i);
         const nameOfDay = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(dayDate);
         const numberOfDay = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(dayDate);
         const numberOfMonth = new Intl.DateTimeFormat("en-US", { month: "numeric" }).format(dayDate);
 
         days.push({ name: nameOfDay, number: numberOfDay, month: numberOfMonth })
     }
-
 
     return <>
         {days.map((day, index) => {
