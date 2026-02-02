@@ -21,6 +21,11 @@ a {
   -webkit-touch-callout: none;
 }
 
+input.radio {
+  height: inherit;
+  width: inherit;
+}
+
 ul,
 ol {
   list-style: none;

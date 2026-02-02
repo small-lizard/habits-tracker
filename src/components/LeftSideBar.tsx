@@ -44,6 +44,12 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                                 <span className='nav-item-text'>Calendar</span>
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink to='/settings' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
+                                <CalendarIcon />
+                                <span className='nav-item-text'>Settings</span>
+                            </NavLink>
+                        </li>
                         {
                             !user.isAuth && (
                                 <li>
