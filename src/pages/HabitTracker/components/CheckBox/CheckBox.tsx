@@ -1,8 +1,8 @@
-import { HabitStatus } from "../../types";
+import { uiHabitStatus } from "../../types";
 import './CheckBox.css';
 
 type CheckBoxProps = {
-    status: HabitStatus,
+    status: uiHabitStatus,
     updateStatus: (id:any, dateKey:string) => void,
     id: string,
     color: string,
@@ -16,8 +16,8 @@ export function CheckBox({ status, updateStatus, id, color, dateKey,index }: Che
         <label className='habit-check-label' style={{ '--habit-color': color } as React.CSSProperties}>
             <input
                 type='checkbox'
-                disabled={status === HabitStatus.Disabled}
-                checked={status === HabitStatus.Done}
+                disabled={status === uiHabitStatus.Disabled}
+                checked={status === uiHabitStatus.Done}
                 onChange={() => updateStatus(id, dateKey)}
             />
             <span className='checkbox'></span>

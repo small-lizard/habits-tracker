@@ -33,6 +33,7 @@
 .habit-check-label input:disabled+.checkbox {
   border-color: #DDDDDD;
   background-color: #DDDDDD;
+  cursor: default;
 }
 
 @media (max-width: 768px) {

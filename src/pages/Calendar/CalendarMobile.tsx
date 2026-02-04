@@ -4,23 +4,23 @@ import { CalendarTile } from "./CalendarTile";
 import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
 
 type CalendarMobileProps = {
-    displayDate: any,
-    month: any,
+    firstDayOfMonth: any,
+    monthOffset: any,
     handleCurrentMonth: any,
     prevMonth: any,
     nextMonth: any,
-    week: any,
+    weekTitles: any,
     calendarDays: any,
     habit: any
 }
 
-export function CalendarMobile({ displayDate, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarMobileProps) {
+export function CalendarMobile({ firstDayOfMonth, monthOffset, handleCurrentMonth, prevMonth, nextMonth, weekTitles, calendarDays, habit }: CalendarMobileProps) {
 
     return <>
         <header className="calendar-head">
-            <h2 className="calendar-title">{displayDate.toLocaleString('en-US', { month: 'long' })}</h2>
+            <h2 className="calendar-title">{firstDayOfMonth.toLocaleString('en-US', { month: 'long' })}</h2>
             <div className='week-switcher'>
-                {month !== 0
+                {monthOffset !== 0
                     ? (
                         <button onClick={handleCurrentMonth} className='current-month-button'>today</button>
                     )
@@ -34,7 +34,7 @@ export function CalendarMobile({ displayDate, month, handleCurrentMonth, prevMon
         <CalendarDropdown></CalendarDropdown>
         <div className="container">
             {
-                week.map((day: string) => <p className="week-day" key={day}>{day}</p>)
+                weekTitles.map((day: string) => <p className="week-day" key={day}>{day}</p>)
             }
             {
                 calendarDays.map((data: {
