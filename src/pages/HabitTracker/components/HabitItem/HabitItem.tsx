@@ -1,7 +1,9 @@
+import { useSelector } from 'react-redux';
 import { EditIcon, DeleteIcon } from '../../../../components/Icons';
-// import { countWeekStreak } from '../../../../store/selectors';
+import { RootState } from '../../../../store/store';
+import { countWeekStreak } from '../../../../utils/countStreak';
 import { formatDate } from '../../../../utils/dateUtils';
-import { HabitForUpdate, HabitOptions, HabitStatus } from '../../types';
+import { HabitForUpdate, HabitOptions, HabitStatus, uiHabitStatus } from '../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
 
@@ -15,6 +17,7 @@ type HabitListProps = {
 }
 
 export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMobile, weekDates }: HabitListProps) {
+    const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.uiWeekStart)
     function handleEditClick() {
         if (!habit) {
             return null;
@@ -34,13 +37,13 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
         const isActive = habit.template[dayOfWeek];
 
         if (habit.days[dateKey] === undefined) {
-            return isActive ? HabitStatus.Pending : HabitStatus.Disabled;
+            return isActive ? uiHabitStatus.Pending : uiHabitStatus.Disabled;
         }
 
-        return habit.days[dateKey] === 1 ? HabitStatus.Done : HabitStatus.Pending;
+        return habit.days[dateKey] === HabitStatus.Done ? uiHabitStatus.Done : uiHabitStatus.Pending;
     });
 
-    // const weekStreak = countWeekStreak(habit);
+    const weekStreak = countWeekStreak(habit, firstDayOfWeekSetting);
 
     return <div className='habit-line'>
         <div className='habit-details'>
@@ -55,7 +58,7 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
                 <div className='second-habit-line'>
                     <div className='checkbox-line'>
                         {
-                            weekStatus.map((status:any, index:any) => {
+                            weekStatus.map((status: any, index: any) => {
                                 return <CheckBox
                                     status={status}
                                     key={index}
@@ -68,12 +71,12 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
                             })
                         }
                     </div>
-                    {/* <div className='progress-number'>{weekStreak}</div> */}
+                    <div className='progress-number'>{weekStreak}</div>
                 </div>
             ) : (
                 <>
                     {
-                        weekStatus.map((status:any, index:any) => {
+                        weekStatus.map((status: any, index: any) => {
                             return <CheckBox
                                 status={status}
                                 key={index}
@@ -85,7 +88,7 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
                             ></CheckBox>
                         })
                     }
-                    {/* <div className='progress-number'>{weekStreak}</div> */}
+                    <div className='progress-number'>{weekStreak}</div>
                 </>
             )
         }

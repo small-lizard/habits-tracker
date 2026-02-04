@@ -1,4 +1,9 @@
 export enum HabitStatus {
+  Pending,
+  Done,
+}
+
+export enum uiHabitStatus {
   Disabled,
   Pending,
   Done,
