@@ -3,7 +3,7 @@ import * as habitsActions from './habitsSlice';
 import { HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
 import { RootState } from './store';
 import { habitsServicesAdapter } from '../services/habitsServices/habitsServicesAdapter';
-import { addCurrentWeek } from './habitUtils';
+import { addCurrentWeek, addNewDates } from './habitUtils';
 import { useSelector } from 'react-redux';
 import { getWeekDates } from '../utils/dateUtils';
 import { selectUiFirstDay } from './selectors';
@@ -20,10 +20,16 @@ export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
         const weekDates = getWeekDates(uiFirstDay);
         const service = habitsServicesAdapter(isAuth);
         const habits = await service.getAll();
-        
-        habits.map(habit => addCurrentWeek(habit.template, weekDates));;
 
-        dispatch(habitsActions.setHabits({ habits }));
+        const updatedHabits = habits.map((habit: any) => ({
+            ...habit,
+            days: {
+                ...habit.days,
+                ...addCurrentWeek(habit.template, weekDates)
+            }
+        }));
+
+        dispatch(habitsActions.setHabits({ habits: updatedHabits }));
     }
 )
 
@@ -63,6 +69,30 @@ export const updateStatusHabitThunk = createAsyncThunk<void, UpdateStatus, { sta
     }
 );
 
+export const addNewDaysToHabitsThunk = createAsyncThunk<void, Date[], { state: RootState }>(
+    "habitsSlice/addNewDaysToHabits",
+    async (weekDates, { dispatch, getState }) => {
+        const state = getState();
+        const habits = state.habits.habits;
+        const service = habitsServicesAdapter(state.auth.isAuth);
+
+        const updatedHabits = habits.map((habit: any) => ({
+            ...habit,
+            days: {
+                ...habit.days,
+                ...addNewDates(habit, weekDates)
+            }
+        }));
+
+        dispatch(habitsActions.setHabits({ habits: updatedHabits }));
+        service.sync(updatedHabits)
+
+        for (const habit of updatedHabits) {
+            await service.update(habit.id);
+        }
+    }
+);
+
 export const deleteHabitThunk = createAsyncThunk<void, string, { state: RootState }>(
     "habitsSlice/deleteHabit",
     async (id: string, { dispatch, getState }) => {
@@ -73,4 +103,4 @@ export const deleteHabitThunk = createAsyncThunk<void, string, { state: RootStat
 
         await service.delete(id)
     }
-)
+);

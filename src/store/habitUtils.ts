@@ -16,6 +16,21 @@ export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<s
     return days;
 };
 
+export function addNewDates(habit: HabitOptions, weekDates: Date[]) {
+    const newDays = { ...habit.days };
+
+    weekDates.forEach(date => {
+        const dateKey = formatDate(date);
+        const dayOfWeek = date.getDay();
+
+        if (habit.template[dayOfWeek] && newDays[dateKey] === undefined) {
+            newDays[dateKey] = 0;
+        }
+    });
+
+    return newDays;
+}
+
 export function updateHabitDays(newTemplate: boolean[], habit: HabitOptions, weekDates: Date[]) {
     const newDays = { ...habit.days };
 

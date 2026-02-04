@@ -4,12 +4,12 @@ import * as habitUtils from './habitUtils';
 
 type HabitsState = {
     habits: HabitOptions[],
-    week: number,
+    weekOffset: number,
 };
 
 const initialState: HabitsState = {
     habits: [],
-    week: 0,
+    weekOffset: 0,
 };
 
 const habitsSlice = createSlice({
@@ -44,7 +44,7 @@ const habitsSlice = createSlice({
         },
         setWeek: (state, action: PayloadAction<{ weekNumber: number }>) => {
             const { weekNumber } = action.payload;
-            state.week = weekNumber;
+            state.weekOffset = weekNumber;
         }
     },
 });

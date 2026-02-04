@@ -5,22 +5,31 @@ import { ArrowCircle } from '../../../../components/Icons';
 import { RootState, AppDispatch } from '../../../../store/store';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { selectUiFirstDay } from '../../../../store/selectors';
+import { getWeekDates } from '../../../../utils/dateUtils';
+import { addNewDaysToHabitsThunk } from '../../../../store/habitsThunks';
 
 export function WeekSwitchButtons() {
     let location = useLocation();
-    const week = useSelector((state: RootState) => state.habits.week)
+    const weekOffset = useSelector((state: RootState) => state.habits.weekOffset);
+    const uiFirstDay = useSelector(selectUiFirstDay);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
     }, [location.pathname])
 
+    useEffect(() => {
+        const weekDates = getWeekDates(uiFirstDay);
+        dispatch(addNewDaysToHabitsThunk(weekDates))
+    }, [uiFirstDay]);
+
     function prevWeek() {
-        dispatch(habitsActions.setWeek({ weekNumber: week - 1 }));
+        dispatch(habitsActions.setWeek({ weekNumber: weekOffset - 1 }));
     }
 
     function nextWeek() {
-        dispatch(habitsActions.setWeek({ weekNumber: week + 1 }));
+        dispatch(habitsActions.setWeek({ weekNumber: weekOffset + 1 }));
     }
 
     function handleCurrentWeek() {
@@ -28,7 +37,7 @@ export function WeekSwitchButtons() {
     }
 
     return <div className='week-switcher'>
-        {week !== 0
+        {weekOffset !== 0
             ? (
                 <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
             )
@@ -39,4 +48,3 @@ export function WeekSwitchButtons() {
         </div>
     </div>
 }
-
