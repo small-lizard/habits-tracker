@@ -4,9 +4,10 @@ export function getStartOfWeek(date: Date, firstDayOfWeekSetting: WeekStartOptio
     const start = new Date(date);
 
     if (firstDayOfWeekSetting === WeekStartOptions.Sunday) {
-        start.setDate(date.getDate() - date.getDay() + weekOffset * 7);
+        start.setDate(date.getDate() - start.getDay() + weekOffset * 7);
     } else {
-        start.setDate(date.getDate() - date.getDay() + 1 + weekOffset * 7);
+        const mondayOffset = start.getDay() === 0 ? 7 : start.getDay();
+        start.setDate(date.getDate() + 1 - mondayOffset + weekOffset * 7);
     }
     start.setHours(0, 0, 0, 0);
 
@@ -28,8 +29,8 @@ export function getWeekDates(firstDay: Date) {
 
 export function formatDate(date: Date) {
     const day = new Date(date).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    
-    return day.replace(/-/g, '');
+
+    return day;
 }
 
 export function getWeekDaysTitle(weekStart: WeekStartOptions, locale = "en-US") {
