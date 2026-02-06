@@ -4,7 +4,6 @@ import { HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
 import { RootState } from './store';
 import { habitsServicesAdapter } from '../services/habitsServices/habitsServicesAdapter';
 import { addCurrentWeek, addNewDates } from './habitUtils';
-import { useSelector } from 'react-redux';
 import { getWeekDates } from '../utils/dateUtils';
 import { selectUiFirstDay } from './selectors';
 
@@ -15,11 +14,13 @@ type UpdateStatus = {
 
 export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
     "habitsSlice/setHabits",
-    async (isAuth: boolean, { dispatch }) => {
-        const uiFirstDay = useSelector(selectUiFirstDay);
+    async (isAuth: boolean, { dispatch, getState }) => {
+        const state = getState();
+        const uiFirstDay = selectUiFirstDay(state);
         const weekDates = getWeekDates(uiFirstDay);
         const service = habitsServicesAdapter(isAuth);
         const habits = await service.getAll();
+
 
         const updatedHabits = habits.map((habit: any) => ({
             ...habit,
@@ -48,8 +49,9 @@ export const addHabitThunk = createAsyncThunk<void, HabitOptions, { state: RootS
 export const updateHabitThunk = createAsyncThunk<void, HabitForUpdate, { state: RootState }>(
     "habitsSlice/updateHabit",
     async (options: HabitForUpdate, { dispatch, getState }) => {
-        dispatch(habitsActions.updateHabit({ options }));
         const state = getState();
+        const weekStart = state.settings.uiWeekStart;
+        dispatch(habitsActions.updateHabit({ options, weekStart }));
         const service = habitsServicesAdapter(state.auth.isAuth)
         service.sync(state.habits.habits)
 
@@ -69,18 +71,21 @@ export const updateStatusHabitThunk = createAsyncThunk<void, UpdateStatus, { sta
     }
 );
 
-export const addNewDaysToHabitsThunk = createAsyncThunk<void, Date[], { state: RootState }>(
+export const addNewDaysToHabitsThunk = createAsyncThunk<void, void, { state: RootState }>(
     "habitsSlice/addNewDaysToHabits",
-    async (weekDates, { dispatch, getState }) => {
+    async (_, { dispatch, getState }) => {
         const state = getState();
         const habits = state.habits.habits;
+        const weekOffset = state.habits.weekOffset;
         const service = habitsServicesAdapter(state.auth.isAuth);
+        const uiFirstDay = selectUiFirstDay(state);
+        const weekDates = getWeekDates(uiFirstDay);
 
         const updatedHabits = habits.map((habit: any) => ({
             ...habit,
             days: {
                 ...habit.days,
-                ...addNewDates(habit, weekDates)
+                ...addNewDates(habit, weekDates, weekOffset)
             }
         }));
 

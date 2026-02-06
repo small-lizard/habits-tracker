@@ -26,18 +26,15 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
             id: habit.id,
             name: habit.name,
             template: habit.template,
-            selectedColor: habit.selectedColor,
-            weekDays: weekDates,
+            selectedColor: habit.selectedColor
         });
     }
 
     const weekStatus = weekDates.map((date: any) => {
         const dateKey = formatDate(date);
-        const dayOfWeek = date.getDay();
-        const isActive = habit.template[dayOfWeek];
-
+        
         if (habit.days[dateKey] === undefined) {
-            return isActive ? uiHabitStatus.Pending : uiHabitStatus.Disabled;
+            return uiHabitStatus.Disabled;
         }
 
         return habit.days[dateKey] === HabitStatus.Done ? uiHabitStatus.Done : uiHabitStatus.Pending;

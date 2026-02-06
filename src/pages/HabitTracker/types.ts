@@ -35,8 +35,7 @@ export type HabitForUpdate= {
   id: string;
   name: string;
   template: boolean[];
-  selectedColor: string;
-  weekDays: Date[];
+  selectedColor: string
 };
 
 export type HabitsTrackerLayoutProps = {

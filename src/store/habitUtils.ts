@@ -1,5 +1,6 @@
-import { HabitOptions } from "../pages/HabitTracker/types";
-import { formatDate } from "../utils/dateUtils";
+import { WeekStartOptions } from "../components/enumWeekStartOpthions";
+import { HabitOptions, HabitStatus } from "../pages/HabitTracker/types";
+import { formatDate, getStartOfWeek, getWeekDates } from "../utils/dateUtils";
 
 export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<string, number> {
     const days: Record<string, number> = {};
@@ -16,35 +17,59 @@ export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<s
     return days;
 };
 
-export function addNewDates(habit: HabitOptions, weekDates: Date[]) {
+export function addNewDates(habit: HabitOptions, weekDates: Date[], weekOffset: number) {
     const newDays = { ...habit.days };
+
+    const weekWithOldTemplate = weekDates.some(date => {
+        const status = habit.days[formatDate(date)]
+        return status === HabitStatus.Pending || status === HabitStatus.Done;
+    });
 
     weekDates.forEach(date => {
         const dateKey = formatDate(date);
         const dayOfWeek = date.getDay();
 
-        if (habit.template[dayOfWeek] && newDays[dateKey] === undefined) {
+        if (weekOffset < 0) {
+            if (!weekWithOldTemplate && habit.template[dayOfWeek]) {
+                newDays[dateKey] = 0;
+            }
+
+            return;
+        }
+
+        if (!habit.template[dayOfWeek]) {
+            delete newDays[dateKey];
+        } else if (newDays[dateKey] === undefined) {
             newDays[dateKey] = 0;
         }
-    });
+    })
 
     return newDays;
 }
 
-export function updateHabitDays(newTemplate: boolean[], habit: HabitOptions, weekDates: Date[]) {
+export function updateHabitDays(newTemplate: boolean[], habit: HabitOptions, weekStart: WeekStartOptions) {
     const newDays = { ...habit.days };
+    const lastDayInHabitDays = Object.keys(habit.days).sort().slice(-1)[0];
+    const lastHabitWeekStart = getStartOfWeek(new Date(lastDayInHabitDays), weekStart, 0);
+    const currentWeekStart = getStartOfWeek(new Date, weekStart, 0);
 
-    weekDates.forEach(date => {
-        const dateKey = formatDate(date);
-        const dayOfWeek = date.getDay();
+    while (currentWeekStart <= lastHabitWeekStart) {
+        const week = getWeekDates(new Date(currentWeekStart));
 
-        if (!newTemplate[dayOfWeek]) {
-            delete newDays[dateKey];
-        } else if (newTemplate[dayOfWeek] && newDays[dateKey] === undefined) {
-            newDays[dateKey] = 0;
-        }
+        week.forEach(date => {
+            const dateKey = formatDate(date);
+            const dayOfWeek = date.getDay();
 
-    })
+            if (!newTemplate[dayOfWeek]) {
+                delete newDays[dateKey];
+            } else if (newTemplate[dayOfWeek] && newDays[dateKey] === undefined) {
+                newDays[dateKey] = 0;
+            }
+
+        })
+
+        currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    }
 
     return newDays;
 };

@@ -66,8 +66,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                 id: habit.id,
                 name,
                 template: days,
-                selectedColor,
-                weekDays: weekDates,
+                selectedColor
             };
             updateHabit(updatedHabit);
         } else if (addHabit) {

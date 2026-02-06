@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HabitOptions, HabitForUpdate } from '../pages/HabitTracker/types';
 import * as habitUtils from './habitUtils';
+import { WeekStartOptions } from '../components/enumWeekStartOpthions';
 
 type HabitsState = {
     habits: HabitOptions[],
@@ -22,8 +23,8 @@ const habitsSlice = createSlice({
         addHabit: (state, action: PayloadAction<{ options: HabitOptions }>) => {
             state.habits.push(action.payload.options)
         },
-        updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate }>) => {
-            const { options } = action.payload;
+        updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate, weekStart: WeekStartOptions }>) => {
+            const { options, weekStart } = action.payload;
             const habit = state.habits.find(habit => habit.id === options.id);
             if (!habit) {
                 return;
@@ -32,7 +33,7 @@ const habitsSlice = createSlice({
             habit.name = options.name;
             habit.template = options.template;
             habit.selectedColor = options.selectedColor;
-            habit.days = habitUtils.updateHabitDays(options.template, habit, options.weekDays)
+            habit.days = habitUtils.updateHabitDays(options.template, habit, weekStart)
         },
         updateStatus: (state, action: PayloadAction<{ id: any, dateKey: string }>) => {
             const { id, dateKey } = action.payload;
