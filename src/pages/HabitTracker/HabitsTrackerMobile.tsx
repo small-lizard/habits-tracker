@@ -4,7 +4,7 @@ import { WeekDays } from './components/WeekDays/WeekDays';
 import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
-import { HabitsTrackerLayoutProps } from './types';
+import { HabitsTrackerLayoutProps } from '../types';
 import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
 
 export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {

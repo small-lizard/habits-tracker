@@ -1,4 +1,4 @@
-import { HabitOptions } from '../pages/HabitTracker/types';
+import { HabitOptions } from '../pages/types';
 import { formatDate, getStartOfWeek, getWeekDates } from '../utils/dateUtils';
 import { WeekStartOptions } from '../components/enumWeekStartOpthions';
 

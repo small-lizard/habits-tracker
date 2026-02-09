@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../../../components/popupDetails.css';
 import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
-import { HabitOptions, HabitForUpdate } from '../../types';
+import { HabitOptions, HabitForUpdate } from '../../../types';
 import { addCurrentWeek } from '../../../../store/habitUtils';
 
 type HabitPopUpProps = {
@@ -19,7 +19,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
-    const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+    const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
     const [errors, setErrors] = useState({ name: '', days: '' });
 

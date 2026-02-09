@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as habitsActions from './habitsSlice';
-import { HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
+import { HabitForUpdate, HabitOptions } from '../pages/types';
 import { RootState } from './store';
 import { habitsServicesAdapter } from '../services/habitsServices/habitsServicesAdapter';
 import { addCurrentWeek, addNewDates } from './habitUtils';

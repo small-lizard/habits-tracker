@@ -30,13 +30,13 @@ export function WeekSwitchButtons() {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
     }
 
-    return <div className='week-switcher'>
+    return <div className='period-switcher'>
         {weekOffset !== 0
             ? (
                 <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
             )
             : null}
-        <div className='week-switcher-arrow'>
+        <div className='period-switcher-arrow'>
             <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
             <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
         </div>

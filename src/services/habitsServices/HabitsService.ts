@@ -1,4 +1,4 @@
-import { HabitOptions } from "../../pages/HabitTracker/types";
+import { HabitOptions } from "../../pages/types";
 
 export class HabitsService {
     protected habits: HabitOptions[] = [];

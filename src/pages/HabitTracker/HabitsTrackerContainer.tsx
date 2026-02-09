@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 import { useState } from 'react';
-import { HabitOptions, HabitForUpdate, HabitsTrackerLayoutProps } from './types';
+import { HabitOptions, HabitForUpdate, HabitsTrackerLayoutProps } from '../types';
 import './habitsTracker.css';
 import { addHabitThunk, deleteHabitThunk, updateHabitThunk, updateStatusHabitThunk } from '../../store/habitsThunks';
 import { HabitsTrackerDesktop } from './HabitsTrackerDesktop';

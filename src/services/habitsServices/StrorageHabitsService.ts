@@ -1,4 +1,4 @@
-import { HabitOptions } from "../../pages/HabitTracker/types";
+import { HabitOptions } from "../../pages/types";
 import { HabitsService } from "./HabitsService";
 
 export class StorageHabitsService extends HabitsService {

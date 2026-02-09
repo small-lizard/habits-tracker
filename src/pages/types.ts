@@ -31,7 +31,7 @@ export type DayOptions = {
   status: HabitStatus
 }
 
-export type HabitForUpdate= {
+export type HabitForUpdate = {
   id: string;
   name: string;
   template: boolean[];
@@ -51,3 +51,14 @@ export type HabitsTrackerLayoutProps = {
   isOpen: boolean;
   isMobile: boolean;
 };
+
+export type CalendarLayoutProps = {
+  firstDayOfMonth: Date;
+  monthOffset: number;
+  handleCurrentMonth: () => void;
+  prevMonth: () => void;
+  nextMonth: () => void;
+  weekTitles: string[];
+  calendarDays: any[];
+  habit: HabitOptions | null;
+}

@@ -1,4 +1,4 @@
-import { uiHabitStatus } from "../../types";
+import { uiHabitStatus } from "../../../types";
 import './CheckBox.css';
 
 type CheckBoxProps = {

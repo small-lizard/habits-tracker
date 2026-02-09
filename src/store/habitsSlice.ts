@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { HabitOptions, HabitForUpdate } from '../pages/HabitTracker/types';
+import { HabitOptions, HabitForUpdate } from '../pages/types';
 import * as habitUtils from './habitUtils';
 import { WeekStartOptions } from '../components/enumWeekStartOpthions';
 

@@ -3,7 +3,7 @@ import { EditIcon, DeleteIcon } from '../../../../components/Icons';
 import { RootState } from '../../../../store/store';
 import { countWeekStreak } from '../../../../utils/countStreak';
 import { formatDate } from '../../../../utils/dateUtils';
-import { HabitForUpdate, HabitOptions, HabitStatus, uiHabitStatus } from '../../types';
+import { HabitForUpdate, HabitOptions, HabitStatus, uiHabitStatus } from '../../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
 

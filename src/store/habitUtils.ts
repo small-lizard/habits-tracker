@@ -1,5 +1,5 @@
 import { WeekStartOptions } from "../components/enumWeekStartOpthions";
-import { HabitOptions, HabitStatus } from "../pages/HabitTracker/types";
+import { HabitOptions, HabitStatus } from "../pages/types";
 import { formatDate, getStartOfWeek, getWeekDates } from "../utils/dateUtils";
 
 export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<string, number> {

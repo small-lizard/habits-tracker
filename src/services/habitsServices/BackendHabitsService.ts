@@ -1,5 +1,5 @@
 import { HabitsService } from "./HabitsService";
-import { HabitOptions } from "../../pages/HabitTracker/types";
+import { HabitOptions } from "../../pages/types";
 import { http } from "../http";
 
 export class BackendHabitsService extends HabitsService {

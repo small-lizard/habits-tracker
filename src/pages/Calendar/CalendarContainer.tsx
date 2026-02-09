@@ -4,7 +4,7 @@ import { formatDate, getStartOfWeek, getWeekDates, getWeekDaysTitle } from "../.
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { HabitStatusCalendar, HabitStatus } from "../HabitTracker/types";
+import { HabitStatusCalendar, HabitStatus, CalendarLayoutProps } from "../types";
 import { CalendarDesktop } from "./CalendarDesktop";
 import { CalendarMobile } from "./CalendarMobile";
 
@@ -98,7 +98,7 @@ export function CalendarContainer({ isMobile }: CalendarProps) {
         }));
     }
 
-    const layoutProps = {
+    const layoutProps: CalendarLayoutProps = {
         firstDayOfMonth,
         monthOffset,
         handleCurrentMonth,
