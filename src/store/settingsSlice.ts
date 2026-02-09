@@ -5,8 +5,12 @@ type settingsState = {
     uiWeekStart: WeekStartOptions,
 };
 
+const savedSettings = localStorage.getItem('settings');
+
 const initialState: settingsState = {
-    uiWeekStart: WeekStartOptions.Sunday,
+    uiWeekStart: savedSettings === WeekStartOptions.Monday 
+    ? WeekStartOptions.Monday 
+    : WeekStartOptions.Sunday,
 };
 
 const settingsSlice = createSlice({
@@ -15,6 +19,7 @@ const settingsSlice = createSlice({
     reducers: {
         setWeekStart(state, actions) {
             state.uiWeekStart = actions.payload;
+            localStorage.setItem('settings', actions.payload)
         }
     }
 })
