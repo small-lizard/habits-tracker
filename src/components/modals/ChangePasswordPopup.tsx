@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import '../popupDetails.css';
+import { useTranslation } from "react-i18next";
 
 type ChangePasswordProps = {
     onClose: () => void;
@@ -11,10 +12,10 @@ type ChangePasswordProps = {
 };
 
 export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: ChangePasswordProps) {
-
+    const { t } = useTranslation();
     const resetSchema = z.object({
-        password: z.string().min(6, "Password must be at least 6 characters long"),
-        newPassword: z.string().min(6, "Password must be at least 6 characters long"),
+        password: z.string().min(6, t('alert.passwordMinLength')),
+        newPassword: z.string().min(6, t('alert.passwordMinLength')),
     });
     type FormData = z.infer<typeof resetSchema>;
 
@@ -43,7 +44,7 @@ export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: C
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3>Change password</h3>
+            <h3>{t('titles.changePassword')}</h3>
             <label className="inp">
                 <input
                     type="password"
@@ -62,8 +63,12 @@ export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: C
                 {errors.newPassword && <p style={{ color: "red" }}>{errors.newPassword.message}</p>}
             </label>
 
-            <button type="submit" className="submit">Change</button>
-            <button type="button" onClick={() => { reset(); onClose(); closeOpthions()}} className="cancel">Cancel</button>
+            <button type="submit" className="submit">{t('buttons.change')}</button>
+            <button
+                type="button"
+                onClick={() => { reset(); onClose(); closeOpthions() }}
+                className="cancel"
+            >{t('buttons.cancel')}</button>
         </form>
     );
 }

@@ -2,21 +2,23 @@ import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import * as accountService from  "../services/accountService";
+import * as accountService from "../services/accountService";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
 import { AxiosError } from "axios";
 import './popupDetails.css';
+import { useTranslation } from 'react-i18next';
 
 export function AuthPopup({ onClose }: { onClose: () => void }) {
+    const { t } = useTranslation();
     const [mode, setMode] = useState<"login" | "register">("login");
     const dispatch = useDispatch<AppDispatch>();
 
     const registerSchema = z.object({
-        name: z.string().min(1, "Name is required"),
-        email: z.string().email("Incorrect email"),
-        password: z.string().min(6, "Password must be at least 6 characters long")
+        name: z.string().min(1, t('alert.nameRequired')),
+        email: z.string().email(t('alert.incorrectEmail')),
+        password: z.string().min(6, t('alert.passwordMinLength'))
     });
 
     const loginSchema = registerSchema.omit({ name: true });
@@ -82,7 +84,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
         <form onSubmit={handleSubmit(onSubmit)}>
             {mode === "register" && (
                 <>
-                    <h3>Create account</h3>
+                    <h3>{t('titles.createAccount')}</h3>
                     <label className='inp'>
                         <input
                             type='text'
@@ -94,7 +96,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 </>
             )}
             {mode === "login" && (
-                <h3>Log in</h3>
+                <h3>{t('titles.logIn')}</h3>
             )}
             <label className='inp'>
                 <input
@@ -113,13 +115,13 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
             </label>
             <button type="submit" className='submit'>
-                {mode === "login" ? "Log in" : "Sign up"}
+                {mode === "login" ? t('titles.logIn') : t('buttons.signup')}
             </button>
-            <button type="button" onClick={onClose} className='cancel'>Cancel</button>
+            <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
             <p>
-                {mode === "login" ? "No account?" : "Already have an account?"}
+                {mode === "login" ? t('common.unauth') : t('common.haveAcc')}
                 <span onClick={toggleMode} style={{ cursor: "pointer", color: "blue", marginLeft: 4 }}>
-                    {mode === "login" ? "Register" : "Log in"}
+                    {mode === "login" ? t('titles.register') : t('titles.logIn') }
                 </span>
             </p>
         </form>

@@ -1,4 +1,5 @@
 import { WeekStartOptions } from "../components/enumWeekStartOpthions";
+import i18n from "../i18n";
 
 export function getStartOfWeek(date: Date, firstDayOfWeekSetting: WeekStartOptions, weekOffset: number) {
     const start = new Date(date);
@@ -33,15 +34,25 @@ export function formatDate(date: Date) {
     return day;
 }
 
-export function getWeekDaysTitle(weekStart: WeekStartOptions, locale = "en-US") {
+interface GetWeekDaysOptions {
+    weekStart?: WeekStartOptions;
+    weekdayType?: "long" | "short" | "narrow";
+}
+
+export function getWeekDaysTitle({ weekStart = WeekStartOptions.Sunday, weekdayType = "short" }: GetWeekDaysOptions = {}) {
+    const localeMap: Record<string, string> = {
+        en: 'en-US',
+        ru: 'ru-RU',
+    };
+    
+    const locale = localeMap[i18n.language] || 'en-US';
     const base = new Date();
     const difference = weekStart === WeekStartOptions.Monday ? 1 : 0;
     base.setDate(base.getDate() - base.getDay() + difference);
-
     const week = [];
 
     for (let i = 0; i < 7; i++) {
-        const formattedDate = new Intl.DateTimeFormat(locale, { weekday: "short" })
+        const formattedDate = new Intl.DateTimeFormat(locale, { weekday: weekdayType })
             .format(new Date(base.getFullYear(), base.getMonth(), base.getDate() + i));
         week.push(formattedDate)
     }

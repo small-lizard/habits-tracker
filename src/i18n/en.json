@@ -1,0 +1,54 @@
+{
+    "titles": {
+        "firstDaySetting": "Frirst day of week",
+        "lang": "Language",
+        "en": "English",
+        "ru": "Russian",
+        "sun": "Sunday",
+        "mon": "Monday",
+        "thisWeekHabits": "This week's habits",
+        "newHabit": "New habit",
+        "editHabit": "Edit habit",
+        "frequency": "Frequency",
+        "chooseColor": "Choose color",
+        "createAccount": "Create account",
+        "register": "Register",
+        "logIn": "Log in",
+        "changePassword": "Change password"
+    },
+    "common": {
+        "streak": "Streak",
+        "today": "today",
+        "none": "None",
+        "noHabits": "You don't have habits",
+        "yourHabits": "Your habits",
+        "settings": "Settings",
+        "unauth":"No account?",
+        "haveAcc": "Already have an account?"
+    },
+    "alert": {
+        "selectDay": "Please select at least one day",
+        "enterHabitName": "Enter the name of the habit",
+        "nameRequired": "Name is required",
+        "incorrectEmail": "Incorrect email",
+        "passwordMinLength": "Password must be at least 6 characters long",
+        "deleteAccount": "Delete account?",
+        "allDeleted": "All habits will be deleted."
+    },
+    "buttons": {
+        "create": "Create",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "deleteAccount": "Delete account",
+        "logOut": "Log out",
+        "delete": "Delete",
+        "change": "Change",
+        "signup": "Sign up"
+    },
+    "pages": {
+        "thisWeek": "This week",
+        "calendar": "Calendar",
+        "settings": "Settings",
+        "logIn": "Log in"
+    }
+}

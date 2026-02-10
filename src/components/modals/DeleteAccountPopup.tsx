@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import '../popupDetails.css';
 
 type DeleteAccountProps = {
@@ -7,10 +8,11 @@ type DeleteAccountProps = {
 }
 
 export function DeleteAccountPopup({ onClose, deleteUser, closeOpthions }: DeleteAccountProps) {
+    const { t } = useTranslation();
 
     return <div className='delete-popup'>
-        <p className="delete-popup-text"><span>Delete account?</span> All habits will be deleted.</p>
-        <button className='submit delete-btn' onClick={deleteUser}>Delete</button>
-        <button className='cancel' onClick={() => {onClose(); closeOpthions()}}>Cancel</button>
+        <p className="delete-popup-text"><span>{t('alert.deleteAccount')}</span>{t('alert.allDeleted')}</p>
+        <button className='submit delete-btn' onClick={deleteUser}>{t('buttons.delete')}</button>
+        <button className='cancel' onClick={() => { onClose(); closeOpthions() }}>{t('buttons.cancel')}</button>
     </div>
 }

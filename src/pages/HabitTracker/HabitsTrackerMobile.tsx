@@ -6,12 +6,14 @@ import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
 import { HabitsTrackerLayoutProps } from '../types';
 import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
+import { useTranslation } from 'react-i18next';
 
 export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
+    const { t } = useTranslation();
 
     return (
         <>
-            <h2 className='habit-title'>This week's habits</h2>
+            <h2 className='habit-title'>{t('titles.thisWeekHabits')}</h2>
             <div className='mobile-habits-table'>
                 <div className='mobile-habits-header'>
                     <div className='mobile-weekdays'>

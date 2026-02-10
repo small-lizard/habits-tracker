@@ -4,6 +4,8 @@ import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../../types';
 import { addCurrentWeek } from '../../../../store/habitUtils';
+import { useTranslation } from 'react-i18next';
+import { getWeekDaysTitle } from '../../../../utils/dateUtils';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
@@ -11,7 +13,7 @@ type HabitPopUpProps = {
     habit?: HabitForUpdate,
     updateHabit: (options: HabitForUpdate) => void,
     onClose: () => void,
-    weekDates:any,
+    weekDates: any,
 }
 
 export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDates }: HabitPopUpProps) {
@@ -19,8 +21,8 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
-    const week = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
+    const week = getWeekDaysTitle({weekdayType: "narrow"});
+    const { t } = useTranslation();
     const [errors, setErrors] = useState({ name: '', days: '' });
 
     function handleCheckBox(index: number, checked: boolean) {
@@ -31,7 +33,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         if (newDays.some(day => day)) {
             setErrors(prev => ({ ...prev, days: '' }));
         } else {
-            setErrors(prev => ({ ...prev, days: 'Please select at least one day' }));
+            setErrors(prev => ({ ...prev, days: t('alert.selectDay') }));
         }
     }
 
@@ -41,7 +43,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         if (value.trim()) {
             setErrors(prev => ({ ...prev, name: '' }));
         } else {
-            setErrors(prev => ({ ...prev, name: 'Enter the name of the habit' }));
+            setErrors(prev => ({ ...prev, name: t('alert.enterHabitName') }));
         }
     };
 
@@ -51,10 +53,10 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         let newErrors = { name: '', days: '' };
 
         if (!name.trim()) {
-            newErrors.name = 'Enter the name of the habit';
+            newErrors.name = t('alert.enterHabitName');
         }
         if (days.every(day => !day)) {
-            newErrors.days = 'Please select at least one day';
+            newErrors.days = t('alert.selectDay');
         }
         if (newErrors.name || newErrors.days) {
             setErrors(newErrors);
@@ -85,7 +87,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
 
     return <form action='' onSubmit={handleSubmit}>
         {
-            habit ? <h3>Edit habit</h3> : <h3>New habit</h3>
+            habit ? <h3>{t('titles.editHabit')}</h3> : <h3>{t('titles.newHabit')}</h3>
         }
         <div className='input-wrapper'>
             <label className='inp'>
@@ -102,7 +104,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
             )}
         </div>
         <div className='frequency-wrapper'>
-            <h4 className='frequency-title'>Frequency</h4>
+            <h4 className='frequency-title'>{t('titles.frequency')}</h4>
             <div className='weekdays-checkbox'>
                 {
                     week.map((day, index) => (
@@ -123,7 +125,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         </div>
 
         <div className='color-wrapper'>
-            <h4 className='color-title'>Choose color</h4>
+            <h4 className='color-title'>{t('titles.chooseColor')}</h4>
             <div className='color-radio-btn'>
                 {colors.map((color) => (
                     <label key={color} className='color-label' >
@@ -141,10 +143,10 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
             </div>
         </div>
         {addHabit ? (
-            <button type='submit' className='submit'>Create</button>
+            <button type='submit' className='submit'>{t('buttons.create')}</button>
         ) : habit ? (
-            <button type='submit' className='edit'>Edit</button>
+            <button type='submit' className='edit'>{t('buttons.edit')}</button>
         ) : null}
-        <button type='button' className='cancel' onClick={togglePopUp}>Cancel</button>
+        <button type='button' className='cancel' onClick={togglePopUp}>{t('buttons.cancel')}</button>
     </form>
 }

@@ -49,7 +49,7 @@ export function CalendarContainer({ isMobile }: CalendarProps) {
     const [monthOffset, setMonthOffset] = useState(0);
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
     const calendarDays: HabitDay[] = [];
-    const weekTitles = getWeekDaysTitle(firstDayOfWeekSetting);
+    const weekTitles = getWeekDaysTitle({weekStart: firstDayOfWeekSetting});
 
     function prevMonth() {
         setMonthOffset(prev => prev - 1);

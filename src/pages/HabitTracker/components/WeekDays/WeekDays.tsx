@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import './weekDays.css';
 import { selectUiFirstDay } from '../../../../store/selectors';
+import i18n from '../../../../i18n';
 
 export function WeekDays() {
     const uiFirstDay = useSelector(selectUiFirstDay);
@@ -10,9 +11,15 @@ export function WeekDays() {
     for (let i = 0; i < 7; i++) {
         const dayDate = new Date(uiFirstDay);
         dayDate.setDate(uiFirstDay.getDate() + i);
-        const nameOfDay = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(dayDate);
-        const numberOfDay = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(dayDate);
-        const numberOfMonth = new Intl.DateTimeFormat("en-US", { month: "numeric" }).format(dayDate);
+        const localeMap: Record<string, string> = {
+            en: 'en-US',
+            ru: 'ru-RU',
+        };
+        const locale = localeMap[i18n.language] || 'en-US';
+        
+        const nameOfDay = new Intl.DateTimeFormat(locale, { weekday: "short" }).format(dayDate);
+        const numberOfDay = new Intl.DateTimeFormat(locale, { day: "numeric" }).format(dayDate);
+        const numberOfMonth = new Intl.DateTimeFormat(locale, { month: "numeric" }).format(dayDate);
 
         days.push({ name: nameOfDay, number: numberOfDay, month: numberOfMonth })
     }

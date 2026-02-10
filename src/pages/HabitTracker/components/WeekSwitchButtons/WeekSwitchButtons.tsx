@@ -6,11 +6,13 @@ import { RootState, AppDispatch } from '../../../../store/store';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { addNewDaysToHabitsThunk } from '../../../../store/habitsThunks';
+import { useTranslation } from 'react-i18next';
 
 export function WeekSwitchButtons() {
     let location = useLocation();
     const weekOffset = useSelector((state: RootState) => state.habits.weekOffset);
     const dispatch = useDispatch<AppDispatch>();
+    const { t } = useTranslation();
 
     useEffect(() => {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
@@ -33,7 +35,7 @@ export function WeekSwitchButtons() {
     return <div className='period-switcher'>
         {weekOffset !== 0
             ? (
-                <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
+                <button onClick={handleCurrentWeek} className='current-week-button'>{t('common.today')}</button>
             )
             : null}
         <div className='period-switcher-arrow'>

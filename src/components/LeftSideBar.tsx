@@ -8,12 +8,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as sidebarActions from '../store/sidebarUISlice';
 import { Account } from './Account';
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
+import { useTranslation } from 'react-i18next';
 
 export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
     const user = useSelector((state: RootState) => state.auth);
     const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
     const dispatch = useDispatch<AppDispatch>();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (window.innerWidth < 1280) {
@@ -35,19 +37,19 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                         <li>
                             <NavLink to='/' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                                 <CheckSquareIcon />
-                                <span className='nav-item-text'>This week</span>
+                                <span className='nav-item-text'>{t('pages.thisWeek')}</span>
                             </NavLink>
                         </li>
                         <li>
                             <NavLink to='/calendar' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                                 <CalendarIcon />
-                                <span className='nav-item-text'>Calendar</span>
+                                <span className='nav-item-text'>{t('pages.calendar')}</span>
                             </NavLink>
                         </li>
                         <li>
                             <NavLink to='/settings' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                                 <CalendarIcon />
-                                <span className='nav-item-text'>Settings</span>
+                                <span className='nav-item-text'>{t('pages.settings')}</span>
                             </NavLink>
                         </li>
                         {
@@ -55,7 +57,7 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                                 <li>
                                     <button className="nav-button" onClick={() => setIsAuthOpen(true)}>
                                         <LoginIcon />
-                                        <span className='nav-item-text'>Log in</span>
+                                        <span className='nav-item-text'>{t('pages.logIn')}</span>
                                     </button>
                                 </li>
                             )

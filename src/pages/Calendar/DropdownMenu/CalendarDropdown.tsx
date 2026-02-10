@@ -7,8 +7,10 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
+import { useTranslation } from "react-i18next";
 
 export function CalendarDropdown() {
+    const { t } = useTranslation();
     const ref = useRef<HTMLUListElement | null>(null);
     const buttonRef1 = useRef<HTMLButtonElement>(null);
     const buttonRef2 = useRef<HTMLButtonElement>(null);
@@ -45,7 +47,7 @@ export function CalendarDropdown() {
             ) : (
                 <button ref={buttonRef2} onClick={() => { setOpen(!open) }} className="dropdown-button" style={{ '--habit-color': '#4A64FD' } as React.CSSProperties}>
                     <CheckSquareIcon size={20} />
-                    <span className="text">Your habits</span>
+                    <span className="text">{t('common.yourHabits')}</span>
                     <ArrowIcon className={`arrow ${open ? "open" : ""}`} />
                 </button>
             )
@@ -65,7 +67,7 @@ export function CalendarDropdown() {
                                             navigate("/calendar");
                                         }}
                                     >
-                                        <span className="item-text">None</span>
+                                        <span className="item-text">{t('common.none')}</span>
                                     </button>
                                 </li>
 
@@ -89,10 +91,9 @@ export function CalendarDropdown() {
                                 ))}
                             </>
                         ) : (
-                            <span className="item-text">You don't have habits</span>
+                            <span className="item-text">{t('common.noHabits')}</span>
                         )
                     }
-
                 </ul>
             )
         }
