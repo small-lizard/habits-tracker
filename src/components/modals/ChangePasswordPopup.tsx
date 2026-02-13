@@ -44,7 +44,7 @@ export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: C
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <h3>{t('titles.changePassword')}</h3>
+            <h2>{t('titles.changePassword')}</h2>
             <label className="inp">
                 <input
                     type="password"
@@ -62,13 +62,14 @@ export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: C
                 />
                 {errors.newPassword && <p style={{ color: "red" }}>{errors.newPassword.message}</p>}
             </label>
-
-            <button type="submit" className="submit">{t('buttons.change')}</button>
-            <button
-                type="button"
-                onClick={() => { reset(); onClose(); closeOpthions() }}
-                className="cancel"
-            >{t('buttons.cancel')}</button>
+            <div className='bottom-btn-form'>
+                <button type="submit" className="submit">{t('buttons.change')}</button>
+                <button
+                    type="button"
+                    onClick={() => { reset(); onClose(); closeOpthions() }}
+                    className="cancel"
+                >{t('buttons.cancel')}</button>
+            </div>
         </form>
     );
 }

@@ -7,7 +7,6 @@
 
 .habit-title {
   color: #262E4E;
-  font-size: 30px;
 }
 
 .habits-table-header {
@@ -42,7 +41,6 @@
 
 @media (max-width: 768px) {
   .habit-title {
-    font-size: 24px;
     margin-bottom: 16px;
   }
 }

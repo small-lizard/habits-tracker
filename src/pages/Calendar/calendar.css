@@ -12,11 +12,6 @@
     margin-bottom: 20px;
 }
 
-.calendar-title {
-    color: #262E4E;
-    font-size: 30px;
-}
-
 .top-left-container {
     display: flex;
     gap: 40px;
@@ -107,12 +102,9 @@
         margin-bottom: 12px;
     }
 
-    .calendar-title {
-        font-size: 24px;
-    }
-
     .week-day {
         font-size: 14px;
+        padding-right: 0px;
     }
 
     .item-number {

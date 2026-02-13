@@ -14,7 +14,7 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
     return (
         <>
             <div className='header'>
-                <h2 className='habit-title'>{t('titles.thisWeekHabits')}</h2>
+                <h1 className='habit-title'>{t('titles.allHabits')}</h1>
                 <WeekSwitchButtons></WeekSwitchButtons>
             </div>
             <div className='habits-table'>

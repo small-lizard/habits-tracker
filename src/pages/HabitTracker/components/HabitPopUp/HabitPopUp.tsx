@@ -21,7 +21,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
-    const week = getWeekDaysTitle({weekdayType: "narrow"});
+    const week = getWeekDaysTitle({ weekdayType: "narrow" });
     const { t } = useTranslation();
     const [errors, setErrors] = useState({ name: '', days: '' });
 
@@ -87,7 +87,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
 
     return <form action='' onSubmit={handleSubmit}>
         {
-            habit ? <h3>{t('titles.editHabit')}</h3> : <h3>{t('titles.newHabit')}</h3>
+            habit ? <h2>{t('titles.editHabit')}</h2> : <h2>{t('titles.newHabit')}</h2>
         }
         <div className='input-wrapper'>
             <label className='inp'>
@@ -104,7 +104,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
             )}
         </div>
         <div className='frequency-wrapper'>
-            <h4 className='frequency-title'>{t('titles.frequency')}</h4>
+            <h3>{t('titles.frequency')}</h3>
             <div className='weekdays-checkbox'>
                 {
                     week.map((day, index) => (
@@ -125,7 +125,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         </div>
 
         <div className='color-wrapper'>
-            <h4 className='color-title'>{t('titles.chooseColor')}</h4>
+            <h3>{t('titles.chooseColor')}</h3>
             <div className='color-radio-btn'>
                 {colors.map((color) => (
                     <label key={color} className='color-label' >
@@ -142,11 +142,13 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                 ))}
             </div>
         </div>
-        {addHabit ? (
-            <button type='submit' className='submit'>{t('buttons.create')}</button>
-        ) : habit ? (
-            <button type='submit' className='edit'>{t('buttons.edit')}</button>
-        ) : null}
-        <button type='button' className='cancel' onClick={togglePopUp}>{t('buttons.cancel')}</button>
+        <div className='bottom-btn-form'>
+            {addHabit ? (
+                <button type='submit' className='submit'>{t('buttons.create')}</button>
+            ) : habit ? (
+                <button type='submit' className='edit'>{t('buttons.edit')}</button>
+            ) : null}
+            <button type='button' className='cancel' onClick={togglePopUp}>{t('buttons.cancel')}</button>
+        </div>
     </form>
 }

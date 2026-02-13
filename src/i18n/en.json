@@ -1,29 +1,29 @@
 {
     "titles": {
-        "firstDaySetting": "Frirst day of week",
+        "firstDaySetting": "First day of week",
         "lang": "Language",
         "en": "English",
         "ru": "Russian",
         "sun": "Sunday",
         "mon": "Monday",
-        "thisWeekHabits": "This week's habits",
+        "allHabits": "All habits",
         "newHabit": "New habit",
         "editHabit": "Edit habit",
         "frequency": "Frequency",
         "chooseColor": "Choose color",
         "createAccount": "Create account",
-        "register": "Register",
+        "register": "Sign up",
         "logIn": "Log in",
         "changePassword": "Change password"
     },
     "common": {
         "streak": "Streak",
         "today": "today",
-        "none": "None",
-        "noHabits": "You don't have habits",
+        "none": "View calendar only",
+        "noHabits": "You don't have any habits yet",
         "yourHabits": "Your habits",
         "settings": "Settings",
-        "unauth":"No account?",
+        "unauth": "Don't have an account yet?",
         "haveAcc": "Already have an account?"
     },
     "alert": {
@@ -43,10 +43,11 @@
         "logOut": "Log out",
         "delete": "Delete",
         "change": "Change",
-        "signup": "Sign up"
+        "signup": "Sign up",
+        "changePassword": "Change password"
     },
     "pages": {
-        "thisWeek": "This week",
+        "habits": "Habits",
         "calendar": "Calendar",
         "settings": "Settings",
         "logIn": "Log in"

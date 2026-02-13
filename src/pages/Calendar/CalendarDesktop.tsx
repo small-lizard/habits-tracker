@@ -20,7 +20,7 @@ export function CalendarDesktop({ firstDayOfMonth, monthOffset, handleCurrentMon
     return <>
         <header className="calendar-head">
             <div className="top-left-container">
-                <h2 className="calendar-title">{uppercaseMonthName}</h2>
+                <h1>{uppercaseMonthName}</h1>
                 <CalendarDropdown></CalendarDropdown>
             </div>
             <div className='period-switcher'>

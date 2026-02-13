@@ -1,5 +1,5 @@
 import './sideBar.css';
-import { CalendarIcon, CheckSquareIcon, LoginIcon, ToggleIcon } from "./Icons";
+import { CalendarIcon, CheckSquareIcon, LoginIcon, SettingsIcon, ToggleIcon } from "./Icons";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { AuthPopup } from './AuthPopup';
@@ -37,7 +37,7 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                         <li>
                             <NavLink to='/' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
                                 <CheckSquareIcon />
-                                <span className='nav-item-text'>{t('pages.thisWeek')}</span>
+                                <span className='nav-item-text'>{t('pages.habits')}</span>
                             </NavLink>
                         </li>
                         <li>
@@ -48,7 +48,7 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                         </li>
                         <li>
                             <NavLink to='/settings' className={({ isActive }) => `nav-button ${isActive ? 'active' : ''}`}>
-                                <CalendarIcon />
+                                <SettingsIcon />
                                 <span className='nav-item-text'>{t('pages.settings')}</span>
                             </NavLink>
                         </li>

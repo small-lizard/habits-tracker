@@ -55,7 +55,6 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
             onClose();
 
         } catch (err) {
-            console.log(err)
             const axiosErr = err as AxiosError<{ error: string }>;
             const serverMessage = axiosErr.response?.data?.error;
 
@@ -84,7 +83,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
         <form onSubmit={handleSubmit(onSubmit)}>
             {mode === "register" && (
                 <>
-                    <h3>{t('titles.createAccount')}</h3>
+                    <h2>{t('titles.createAccount')}</h2>
                     <label className='inp'>
                         <input
                             type='text'
@@ -96,7 +95,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 </>
             )}
             {mode === "login" && (
-                <h3>{t('titles.logIn')}</h3>
+                <h2>{t('titles.logIn')}</h2>
             )}
             <label className='inp'>
                 <input
@@ -114,16 +113,21 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 />
                 {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
             </label>
-            <button type="submit" className='submit'>
-                {mode === "login" ? t('titles.logIn') : t('buttons.signup')}
-            </button>
-            <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
-            <p>
-                {mode === "login" ? t('common.unauth') : t('common.haveAcc')}
-                <span onClick={toggleMode} style={{ cursor: "pointer", color: "blue", marginLeft: 4 }}>
-                    {mode === "login" ? t('titles.register') : t('titles.logIn') }
-                </span>
-            </p>
+
+            <div className='bottom-btn-form'>
+                <button type="submit" className='submit'>
+                    {mode === "login" ? t('titles.logIn') : t('buttons.signup')}
+                </button>
+                <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
+                <div className='bottom-text'>
+                    <p>
+                        {mode === "login" ? t('common.unauth') : t('common.haveAcc')}
+                        <span onClick={toggleMode}>
+                            {mode === "login" ? t('titles.register') : t('titles.logIn')}
+                        </span>
+                    </p>
+                </div>
+            </div>
         </form>
     );
 }

@@ -12,7 +12,9 @@ export function DeleteAccountPopup({ onClose, deleteUser, closeOpthions }: Delet
 
     return <div className='delete-popup'>
         <p className="delete-popup-text"><span>{t('alert.deleteAccount')}</span>{t('alert.allDeleted')}</p>
-        <button className='submit delete-btn' onClick={deleteUser}>{t('buttons.delete')}</button>
-        <button className='cancel' onClick={() => { onClose(); closeOpthions() }}>{t('buttons.cancel')}</button>
+        <div className='bottom-btn-form'>
+            <button className='submit delete-btn' onClick={deleteUser}>{t('buttons.delete')}</button>
+            <button className='cancel' onClick={() => { onClose(); closeOpthions() }}>{t('buttons.cancel')}</button>
+        </div>
     </div>
 }

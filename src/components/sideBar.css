@@ -32,6 +32,7 @@
   display: flex;
   margin-bottom: 20px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .out.sidebar-closed .sidebar-header,
@@ -42,6 +43,7 @@
 .app-name {
   font-size: 24px;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 .toggle-button {

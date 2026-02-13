@@ -16,7 +16,7 @@ export function CalendarMobile({ firstDayOfMonth, monthOffset, handleCurrentMont
 
     return <>
         <header className="calendar-head">
-            <h2 className="calendar-title">{firstDayOfMonth.toLocaleString(locale, { month: 'long' })}</h2>
+            <h1>{firstDayOfMonth.toLocaleString(locale, { month: 'long' })}</h1>
             <div className='period-switcher'>
                 {monthOffset !== 0
                     ? (
