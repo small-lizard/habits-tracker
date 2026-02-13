@@ -21,7 +21,7 @@ const habitsSlice = createSlice({
             state.habits = action.payload.habits;
         },
         addHabit: (state, action: PayloadAction<{ options: HabitOptions }>) => {
-            state.habits.push(action.payload.options)
+            state.habits.push(action.payload.options);
         },
         updateHabit: (state, action: PayloadAction<{ options: HabitForUpdate, weekStart: WeekStartOptions }>) => {
             const { options, weekStart } = action.payload;

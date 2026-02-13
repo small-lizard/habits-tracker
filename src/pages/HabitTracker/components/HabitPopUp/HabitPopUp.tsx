@@ -76,7 +76,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                 id: new ObjectId().toString(),
                 name,
                 template: days,
-                days: addCurrentWeek(days, weekDates),
+                days: {},
                 selectedColor,
             };
             addHabit(newHabit);

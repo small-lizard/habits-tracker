@@ -21,12 +21,11 @@ export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
         const service = habitsServicesAdapter(isAuth);
         const habits = await service.getAll();
 
-
         const updatedHabits = habits.map((habit: any) => ({
             ...habit,
             days: {
                 ...habit.days,
-                ...addCurrentWeek(habit.template, weekDates)
+                ...addCurrentWeek(habit, weekDates)
             }
         }));
 
@@ -37,10 +36,20 @@ export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
 export const addHabitThunk = createAsyncThunk<void, HabitOptions, { state: RootState }>(
     "habitsSlice/addHabit",
     async (options: HabitOptions, { dispatch, getState }) => {
-        dispatch(habitsActions.addHabit({ options }));
         const state = getState();
+        const uiFirstDay = selectUiFirstDay(state);
+        const weekDates = getWeekDates(uiFirstDay);
+        const updatedHabit = {
+            ...options,
+            days: addCurrentWeek(options, weekDates)
+        }
+
+        dispatch(habitsActions.addHabit({ options: updatedHabit }));
+        const newState = getState();
+        
         const service = habitsServicesAdapter(state.auth.isAuth);
-        service.sync(state.habits.habits)
+
+        service.sync(newState.habits.habits)
 
         await service.add()
     }
@@ -52,8 +61,10 @@ export const updateHabitThunk = createAsyncThunk<void, HabitForUpdate, { state: 
         const state = getState();
         const weekStart = state.settings.uiWeekStart;
         dispatch(habitsActions.updateHabit({ options, weekStart }));
-        const service = habitsServicesAdapter(state.auth.isAuth)
-        service.sync(state.habits.habits)
+        const service = habitsServicesAdapter(state.auth.isAuth);
+
+        const newState = getState();
+        service.sync(newState.habits.habits)
 
         await service.update(options.id)
     }

@@ -22,7 +22,6 @@ export const registerUser = async (useData: { name?: string; email: string; pass
     return data;
 }
 
-
 export const loginUser = async (userData: { email: string; password: string }) => {
     const localHabits = getLocalHabits()
     const fullUserData = {

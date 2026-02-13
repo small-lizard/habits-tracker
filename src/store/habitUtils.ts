@@ -2,14 +2,14 @@ import { WeekStartOptions } from "../components/enumWeekStartOpthions";
 import { HabitOptions, HabitStatus } from "../pages/types";
 import { formatDate, getStartOfWeek, getWeekDates } from "../utils/dateUtils";
 
-export function addCurrentWeek(template: boolean[], weekDates: Date[]): Record<string, number> {
+export function addCurrentWeek(habit: any, weekDates: Date[]): Record<string, number> {
     const days: Record<string, number> = {};
 
     weekDates.forEach(date => {
         const dateKey = formatDate(date);
         const dayOfWeek = date.getDay();
 
-        if (template[dayOfWeek]) {
+        if (habit.template[dayOfWeek] && habit.days[dateKey] === undefined) {
             days[dateKey] = 0;
         }
     });

@@ -2,6 +2,7 @@ import { HabitOptions } from "../../pages/types";
 
 export class HabitsService {
     protected habits: HabitOptions[] = [];
+    
     public sync(habitsData: HabitOptions[]): void {
         this.habits = habitsData;
     }
