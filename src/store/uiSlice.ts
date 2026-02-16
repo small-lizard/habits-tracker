@@ -1,14 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UIState {
     sidebarOpen: boolean;
+    currentHabitId: string | null;
 }
 
 const initialState: UIState = {
     sidebarOpen: true,
+    currentHabitId: null,
 };
 
-const sidebarUISlice = createSlice({
+const uiSlice = createSlice({
     name: "ui",
     initialState,
     reducers: {
@@ -21,8 +23,11 @@ const sidebarUISlice = createSlice({
         closeSidebar(state) {
             state.sidebarOpen = false;
         },
+        setCurrentHabitId(state, action: PayloadAction<string | null>) {
+            state.currentHabitId = action.payload;
+        },
     }
 });
 
-export const { toggleSidebar, openSidebar, closeSidebar } = sidebarUISlice.actions;
-export default sidebarUISlice.reducer;
+export const { toggleSidebar, openSidebar, closeSidebar, setCurrentHabitId } = uiSlice.actions;
+export default uiSlice.reducer;

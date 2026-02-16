@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./calendar.css";
 import { formatDate, getStartOfWeek, getWeekDates, getWeekDaysTitle } from "../../utils/dateUtils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { HabitStatusCalendar, HabitStatus, CalendarLayoutProps } from "../types";
@@ -49,7 +49,7 @@ export function CalendarContainer({ isMobile }: CalendarProps) {
     const [monthOffset, setMonthOffset] = useState(0);
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
     const calendarDays: HabitDay[] = [];
-    const weekTitles = getWeekDaysTitle({weekStart: firstDayOfWeekSetting});
+    const weekTitles = getWeekDaysTitle({ weekStart: firstDayOfWeekSetting });
 
     function prevMonth() {
         setMonthOffset(prev => prev - 1);

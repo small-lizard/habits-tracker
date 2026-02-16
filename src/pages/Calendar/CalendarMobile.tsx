@@ -13,10 +13,12 @@ export function CalendarMobile({ firstDayOfMonth, monthOffset, handleCurrentMont
         ru: 'ru-RU',
     };
     const locale = localeMap[i18n.language] || 'en-US';
-
+    const monthName = firstDayOfMonth.toLocaleString(locale, { month: 'long' })
+    const uppercaseMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+    
     return <>
         <header className="calendar-head">
-            <h1>{firstDayOfMonth.toLocaleString(locale, { month: 'long' })}</h1>
+            <h1>{uppercaseMonthName}</h1>
             <div className='period-switcher'>
                 {monthOffset !== 0
                     ? (

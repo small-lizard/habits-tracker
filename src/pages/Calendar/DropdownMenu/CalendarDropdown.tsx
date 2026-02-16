@@ -1,38 +1,37 @@
 import { useEffect, useState } from "react";
 import { ArrowIcon, CheckSquareIcon } from "../../../components/Icons";
 import "./calendarDropdown.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useTranslation } from "react-i18next";
+import * as uiActions from '../../../store/uiSlice';
 
 export function CalendarDropdown() {
     const { t } = useTranslation();
     const ref = useRef<HTMLUListElement | null>(null);
     const buttonRef1 = useRef<HTMLButtonElement>(null);
     const buttonRef2 = useRef<HTMLButtonElement>(null);
-    const { habitId } = useParams();
     const [open, setOpen] = useState(false);
-    const habits = useSelector((state: RootState) => state.habits.habits)
-    const [selectedHabit, setSelectedHabit] = useState(() =>
-        habitId ? habits.find(habit => habit.id === habitId) || null : null
-    );
+    const { habitId } = useParams();
+    const habits = useSelector((state: RootState) => state.habits.habits);
+    const selectedHabit = habits.find(h => h.id === habitId) || null;
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
     useOnClickOutside(ref, () => setOpen(false), true, [buttonRef1, buttonRef2]);
 
-    useEffect(() => {
-        if (!habitId) {
-            setSelectedHabit(null);
-            return;
-        }
+    const handleSelect = (id?: string) => {
+        navigate(id ? `/calendar/${id}` : "/calendar");
+        dispatch(uiActions.setCurrentHabitId(id ?? null));
+    };
 
-        const found = habits.find(habit => habit.id === habitId) || null;
-        setSelectedHabit(found);
-    }, [habitId, habits]);
+    useEffect(() => {
+        dispatch(uiActions.setCurrentHabitId(habitId ?? null));
+    }, []);
 
     return <div className="dropdown">
         {
@@ -62,9 +61,9 @@ export function CalendarDropdown() {
                                     <button
                                         className="list-item"
                                         onClick={() => {
-                                            setSelectedHabit(null);
                                             setOpen(false);
-                                            navigate("/calendar");
+                                            localStorage.removeItem('calendar-selectedHabit');
+                                            handleSelect()
                                         }}
                                     >
                                         <span className="item-text">{t('common.none')}</span>
@@ -76,9 +75,9 @@ export function CalendarDropdown() {
                                         <button
                                             className="list-item"
                                             onClick={() => {
-                                                setSelectedHabit(habit);
                                                 setOpen(false);
-                                                navigate(`/calendar/${habit.id}`);
+                                                localStorage.setItem('calendar-selectedHabit', habit.id)
+                                                handleSelect(habit.id)
                                             }}
                                         >
                                             <span

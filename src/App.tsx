@@ -53,8 +53,7 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} />} />
-            <Route path="/calendar" element={<CalendarContainer isMobile={isMobile} />} />
-            <Route path="/calendar/:habitId" element={<CalendarContainer isMobile={isMobile} />} />
+            <Route path="/calendar/:habitId?"  element={<CalendarContainer isMobile={isMobile} />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>
@@ -64,4 +63,3 @@ function App() {
 }
 
 export default App;
-
