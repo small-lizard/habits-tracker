@@ -14,6 +14,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAccOpthionsOpen, setIsAccOpthions] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
 
     return (
         <div className='nav-wrapper'>
@@ -22,7 +23,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
                     <CheckSquareIcon />
                     <span>{t('pages.habits')}</span>
                 </NavLink>
-                <NavLink to='/calendar' className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
+                <NavLink to={`/calendar/${currentHabitId ?? ''}`} className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
                     <CalendarIcon />
                     <span>{t('pages.calendar')}</span>
                 </NavLink>

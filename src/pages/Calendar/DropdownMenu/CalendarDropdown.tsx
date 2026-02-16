@@ -25,7 +25,7 @@ export function CalendarDropdown() {
     useOnClickOutside(ref, () => setOpen(false), true, [buttonRef1, buttonRef2]);
 
     const handleSelect = (id?: string) => {
-        navigate(id ? `/calendar/${id}` : "/calendar");
+        navigate(id ? `/calendar/${id}` : "/calendar/");
         dispatch(uiActions.setCurrentHabitId(id ?? null));
     };
 
