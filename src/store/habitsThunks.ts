@@ -19,7 +19,6 @@ export const initHabits = createAsyncThunk<void, void, { state: RootState }>(
         const uiFirstDay = selectUiFirstDay(state);
         const weekDates = getWeekDates(uiFirstDay);
         const service = habitsServicesAdapter(state.auth.isAuth);
-        console.log(state.auth.isAuth)
         const habits = await service.getAll();
 
         const updatedHabits = habits.map((habit: any) => ({

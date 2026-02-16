@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: fit-content;
 }
 
 .radio-label {
@@ -62,8 +63,9 @@
 }
 
 .radio-label .checkmark:after {
-  top: 10%;
-  left: 10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -73,10 +75,5 @@
 @media (max-width: 768px) {
   .radio-label {
     font-size: 14px;
-  }
-
-  .radio-label .checkmark:after {
-    top: 8%;
-    left: 8%;
   }
 }
