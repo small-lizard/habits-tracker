@@ -9,6 +9,7 @@ import * as userActions from '../store/authSlice';
 import { AxiosError } from "axios";
 import './popupDetails.css';
 import { useTranslation } from 'react-i18next';
+import { initHabits } from '../store/habitsThunks';
 
 export function AuthPopup({ onClose }: { onClose: () => void }) {
     const { t } = useTranslation();
@@ -51,6 +52,8 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 name: userData.name,
                 email: userData.email
             }));
+
+            await dispatch(initHabits());
 
             onClose();
 

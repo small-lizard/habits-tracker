@@ -36,7 +36,7 @@ function App() {
         email: response.email ?? '',
       }));
 
-      await dispatch(initHabits(response.isAuth));
+      await dispatch(initHabits());
     }
 
     fetchAuth()

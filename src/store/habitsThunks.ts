@@ -12,13 +12,14 @@ type UpdateStatus = {
     dateKey: string
 }
 
-export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
+export const initHabits = createAsyncThunk<void, void, { state: RootState }>(
     "habitsSlice/setHabits",
-    async (isAuth: boolean, { dispatch, getState }) => {
+    async (_, { dispatch, getState }) => {
         const state = getState();
         const uiFirstDay = selectUiFirstDay(state);
         const weekDates = getWeekDates(uiFirstDay);
-        const service = habitsServicesAdapter(isAuth);
+        const service = habitsServicesAdapter(state.auth.isAuth);
+        console.log(state.auth.isAuth)
         const habits = await service.getAll();
 
         const updatedHabits = habits.map((habit: any) => ({
