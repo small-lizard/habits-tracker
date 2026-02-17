@@ -2,21 +2,24 @@ import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import * as accountService from  "../services/accountService";
+import * as accountService from "../services/accountService";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
 import { AxiosError } from "axios";
 import './popupDetails.css';
+import { useTranslation } from 'react-i18next';
+import { initHabits } from '../store/habitsThunks';
 
 export function AuthPopup({ onClose }: { onClose: () => void }) {
+    const { t } = useTranslation();
     const [mode, setMode] = useState<"login" | "register">("login");
     const dispatch = useDispatch<AppDispatch>();
 
     const registerSchema = z.object({
-        name: z.string().min(1, "Name is required"),
-        email: z.string().email("Incorrect email"),
-        password: z.string().min(6, "Password must be at least 6 characters long")
+        name: z.string().min(1, t('alert.nameRequired')),
+        email: z.string().email(t('alert.incorrectEmail')),
+        password: z.string().min(6, t('alert.passwordMinLength'))
     });
 
     const loginSchema = registerSchema.omit({ name: true });
@@ -50,10 +53,11 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 email: userData.email
             }));
 
+            await dispatch(initHabits());
+
             onClose();
 
         } catch (err) {
-            console.log(err)
             const axiosErr = err as AxiosError<{ error: string }>;
             const serverMessage = axiosErr.response?.data?.error;
 
@@ -82,7 +86,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
         <form onSubmit={handleSubmit(onSubmit)}>
             {mode === "register" && (
                 <>
-                    <h3>Create account</h3>
+                    <h2>{t('titles.createAccount')}</h2>
                     <label className='inp'>
                         <input
                             type='text'
@@ -94,7 +98,7 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 </>
             )}
             {mode === "login" && (
-                <h3>Log in</h3>
+                <h2>{t('titles.logIn')}</h2>
             )}
             <label className='inp'>
                 <input
@@ -112,16 +116,21 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
                 />
                 {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
             </label>
-            <button type="submit" className='submit'>
-                {mode === "login" ? "Log in" : "Sign up"}
-            </button>
-            <button type="button" onClick={onClose} className='cancel'>Cancel</button>
-            <p>
-                {mode === "login" ? "No account?" : "Already have an account?"}
-                <span onClick={toggleMode} style={{ cursor: "pointer", color: "blue", marginLeft: 4 }}>
-                    {mode === "login" ? "Register" : "Log in"}
-                </span>
-            </p>
+
+            <div className='bottom-btn-form'>
+                <button type="submit" className='submit'>
+                    {mode === "login" ? t('titles.logIn') : t('buttons.signup')}
+                </button>
+                <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
+                <div className='bottom-text'>
+                    <p>
+                        {mode === "login" ? t('common.unauth') : t('common.haveAcc')}
+                        <span onClick={toggleMode}>
+                            {mode === "login" ? t('titles.register') : t('titles.logIn')}
+                        </span>
+                    </p>
+                </div>
+            </div>
         </form>
     );
 }

@@ -1,31 +1,23 @@
+import { useSelector } from 'react-redux';
 import { EditIcon, DeleteIcon } from '../../../../components/Icons';
-import { selectWeekStreak } from '../../../../store/selectors';
 import { RootState } from '../../../../store/store';
-import { HabitStatus, DayOptions } from '../../types';
+import { countWeekStreak } from '../../../../utils/countStreak';
+import { formatDate } from '../../../../utils/dateUtils';
+import { HabitForUpdate, HabitOptions, HabitStatus, uiHabitStatus } from '../../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
-import { useSelector } from 'react-redux';
 
 type HabitListProps = {
-    name: string,
-    days: HabitStatus[],
+    habit: HabitOptions,
     deleteHabit: (id: string) => void,
-    id: string,
-    updateStatus: (options: DayOptions, firstDay: number) => void,
-    firstDay: number,
-    color: string,
-    togglePopUp: any,
-    isMobile: boolean
+    updateStatus: (id: any, dateKey: string) => void,
+    togglePopUp: (habit?: HabitForUpdate | undefined) => void,
+    isMobile: boolean,
+    weekDates: any
 }
 
-export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay, color, togglePopUp, isMobile }: HabitListProps) {
-    const habit = useSelector((state: RootState) => state.habits.habits.find(habit => habit.id === id));
-    if (!habit) {
-        return null;
-    }
-
-    const weekStreak = selectWeekStreak(habit);
-
+export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMobile, weekDates }: HabitListProps) {
+    const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.uiWeekStart)
     function handleEditClick() {
         if (!habit) {
             return null;
@@ -34,16 +26,28 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
             id: habit.id,
             name: habit.name,
             template: habit.template,
-            selectedColor: habit.selectedColor,
+            selectedColor: habit.selectedColor
         });
     }
 
+    const weekStatus = weekDates.map((date: any) => {
+        const dateKey = formatDate(date);
+        
+        if (habit.days[dateKey] === undefined) {
+            return uiHabitStatus.Disabled;
+        }
+
+        return habit.days[dateKey] === HabitStatus.Done ? uiHabitStatus.Done : uiHabitStatus.Pending;
+    });
+
+    const weekStreak = countWeekStreak(habit, firstDayOfWeekSetting);
+
     return <div className='habit-line'>
         <div className='habit-details'>
-            <span className='habit-name'>{name}</span>
+            <span className='habit-name'>{habit.name}</span>
             <div className='habit-details-buttons'>
                 <button aria-label='Edit' className='icon-btn edit-btn' onClick={handleEditClick}><EditIcon /></button>
-                <button aria-label='Delete' className='icon-btn' onClick={() => deleteHabit(id)}><DeleteIcon /></button>
+                <button aria-label='Delete' className='icon-btn' onClick={() => deleteHabit(habit.id)}><DeleteIcon /></button>
             </div>
         </div>
         {
@@ -51,17 +55,16 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
                 <div className='second-habit-line'>
                     <div className='checkbox-line'>
                         {
-                            days!.map((status, index) => {
+                            weekStatus.map((status: any, index: any) => {
                                 return <CheckBox
                                     status={status}
                                     key={index}
                                     index={index}
                                     updateStatus={updateStatus}
-                                    id={id}
-                                    firstDay={firstDay}
-                                    color={color}
+                                    id={habit.id}
+                                    dateKey={formatDate(weekDates[index])}
+                                    color={habit.selectedColor}
                                 ></CheckBox>
-
                             })
                         }
                     </div>
@@ -70,17 +73,16 @@ export function HabitsItem({ name, days, deleteHabit, id, updateStatus, firstDay
             ) : (
                 <>
                     {
-                        days!.map((status, index) => {
+                        weekStatus.map((status: any, index: any) => {
                             return <CheckBox
                                 status={status}
                                 key={index}
                                 index={index}
                                 updateStatus={updateStatus}
-                                id={id}
-                                firstDay={firstDay}
-                                color={color}
+                                id={habit.id}
+                                dateKey={formatDate(weekDates[index])}
+                                color={habit.selectedColor}
                             ></CheckBox>
-
                         })
                     }
                     <div className='progress-number'>{weekStreak}</div>

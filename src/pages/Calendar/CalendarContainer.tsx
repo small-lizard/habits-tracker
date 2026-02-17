@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import "./calendar.css";
-import { getStartOfWeek } from "../../utils/data-calculating";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { HabitStatusCalendar } from "../HabitTracker/types";
-import { initHabits } from '../../store/habitsThunks';
-import * as accountService from  "../../services/accountService";
-import * as userActions from '../../store/authSlice';
+import { formatDate, getStartOfWeek, getWeekDates, getWeekDaysTitle } from "../../utils/dateUtils";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { HabitStatusCalendar, HabitStatus, CalendarLayoutProps } from "../types";
 import { CalendarDesktop } from "./CalendarDesktop";
 import { CalendarMobile } from "./CalendarMobile";
 
@@ -41,92 +38,73 @@ type CalendarProps = {
     isMobile: boolean;
 }
 
-export function CalendarContainer({isMobile} : CalendarProps) {
+export function CalendarContainer({ isMobile }: CalendarProps) {
     const { habitId } = useParams();
-    const habits = useSelector((state: RootState) => state.habits.habits)
+    const habits = useSelector((state: RootState) => state.habits.habits);
     const habit = habits.find(habit => habit.id === habitId) || null;
-    const habitWeeks = habit?.weeks ?? {};
+    const habitDays = habit?.days || {};
     const today = new Date();
-    const [month, setMonth] = useState(0);
-    const displayDate = new Date(today.getFullYear(), today.getMonth() + month, 1);
+    const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.uiWeekStart)
+
+    const [monthOffset, setMonthOffset] = useState(0);
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
     const calendarDays: HabitDay[] = [];
-    const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const dispatch = useDispatch<AppDispatch>();
-
-    useEffect(() => {
-        const fetchAuth = async () => {
-            const response = await accountService.checkAuth();
-
-            dispatch(userActions.setUser({
-                id: response.userId ?? '',
-                isAuth: response.isAuth,
-                name: response.name ?? '',
-                email: response.email ?? '',
-            }));
-
-            await dispatch(initHabits(response.isAuth));
-        }
-
-        fetchAuth()
-    }, []);
+    const weekTitles = getWeekDaysTitle({ weekStart: firstDayOfWeekSetting });
 
     function prevMonth() {
-        setMonth(prev => prev - 1);
+        setMonthOffset(prev => prev - 1);
     }
 
     function nextMonth() {
-        setMonth(prev => prev + 1);
+        setMonthOffset(prev => prev + 1);
     }
 
     function handleCurrentMonth() {
-        setMonth(0);
+        setMonthOffset(0);
     }
 
     for (let index = 0; index < 42; index++) {
-        const firstDate = new Date(getStartOfWeek(displayDate));
-        const date = new Date(firstDate.setDate(firstDate.getDate() + index));
-        const weekStart = getStartOfWeek(date);
-        const indexOfDay = date.getDay();
+        const firstCalendarDay = new Date(getStartOfWeek(firstDayOfMonth, firstDayOfWeekSetting, 0));
+        const date = new Date(firstCalendarDay.setDate(firstCalendarDay.getDate() + index));
 
         let status: HabitStatusCalendar | undefined;
 
-        if (!habitId) {
-            status = undefined;
-        }
-        else if (habitId && !habitWeeks[weekStart] || date.getMonth() !== displayDate.getMonth()) {
-            status = undefined;
-        }
-        else {
-            const week = habitWeeks[weekStart];
-            const value = week[indexOfDay];
+        if (habitId && date.getMonth() === firstDayOfMonth.getMonth()) {
+            const dayStatus = habitDays[formatDate(date)];
 
-            if (week.includes(2) && !week.includes(1)) {
-                status = value === 2
-                    ? HabitStatusCalendar.Done
-                    : HabitStatusCalendar.DisabledInStreak;
-            }
-            else {
-                status = value === 2
-                    ? HabitStatusCalendar.Done
-                    : undefined;
+            if (dayStatus === HabitStatus.Done) {
+                status = HabitStatusCalendar.Done
+            } else if (dayStatus === HabitStatus.Pending) {
+                status = HabitStatusCalendar.Disabled
+            } else {
+                const weekDates = getWeekDates(getStartOfWeek(date, firstDayOfWeekSetting, 0))
+                const fulfilled = weekDates.every((day: Date) => {
+                    const dayStatus = habitDays[formatDate(day)];
+
+                    return dayStatus === HabitStatus.Done || dayStatus === undefined;
+                }) && weekDates.some((day: Date) => habitDays[formatDate(day)] === HabitStatus.Done);
+
+                if (fulfilled) {
+                    status = HabitStatusCalendar.DisabledInStreak
+                }
             }
         }
 
         calendarDays.push(new HabitDay({
             date: date.getDate(),
-            currentMonth: date.getMonth() === displayDate.getMonth(),
+            currentMonth: date.getMonth() === firstDayOfMonth.getMonth(),
             currentDay: date.getMonth() === today.getMonth() && date.getDate() === today.getDate(),
             status,
         }));
     }
 
-    const layoutProps = {
-        displayDate,
-        month,
+    const layoutProps: CalendarLayoutProps = {
+        firstDayOfMonth,
+        monthOffset,
         handleCurrentMonth,
         prevMonth,
         nextMonth,
-        week,
+        weekTitles,
         calendarDays,
         habit
     }

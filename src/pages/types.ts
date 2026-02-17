@@ -1,4 +1,9 @@
 export enum HabitStatus {
+  Pending,
+  Done,
+}
+
+export enum uiHabitStatus {
   Disabled,
   Pending,
   Done,
@@ -15,8 +20,8 @@ export type HabitOptions = {
   name: string;
   template: boolean[];
   selectedColor: string,
-  weeks: {
-    [weekNumber: string]: HabitStatus[];
+  days: {
+    [day: string]: number;
   };
 };
 
@@ -26,23 +31,34 @@ export type DayOptions = {
   status: HabitStatus
 }
 
-export type HabitForUpdate= {
+export type HabitForUpdate = {
   id: string;
   name: string;
   template: boolean[];
-  selectedColor: string;
+  selectedColor: string
 };
 
 export type HabitsTrackerLayoutProps = {
   habits: HabitOptions[];
   togglePopUp: (habit?: HabitForUpdate) => void;
   deleteHabit: (id: string) => void;
-  updateStatus: (options: DayOptions, firstDay: number) => void;
+  updateStatus: (id: any, dateKey: string) => void;
   closePopUp: () => void;
   addHabit: (options: HabitOptions) => void;
   updateHabit: (options: HabitForUpdate) => void;
   habitToEdit: HabitForUpdate | undefined;
-  currentFirstDay: number;
+  weekDates: any;
   isOpen: boolean;
   isMobile: boolean;
 };
+
+export type CalendarLayoutProps = {
+  firstDayOfMonth: Date;
+  monthOffset: number;
+  handleCurrentMonth: () => void;
+  prevMonth: () => void;
+  nextMonth: () => void;
+  weekTitles: string[];
+  calendarDays: any[];
+  habit: HabitOptions | null;
+}

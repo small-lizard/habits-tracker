@@ -1,4 +1,4 @@
-.week-switcher {
+.period-switcher {
     display: flex;
     gap: 25px;
     position: relative;
@@ -17,12 +17,12 @@
     cursor: pointer;
 }
 
-.week-switcher-arrow {
+.period-switcher-arrow {
     display: flex;
     gap: clamp(5px, calc(10 * (100vw - 375px) / 105), 15px);
 }
 
-.week-switcher-arrow button {
+.period-switcher-arrow button {
     background: none;
     border: none;
     display: inline-flex;

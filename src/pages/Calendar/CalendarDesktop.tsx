@@ -1,34 +1,35 @@
+import { useTranslation } from "react-i18next";
 import { ArrowCircle } from "../../components/Icons";
+import { CalendarLayoutProps } from "../types";
 import "./calendar.css";
 import { CalendarTile } from "./CalendarTile";
 import { CalendarDropdown } from "./DropdownMenu/CalendarDropdown";
+import i18n from "../../i18n";
 
-type CalendarDesktopProps = {
-    displayDate: any,
-    month: any,
-    handleCurrentMonth: any,
-    prevMonth: any,
-    nextMonth: any,
-    week: any,
-    calendarDays: any,
-    habit: any
-}
+export function CalendarDesktop({ firstDayOfMonth, monthOffset, handleCurrentMonth, prevMonth, nextMonth, weekTitles, calendarDays, habit }: CalendarLayoutProps) {
+    const { t } = useTranslation();
+    const localeMap: Record<string, string> = {
+        en: 'en-US',
+        ru: 'ru-RU',
+    };
+    const locale = localeMap[i18n.language] || 'en-US';
 
-export function CalendarDesktop({ displayDate, month, handleCurrentMonth, prevMonth, nextMonth, week, calendarDays, habit }: CalendarDesktopProps) {
+    const monthName = firstDayOfMonth.toLocaleString(locale, { month: 'long' })
+    const uppercaseMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
     return <>
         <header className="calendar-head">
             <div className="top-left-container">
-                <h2 className="calendar-title">{displayDate.toLocaleString('en-US', { month: 'long' })}</h2>
+                <h1>{uppercaseMonthName}</h1>
                 <CalendarDropdown></CalendarDropdown>
             </div>
-            <div className='week-switcher'>
-                {month !== 0
+            <div className='period-switcher'>
+                {monthOffset !== 0
                     ? (
-                        <button onClick={handleCurrentMonth} className='current-month-button'>today</button>
+                        <button onClick={handleCurrentMonth} className='current-month-button'>{t('common.today')}</button>
                     )
                     : null}
-                <div className='week-switcher-arrow'>
+                <div className='period-switcher-arrow'>
                     <button className='arrow-left' onClick={prevMonth}><ArrowCircle></ArrowCircle></button>
                     <button className='arrow-right' onClick={nextMonth}><ArrowCircle></ArrowCircle></button>
                 </div>
@@ -36,7 +37,7 @@ export function CalendarDesktop({ displayDate, month, handleCurrentMonth, prevMo
         </header>
         <div className="container">
             {
-                week.map((day: any) => <p className="week-day" key={day}>{day}</p>)
+                weekTitles.map((day: any) => <p className="week-day" key={day}>{day}</p>)
             }
             {
                 calendarDays.map((data: {

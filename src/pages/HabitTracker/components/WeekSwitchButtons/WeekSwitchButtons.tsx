@@ -5,42 +5,42 @@ import { ArrowCircle } from '../../../../components/Icons';
 import { RootState, AppDispatch } from '../../../../store/store';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { addNewDaysToHabitsThunk } from '../../../../store/habitsThunks';
+import { useTranslation } from 'react-i18next';
 
 export function WeekSwitchButtons() {
-    let location = useLocation()
+    let location = useLocation();
+    const weekOffset = useSelector((state: RootState) => state.habits.weekOffset);
+    const dispatch = useDispatch<AppDispatch>();
+    const { t } = useTranslation();
 
     useEffect(() => {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
     }, [location.pathname])
 
-    const week = useSelector((state: RootState) => state.habits.week)
-    const dispatch = useDispatch<AppDispatch>();
-
     function prevWeek() {
-        dispatch(habitsActions.setWeek({ weekNumber: week - 1 }));
-        dispatch(habitsActions.addNewWeek())
+        dispatch(habitsActions.setWeek({ weekNumber: weekOffset - 1 }));
+        dispatch(addNewDaysToHabitsThunk());
     }
 
     function nextWeek() {
-        dispatch(habitsActions.setWeek({ weekNumber: week + 1 }));
-        dispatch(habitsActions.addNewWeek())
+        dispatch(habitsActions.setWeek({ weekNumber: weekOffset + 1 }));
+        dispatch(addNewDaysToHabitsThunk());
     }
 
     function handleCurrentWeek() {
         dispatch(habitsActions.setWeek({ weekNumber: 0 }));
-        dispatch(habitsActions.addNewWeek())
     }
 
-    return <div className='week-switcher'>
-        {week !== 0
+    return <div className='period-switcher'>
+        {weekOffset !== 0
             ? (
-                <button onClick={handleCurrentWeek} className='current-week-button'>today</button>
+                <button onClick={handleCurrentWeek} className='current-week-button'>{t('common.today')}</button>
             )
             : null}
-        <div className='week-switcher-arrow'>
+        <div className='period-switcher-arrow'>
             <button className='arrow-left' onClick={prevWeek}><ArrowCircle></ArrowCircle></button>
             <button className='arrow-right' onClick={nextWeek}><ArrowCircle></ArrowCircle></button>
         </div>
     </div>
 }
-

@@ -1,0 +1,55 @@
+{
+    "titles": {
+        "firstDaySetting": "Первый день недели",
+        "lang": "Язык",
+        "en": "Английский",
+        "ru": "Русский",
+        "sun": "воскресенье",
+        "mon": "понедельник",
+        "allHabits": "Все привычки",
+        "newHabit": "Новая привычка",
+        "editHabit": "Редактировать привычку",
+        "frequency": "Частота",
+        "chooseColor": "Выбрать цвет",
+        "logIn": "Войти",
+        "createAccount": "Создать аккаунт",
+        "register": "Регистрация",
+        "changePassword": "Сменить пароль"
+    },
+    "common": {
+        "streak": "Серия",
+        "today": "Сегодня",
+        "none": "Только календарь",
+        "noHabits": "У вас еще нет привычек",
+        "yourHabits": "Ваши привычки",
+        "settings": "Настройки",
+        "unauth": "Нет аккаунта?",
+        "haveAcc": "Уже есть аккаунт?"
+    },
+    "alert": {
+        "selectDay": "Пожалуйста, выберите хотя бы один день",
+        "enterHabitName": "Введите название привычки",
+        "nameRequired": "Имя обязательно",
+        "incorrectEmail": "Некорректный email",
+        "passwordMinLength": "Пароль должен быть не менее 6 символов",
+        "deleteAccount": "Удалить аккаунт?",
+        "allDeleted": "Все привычки будут удалены."
+    },
+    "buttons": {
+        "create": "Создать",
+        "edit": "Редактировать",
+        "cancel": "Отмена",
+        "logOut": "Выйти",
+        "delete": "Удалить",
+        "change": "Изменить",
+        "signup": "Зарегистрироваться",
+        "changePassword": "Сменить пароль",
+        "deleteAccount": "Удалить аккаунт"
+    },
+    "pages": {
+        "habits": "Привычки",
+        "calendar": "Календарь",
+        "settings": "Настройки",
+        "logIn": "Войти"
+    }
+}

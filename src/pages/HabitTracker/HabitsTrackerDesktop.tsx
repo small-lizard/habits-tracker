@@ -4,14 +4,17 @@ import { WeekDays } from './components/WeekDays/WeekDays';
 import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
-import { HabitsTrackerLayoutProps } from './types';
+import { HabitsTrackerLayoutProps } from '../types';
 import { PopupWrapperDesctope } from '../../components/modalWindowVariants/PopupWrapperDesctope';
+import { useTranslation } from 'react-i18next';
 
-export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, currentFirstDay, isOpen, isMobile }: HabitsTrackerLayoutProps) {
+export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
+    const { t } = useTranslation();
+
     return (
         <>
             <div className='header'>
-                <h2 className='habit-title'>This week's habits</h2>
+                <h1 className='habit-title'>{t('titles.allHabits')}</h1>
                 <WeekSwitchButtons></WeekSwitchButtons>
             </div>
             <div className='habits-table'>
@@ -20,26 +23,30 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
                         <button className='primary' onClick={() => togglePopUp()}><PlusIcon></PlusIcon></button>
                     </div>
                     <WeekDays></WeekDays>
-                    <div className='progress'>Streak</div>
+                    <div className='progress'>{t('common.streak')}</div>
                 </div>
                 {habits.map((habit, index) => (
                     <HabitsItem
-                        days={habit.weeks[currentFirstDay]}
-                        color={habit.selectedColor}
-                        name={habit.name}
-                        key={index}
+                        habit={habit}
+                        key={habit.id}
                         deleteHabit={deleteHabit}
-                        id={habit.id}
                         updateStatus={updateStatus}
-                        firstDay={currentFirstDay}
                         togglePopUp={togglePopUp}
                         isMobile={isMobile}
+                        weekDates={weekDates}
                     ></HabitsItem>
                 ))}
             </div>
             {isOpen && (
                 <PopupWrapperDesctope onClose={closePopUp}>
-                    <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                    <HabitPopUp
+                        onClose={closePopUp}
+                        togglePopUp={() => togglePopUp()}
+                        addHabit={addHabit}
+                        updateHabit={updateHabit}
+                        habit={habitToEdit}
+                        weekDates={weekDates}
+                    ></HabitPopUp>
                 </PopupWrapperDesctope>
             )}
         </>

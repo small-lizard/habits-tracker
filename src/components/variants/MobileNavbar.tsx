@@ -3,27 +3,33 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
 import { AuthPopup } from "../AuthPopup";
-import { CheckSquareIcon, CalendarIcon, LoginIcon } from "../Icons";
+import { CheckSquareIcon, CalendarIcon, LoginIcon, SettingsIcon } from "../Icons";
 import './mobileNavBar.css';
 import { OptionsDropdown } from "../OptionsDropdown";
 import { BottomSheetWrapperMobile } from "../modalWindowVariants/BottomSheetWrapperMobile";
+import { t } from "i18next";
 
 export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
     const [isAccOpthionsOpen, setIsAccOpthions] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
 
     return (
         <div className='nav-wrapper'>
             <nav className='navbar'>
                 <NavLink to='/' className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
                     <CheckSquareIcon />
-                    <span>This week</span>
+                    <span>{t('pages.habits')}</span>
                 </NavLink>
-                <NavLink to='/calendar' className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
+                <NavLink to={`/calendar/${currentHabitId ?? ''}`} className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
                     <CalendarIcon />
-                    <span>Calendar</span>
+                    <span>{t('pages.calendar')}</span>
+                </NavLink>
+                <NavLink to='/settings' className={({ isActive }) => `mobile-nav-button ${isActive ? 'active' : ''}`}>
+                    <SettingsIcon />
+                    <span>{t('pages.settings')}</span>
                 </NavLink>
                 {
                     user.isAuth ? (
@@ -34,10 +40,10 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
                             </button>
                             {
                                 isAccOpthionsOpen && (
-                                    <OptionsDropdown 
-                                    onClose={() => setIsAccOpthions(false)} 
-                                    ignoreButtonRef={buttonRef} 
-                                    isMobile={isMobile}/>
+                                    <OptionsDropdown
+                                        onClose={() => setIsAccOpthions(false)}
+                                        ignoreButtonRef={buttonRef}
+                                        isMobile={isMobile} />
                                 )
                             }
                         </>
@@ -45,7 +51,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
                         (
                             <button className="mobile-nav-button" onClick={() => setIsAuthOpen(true)}>
                                 <LoginIcon />
-                                <span>Log in</span>
+                                <span>{t('pages.logIn')}</span>
                             </button>
                         )
                 }

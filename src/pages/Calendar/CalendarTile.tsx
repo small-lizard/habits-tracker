@@ -1,4 +1,4 @@
-import { HabitStatusCalendar } from "../HabitTracker/types";
+import { HabitStatusCalendar } from "../types";
 
 type CalendarTileProps = {
     data: {

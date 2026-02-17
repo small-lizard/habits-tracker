@@ -1,4 +1,4 @@
-h3 {
+h2 {
   font-size: 24px;
   color: #262E4E;
   margin-bottom: 30px;
@@ -39,11 +39,6 @@ input::placeholder {
   gap: 20px;
   margin-bottom: 25px;
   position: relative;
-}
-
-.frequency-title {
-  font-size: 18px;
-  color: #262E4E;
 }
 
 .weekdays-checkbox {
@@ -90,11 +85,6 @@ input::placeholder {
   margin-bottom: 25px;
 }
 
-.color-title {
-  font-size: 18px;
-  color: #262E4E;
-}
-
 .color-radio-btn {
   display: flex;
   width: 100%;
@@ -131,7 +121,6 @@ input::placeholder {
 .submit,
 .edit {
   color: #FFF;
-  margin-bottom: 20px;
   background-color: #4A64FD;
   width: 375px;
   height: 60px;
@@ -203,27 +192,42 @@ input::placeholder {
   background-color: #ee4e4e;
 }
 
+.bottom-text {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.bottom-text span {
+  color: #4A64FD;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.bottom-btn-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 @media (max-width: 768px) {
 
   form,
   .delete-popup {
     width: 100%;
-    position: relative;
-    bottom: 0;
+  }
+
+  .bottom-btn-form {
+    margin-bottom: 38px;
   }
 
   .submit,
-  .edit {
-    width: 100%;
-    margin-bottom: 18px;
-    margin-top: 26px;
-  }
-
+  .edit,
   .cancel {
     width: 100%;
   }
 
-  h3 {
+  h2 {
     font-size: 20px;
     margin-bottom: 24px;
   }
@@ -237,13 +241,11 @@ input::placeholder {
     font-size: 14px;
   }
 
-  .frequency-wrapper,
-  .color-wrapper {
+  .frequency-wrapper {
     margin-bottom: 18px;
   }
 
-  .frequency-title,
-  .color-title {
-    font-size: 16px;
+  .color-wrapper {
+    margin-bottom: 24px;
   }
 }

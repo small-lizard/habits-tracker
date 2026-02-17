@@ -1,88 +1,122 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as habitsActions from '../store/habitsSlice';
-import * as habitsService from '../services/habitsService';
-import { DayOptions, HabitForUpdate, HabitOptions } from '../pages/HabitTracker/types';
+import * as habitsActions from './habitsSlice';
+import { HabitForUpdate, HabitOptions } from '../pages/types';
 import { RootState } from './store';
+import { habitsServicesAdapter } from '../services/habitsServices/habitsServicesAdapter';
+import { addCurrentWeek, addNewDates } from './habitUtils';
+import { getWeekDates } from '../utils/dateUtils';
+import { selectUiFirstDay } from './selectors';
 
-export const initHabits = createAsyncThunk<void, boolean, { state: RootState }>(
+type UpdateStatus = {
+    id: any,
+    dateKey: string
+}
+
+export const initHabits = createAsyncThunk<void, void, { state: RootState }>(
     "habitsSlice/setHabits",
-    async (isAuth: boolean, { dispatch }) => {
+    async (_, { dispatch, getState }) => {
+        const state = getState();
+        const uiFirstDay = selectUiFirstDay(state);
+        const weekDates = getWeekDates(uiFirstDay);
+        const service = habitsServicesAdapter(state.auth.isAuth);
+        const habits = await service.getAll();
 
-        if (!isAuth) {
-            const saved = localStorage.getItem('habits');
-            const habits = saved ? JSON.parse(saved) : [];
+        const updatedHabits = habits.map((habit: any) => ({
+            ...habit,
+            days: {
+                ...habit.days,
+                ...addCurrentWeek(habit, weekDates)
+            }
+        }));
 
-            dispatch(habitsActions.setHabits({ habits }));
-        } else {
-            const response = await habitsService.getAllHabits();
-
-            dispatch(habitsActions.setHabits({ habits: response }));
-        }
+        dispatch(habitsActions.setHabits({ habits: updatedHabits }));
     }
 )
 
 export const addHabitThunk = createAsyncThunk<void, HabitOptions, { state: RootState }>(
     "habitsSlice/addHabit",
     async (options: HabitOptions, { dispatch, getState }) => {
-        dispatch(habitsActions.addHabit({ options }));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.at(-1);
-
-        if (isAuth && newHabit) {
-            await habitsService.addHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
+        const uiFirstDay = selectUiFirstDay(state);
+        const weekDates = getWeekDates(uiFirstDay);
+        const updatedHabit = {
+            ...options,
+            days: addCurrentWeek(options, weekDates)
         }
+
+        dispatch(habitsActions.addHabit({ options: updatedHabit }));
+        const newState = getState();
+        
+        const service = habitsServicesAdapter(state.auth.isAuth);
+
+        service.sync(newState.habits.habits)
+
+        await service.add()
     }
 )
 
 export const updateHabitThunk = createAsyncThunk<void, HabitForUpdate, { state: RootState }>(
     "habitsSlice/updateHabit",
     async (options: HabitForUpdate, { dispatch, getState }) => {
-        dispatch(habitsActions.updateHabit({ options }));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.id)
+        const weekStart = state.settings.uiWeekStart;
+        dispatch(habitsActions.updateHabit({ options, weekStart }));
+        const service = habitsServicesAdapter(state.auth.isAuth);
 
-        if (isAuth && newHabit) {
-            await habitsService.updateHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
+        const newState = getState();
+        service.sync(newState.habits.habits)
+
+        await service.update(options.id)
     }
 )
 
-
-export const updateStatusHabitThunk = createAsyncThunk<void, { options: DayOptions; firstDay: number }, { state: RootState }>(
+export const updateStatusHabitThunk = createAsyncThunk<void, UpdateStatus, { state: RootState }>(
     "habitsSlice/updateStatus",
-    async (options, { dispatch, getState }) => {
+    async (options: UpdateStatus, { dispatch, getState }) => {
         dispatch(habitsActions.updateStatus(options));
         const state = getState();
-        const isAuth = state.auth.isAuth;
-        const newHabit = state.habits.habits.find(habit => habit.id === options.options.id)
+        const service = habitsServicesAdapter(state.auth.isAuth)
+        service.sync(state.habits.habits)
 
-        if (isAuth && newHabit) {
-            await habitsService.updateHabit(newHabit);
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
+        await service.update(options.id)
+    }
+);
+
+export const addNewDaysToHabitsThunk = createAsyncThunk<void, void, { state: RootState }>(
+    "habitsSlice/addNewDaysToHabits",
+    async (_, { dispatch, getState }) => {
+        const state = getState();
+        const habits = state.habits.habits;
+        const weekOffset = state.habits.weekOffset;
+        const service = habitsServicesAdapter(state.auth.isAuth);
+        const uiFirstDay = selectUiFirstDay(state);
+        const weekDates = getWeekDates(uiFirstDay);
+
+        const updatedHabits = habits.map((habit: any) => ({
+            ...habit,
+            days: {
+                ...habit.days,
+                ...addNewDates(habit, weekDates, weekOffset)
+            }
+        }));
+
+        dispatch(habitsActions.setHabits({ habits: updatedHabits }));
+        service.sync(updatedHabits)
+
+        for (const habit of updatedHabits) {
+            await service.update(habit.id);
         }
     }
 );
 
-
 export const deleteHabitThunk = createAsyncThunk<void, string, { state: RootState }>(
-    "habitsSlice/addHabit",
+    "habitsSlice/deleteHabit",
     async (id: string, { dispatch, getState }) => {
         dispatch(habitsActions.deleteHabit({ id }))
         const state = getState();
-        const isAuth = state.auth.isAuth;
+        const service = habitsServicesAdapter(state.auth.isAuth)
+        service.sync(state.habits.habits)
 
-        if (isAuth) {
-            await habitsService.deleteHabit(id)
-        } else {
-            localStorage.setItem('habits', JSON.stringify(state.habits.habits));
-        }
-
+        await service.delete(id)
     }
-)
+);

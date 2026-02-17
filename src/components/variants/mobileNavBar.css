@@ -11,7 +11,7 @@
 
 .navbar {
     display: flex;
-    gap: clamp(40px, 12vw, 60px);
+    gap: clamp(10px, 5vw, 30px);
     justify-content: center;
 }
 

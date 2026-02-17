@@ -1,24 +1,28 @@
 import { useSelector } from 'react-redux';
 import './weekDays.css';
-import { RootState } from '../../../../store/store';
+import { selectUiFirstDay } from '../../../../store/selectors';
+import i18n from '../../../../i18n';
 
 export function WeekDays() {
+    const uiFirstDay = useSelector(selectUiFirstDay);
     const today = new Date();
-    const currentFirstDay = useSelector((state: RootState) => state.habits.currentFirstDay)
-    const startOfWeek = new Date(currentFirstDay);
-
     const days = []
 
     for (let i = 0; i < 7; i++) {
-        const dayDate = new Date(startOfWeek);
-        dayDate.setDate(startOfWeek.getDate() + i);
-        const nameOfDay = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(dayDate);
-        const numberOfDay = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(dayDate);
-        const numberOfMonth = new Intl.DateTimeFormat("en-US", { month: "numeric" }).format(dayDate);
+        const dayDate = new Date(uiFirstDay);
+        dayDate.setDate(uiFirstDay.getDate() + i);
+        const localeMap: Record<string, string> = {
+            en: 'en-US',
+            ru: 'ru-RU',
+        };
+        const locale = localeMap[i18n.language] || 'en-US';
+        
+        const nameOfDay = new Intl.DateTimeFormat(locale, { weekday: "short" }).format(dayDate);
+        const numberOfDay = new Intl.DateTimeFormat(locale, { day: "numeric" }).format(dayDate);
+        const numberOfMonth = new Intl.DateTimeFormat(locale, { month: "numeric" }).format(dayDate);
 
         days.push({ name: nameOfDay, number: numberOfDay, month: numberOfMonth })
     }
-
 
     return <>
         {days.map((day, index) => {

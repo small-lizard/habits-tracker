@@ -12,6 +12,7 @@ import { useRef } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 import { BottomSheetWrapperMobile } from './modalWindowVariants/BottomSheetWrapperMobile';
+import { useTranslation } from 'react-i18next';
 
 type DropdownProps = {
     onClose: () => void;
@@ -20,6 +21,7 @@ type DropdownProps = {
 };
 
 export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: DropdownProps) => {
+    const { t } = useTranslation();
     const ref = useRef<HTMLUListElement | null>(null);
     const dispatch = useDispatch<AppDispatch>();
     const [isOpen, setIsOpen] = useState(false);
@@ -55,19 +57,19 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
             <li>
                 <button className="nav-button options" onClick={() => setIsResetPopupOpen(true)} >
                     <LockIcon />
-                    <span className='nav-item-text'>Change password</span>
+                    <span className='nav-item-text'>{t('buttons.changePassword')}</span>
                 </button>
             </li>
             <li>
                 <button className="nav-button options" onClick={() => setIsOpen(true)} >
                     <TrashIcon />
-                    <span className='nav-item-text'>Delete account</span>
+                    <span className='nav-item-text'>{t('buttons.deleteAccount')}</span>
                 </button>
             </li>
             <li>
                 <button className="nav-button options" onClick={logout} >
                     <LogoutIcon />
-                    <span className='nav-item-text'>Log out</span>
+                    <span className='nav-item-text'>{t('buttons.logOut')}</span>
                 </button>
             </li>
         </ul>

@@ -19,6 +19,12 @@ a {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  font-weight: 500;
+}
+
+input.radio {
+  height: inherit;
+  width: inherit;
 }
 
 ul,
@@ -32,29 +38,84 @@ a {
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('../public/assets/fonts/Poppins-Medium.woff2') format('woff2'),
-    url('../public/assets/fonts/Poppins-Medium.woff') format('woff'),
-    url('../public/assets/fonts/Poppins-Medium.ttf') format('truetype');
+  font-family: 'Ubuntu';
+  src: url('../public/assets/fonts/Ubuntu-Regular.woff2') format('woff2'),
+    url('../public/assets/fonts/Ubuntu-Regular.woff') format('woff'),
+    url('../public/assets/fonts/Ubuntu-Regular.ttf') format('truetype');
+
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../public/assets/fonts/Ubuntu-Medium.woff2') format('woff2'),
+    url('../public/assets/fonts/Ubuntu-Medium.woff') format('woff'),
+    url('../public/assets/fonts/Ubuntu-Medium.ttf') format('truetype');
 
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
-h1, h2, h3, h4, h5, h6 {
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../public/assets/fonts/Ubuntu-Bold.woff2') format('woff2'),
+    url('../public/assets/fonts/Ubuntu-Bold.woff') format('woff'),
+    url('../public/assets/fonts/Ubuntu-Bold.ttf') format('truetype');
+
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+}
+
+p,
+span {
+  font-weight: 400;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
   background-color: white;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: 'Ubuntu', sans-serif;
+  color: #262E4E;
 }
 
 #root {

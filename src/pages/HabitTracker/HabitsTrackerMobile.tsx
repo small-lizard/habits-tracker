@@ -4,14 +4,16 @@ import { WeekDays } from './components/WeekDays/WeekDays';
 import { HabitsItem } from './components/HabitItem/HabitItem';
 import { HabitPopUp } from './components/HabitPopUp/HabitPopUp';
 import { WeekSwitchButtons } from './components/WeekSwitchButtons/WeekSwitchButtons';
-import { HabitsTrackerLayoutProps } from './types';
+import { HabitsTrackerLayoutProps } from '../types';
 import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
+import { useTranslation } from 'react-i18next';
 
-export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, currentFirstDay, isOpen, isMobile }: HabitsTrackerLayoutProps) {
+export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
+    const { t } = useTranslation();
 
     return (
         <>
-            <h2 className='habit-title'>This week's habits</h2>
+            <h1 className='habit-title'>{t('titles.allHabits')}</h1>
             <div className='mobile-habits-table'>
                 <div className='mobile-habits-header'>
                     <div className='mobile-weekdays'>
@@ -23,17 +25,14 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
             <div className="mobile-habits-list">
                 {habits.map((habit, index) => (
                     <HabitsItem
-                        key={index}
-                        days={habit.weeks[currentFirstDay]}
-                        color={habit.selectedColor}
-                        name={habit.name}
+                        habit={habit}
+                        key={habit.id}
                         deleteHabit={deleteHabit}
-                        id={habit.id}
                         updateStatus={updateStatus}
-                        firstDay={currentFirstDay}
                         togglePopUp={togglePopUp}
                         isMobile={isMobile}
-                    />
+                        weekDates={weekDates}
+                    ></HabitsItem>
                 ))}
             </div>
 
@@ -41,7 +40,14 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
 
             {isOpen && (
                 <BottomSheetWrapperMobile onClose={closePopUp}>
-                    <HabitPopUp onClose={closePopUp} togglePopUp={() => togglePopUp()} addHabit={addHabit} updateHabit={updateHabit} habit={habitToEdit}></HabitPopUp>
+                    <HabitPopUp
+                        onClose={closePopUp}
+                        togglePopUp={() => togglePopUp()}
+                        addHabit={addHabit}
+                        updateHabit={updateHabit}
+                        habit={habitToEdit}
+                        weekDates={weekDates}
+                    ></HabitPopUp>
                 </BottomSheetWrapperMobile>
             )}
         </>
