@@ -7,7 +7,7 @@ import { useIsMobile } from './hooks/useIsMobile';
 import { HabitsTrackerContainer } from './pages/HabitTracker/HabitsTrackerContainer';
 import { MobileNavbar } from './components/variants/MobileNavbar';
 import { Settings } from './pages/Settings/Settings';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { initHabits } from './store/habitsThunks';
 import * as accountService from '../src/services/accountService';
 import * as userActions from '../src/store/authSlice';
@@ -16,6 +16,7 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const isMobile = useIsMobile();
   const isSidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
+  const [isLoading, setLoading] = useState(true);
 
   function getMainClass(isMobile: boolean, isSidebarOpen: boolean) {
     if (isMobile) {
@@ -27,6 +28,8 @@ function App() {
 
   useEffect(() => {
     const fetchAuth = async () => {
+      await accountService.warmUpServer();
+      
       const response = await accountService.checkAuth();
 
       dispatch(userActions.setUser({
@@ -37,9 +40,11 @@ function App() {
       }));
 
       await dispatch(initHabits());
+
+      setLoading(false);
     }
 
-    fetchAuth()
+    fetchAuth();
   }, []);
 
   return (
@@ -52,8 +57,8 @@ function App() {
       <main className={getMainClass(isMobile, isSidebarOpen)}>
         <div className="content">
           <Routes>
-            <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} />} />
-            <Route path="/calendar/:habitId?"  element={<CalendarContainer isMobile={isMobile} />} />
+            <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} isLoading={isLoading} />} />
+            <Route path="/calendar/:habitId?" element={<CalendarContainer isMobile={isMobile} />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>

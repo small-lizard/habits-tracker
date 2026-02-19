@@ -50,6 +50,7 @@ export type HabitsTrackerLayoutProps = {
   weekDates: any;
   isOpen: boolean;
   isMobile: boolean;
+  habitsLoadingStatus: string
 };
 
 export type CalendarLayoutProps = {

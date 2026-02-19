@@ -1,6 +1,11 @@
 import { ObjectId } from "bson";
 import { http } from "./http";
 
+export const warmUpServer = async () => {
+    const { data } = await http.get('/ping');
+    console.log(data);
+}
+
 export const checkAuth = async () => {
     const { data } = await http.get('/auth/check');
 

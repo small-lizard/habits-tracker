@@ -14,7 +14,8 @@
         "createAccount": "Create account",
         "register": "Sign up",
         "logIn": "Log in",
-        "changePassword": "Change password"
+        "changePassword": "Change password",
+        "noHabits":"Create your first habit!"
     },
     "common": {
         "streak": "Streak",

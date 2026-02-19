@@ -14,7 +14,8 @@
         "logIn": "Войти",
         "createAccount": "Создать аккаунт",
         "register": "Регистрация",
-        "changePassword": "Сменить пароль"
+        "changePassword": "Сменить пароль",
+        "noHabits":"Создай свою первую привычку!"
     },
     "common": {
         "streak": "Серия",
