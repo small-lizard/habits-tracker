@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import '../../../../components/popupDetails.css';
+import '../../../../components/form.css';
 import { ObjectId } from "bson";
 import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../../types';
-import { addCurrentWeek } from '../../../../store/habitUtils';
 import { useTranslation } from 'react-i18next';
 import { getWeekDaysTitle } from '../../../../utils/dateUtils';
 
@@ -89,21 +88,21 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         {
             habit ? <h2>{t('titles.editHabit')}</h2> : <h2>{t('titles.newHabit')}</h2>
         }
-        <div className='input-wrapper'>
-            <label className='inp'>
+        <div className="field">
+            <label>
                 <input
-                    type='text'
+                    type="text"
                     value={name}
-                    onChange={(e) => handleNameChange(e.target.value)}
                     placeholder='Name habit'
-                    aria-label='Name'
+                    onChange={(e) => handleNameChange(e.target.value)}
+                    className={errors.name ? "input-error" : ""}
                 />
             </label>
             {errors.name && (
-                <div className='name-error'>{errors.name}</div>
+                <p className="error-text">{errors.name}</p>
             )}
         </div>
-        <div className='frequency-wrapper'>
+        <div className='field'>
             <h3>{t('titles.frequency')}</h3>
             <div className='weekdays-checkbox'>
                 {
@@ -120,11 +119,11 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                         </label>
                     ))
                 }
-                {errors.days && <div className='checkbox-error'>{errors.days}</div>}
             </div>
+            {errors.days && <p className='error-text'>{errors.days}</p>}
         </div>
 
-        <div className='color-wrapper'>
+        <div className='field'>
             <h3>{t('titles.chooseColor')}</h3>
             <div className='color-radio-btn'>
                 {colors.map((color) => (

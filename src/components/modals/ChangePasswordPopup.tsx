@@ -2,7 +2,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
-import '../popupDetails.css';
+import '../form.css';
 import { useTranslation } from "react-i18next";
 
 type ChangePasswordProps = {
@@ -38,30 +38,38 @@ export function ChangePasswordPopup({ onClose, resetPassword, closeOpthions }: C
             }
 
             alert(serverMessage || "Server error");
-
         }
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h2>{t('titles.changePassword')}</h2>
-            <label className="inp">
-                <input
-                    type="password"
-                    placeholder="Current password"
-                    {...register("password")}
-                />
-                {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
-            </label>
-
-            <label className="inp">
-                <input
-                    type="password"
-                    placeholder="New password"
-                    {...register("newPassword")}
-                />
-                {errors.newPassword && <p style={{ color: "red" }}>{errors.newPassword.message}</p>}
-            </label>
+            <div className="field">
+                <label>
+                    <input
+                        type="password"
+                        placeholder="Current password"
+                        {...register("password")}
+                        className={errors.password ? "input-error" : ""}
+                    />
+                </label>
+                {errors.password && (
+                    <p className="error-text">{errors.password.message}</p>
+                )}
+            </div>
+            <div className="field">
+                <label>
+                    <input
+                        type="password"
+                        placeholder="New password"
+                        {...register("newPassword")}
+                        className={errors.newPassword ? "input-error" : ""}
+                    />
+                </label>
+                {errors.newPassword && (
+                    <p className="error-text">{errors.newPassword.message}</p>
+                )}
+            </div>
             <div className='bottom-btn-form'>
                 <button type="submit" className="submit">{t('buttons.change')}</button>
                 <button

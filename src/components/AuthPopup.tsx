@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import * as userActions from '../store/authSlice';
 import { AxiosError } from "axios";
-import './popupDetails.css';
+import './form.css';
 import { useTranslation } from 'react-i18next';
 import { initHabits } from '../store/habitsThunks';
 
@@ -87,36 +87,50 @@ export function AuthPopup({ onClose }: { onClose: () => void }) {
             {mode === "register" && (
                 <>
                     <h2>{t('titles.createAccount')}</h2>
-                    <label className='inp'>
-                        <input
-                            type='text'
-                            placeholder='Name'
-                            {...register("name")}
-                        />
-                        {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
-                    </label>
+                    <div className="field">
+                        <label>
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                {...register("name")}
+                                className={errors.name ? "input-error" : ""}
+                            />
+                        </label>
+                        {errors.name && (
+                            <p className="error-text">{errors.name.message}</p>
+                        )}
+                    </div>
                 </>
             )}
             {mode === "login" && (
                 <h2>{t('titles.logIn')}</h2>
             )}
-            <label className='inp'>
-                <input
-                    type='email'
-                    placeholder='Email'
-                    {...register("email")}
-                />
-                {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
-            </label>
-            <label className='inp'>
-                <input
-                    type='password'
-                    placeholder='Password'
-                    {...register("password")}
-                />
-                {errors.password && <p style={{ color: "red" }}>{errors.password.message}</p>}
-            </label>
-
+            <div className="field">
+                <label>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        {...register("email")}
+                        className={errors.email ? "input-error" : ""}
+                    />
+                </label>
+                {errors.email && (
+                    <p className="error-text">{errors.email.message}</p>
+                )}
+            </div>
+            <div className="field">
+                <label>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        {...register("password")}
+                        className={errors.password ? "input-error" : ""}
+                    />
+                </label>
+                {errors.password && (
+                    <p className="error-text">{errors.password.message}</p>
+                )}
+            </div>
             <div className='bottom-btn-form'>
                 <button type="submit" className='submit'>
                     {mode === "login" ? t('titles.logIn') : t('buttons.signup')}

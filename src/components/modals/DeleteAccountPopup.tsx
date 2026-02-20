@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import '../popupDetails.css';
+import '../form.css';
 
 type DeleteAccountProps = {
     onClose: () => void,
