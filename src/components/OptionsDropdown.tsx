@@ -6,13 +6,13 @@ import { AppDispatch } from '../store/store';
 import { LockIcon, LogoutIcon, TrashIcon } from './Icons';
 import "./optionsDropdown.css";
 import { useState } from 'react';
-import { DeleteAccountPopup } from './modals/DeleteAccountPopup';
 import { ChangePasswordPopup } from './modals/ChangePasswordPopup';
 import { useRef } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 import { BottomSheetWrapperMobile } from './modalWindowVariants/BottomSheetWrapperMobile';
 import { useTranslation } from 'react-i18next';
+import { ConfirmDialog } from './ConfirmDialog';
 
 type DropdownProps = {
     onClose: () => void;
@@ -76,24 +76,25 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
         {
             isOpen && (
                 <Wrapper onClose={() => setIsOpen(false)} >
-                    <DeleteAccountPopup
-                        onClose={() => setIsOpen(false)}
-                        deleteUser={() => deleteAccount()}
-                        closeOpthions={onClose}
-                    ></DeleteAccountPopup>
-                </Wrapper>
+                    <ConfirmDialog
+                        title={t('alert.deleteAccount')}
+                        description={t('alert.allDeleted')}
+                        onConfirm={() => deleteAccount()}
+                        onCancel={() => setIsOpen(false)}
+                    ></ConfirmDialog>
+                </Wrapper >
             )
         }
-        {
-            isResetPopupOpen && (
-                <Wrapper onClose={() => setIsResetPopupOpen(false)}>
-                    <ChangePasswordPopup
-                        onClose={() => setIsResetPopupOpen(false)}
-                        resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}
-                        closeOpthions={onClose}
-                    ></ChangePasswordPopup>
-                </Wrapper>
-            )
-        }
+{
+    isResetPopupOpen && (
+        <Wrapper onClose={() => setIsResetPopupOpen(false)}>
+            <ChangePasswordPopup
+                onClose={() => setIsResetPopupOpen(false)}
+                resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}
+                closeOpthions={onClose}
+            ></ChangePasswordPopup>
+        </Wrapper>
+    )
+}
     </>
 }

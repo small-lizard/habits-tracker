@@ -34,7 +34,9 @@
         "incorrectEmail": "Incorrect email",
         "passwordMinLength": "Password must be at least 6 characters long",
         "deleteAccount": "Delete account?",
-        "allDeleted": "All habits will be deleted."
+        "allDeleted": "All habits will be deleted.",
+        "deleteHabit": "Delete habit?",
+        "deleteHabitUndone":"This action cannot be undone."
     },
     "buttons": {
         "create": "Create",

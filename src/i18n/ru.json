@@ -15,7 +15,7 @@
         "createAccount": "Создать аккаунт",
         "register": "Регистрация",
         "changePassword": "Сменить пароль",
-        "noHabits":"Создай свою первую привычку!"
+        "noHabits": "Создай свою первую привычку!"
     },
     "common": {
         "streak": "Серия",
@@ -34,7 +34,9 @@
         "incorrectEmail": "Некорректный email",
         "passwordMinLength": "Пароль должен быть не менее 6 символов",
         "deleteAccount": "Удалить аккаунт?",
-        "allDeleted": "Все привычки будут удалены."
+        "allDeleted": "Все привычки будут удалены.",
+        "deleteHabit": "Удалить привычку?",
+        "deleteHabitUndone": "Это действие нельзя отменить."
     },
     "buttons": {
         "create": "Создать",

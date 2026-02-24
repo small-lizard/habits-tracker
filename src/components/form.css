@@ -14,6 +14,10 @@ form,
   flex-direction: column;
 }
 
+.delete-popup {
+  align-items: center;
+}
+
 .input-wrapper {
   position: relative;
 }
@@ -144,13 +148,13 @@ input::placeholder {
   cursor: pointer;
 }
 
-.delete-popup-text {
-  font-size: 16px;
-  margin-bottom: 20px;
+.delete-popup-title{
+  margin-bottom: 15px;
 }
 
-.delete-popup-text span {
-  font-size: 20px;
+.delete-popup-text {
+  font-size: 16px;
+  margin-bottom: 30px;
 }
 
 .submit.delete-btn {
