@@ -2,12 +2,12 @@ import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
-import { AuthPopup } from "../AuthPopup";
 import { CheckSquareIcon, CalendarIcon, LoginIcon, SettingsIcon } from "../Icons";
 import './mobileNavBar.css';
 import { OptionsDropdown } from "../OptionsDropdown";
 import { BottomSheetWrapperMobile } from "../modalWindowVariants/BottomSheetWrapperMobile";
 import { t } from "i18next";
+import { AuthModal } from "../AuthModal/AuthModal";
 
 export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
@@ -60,7 +60,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
             {
                 isAuthOpen && (
                     <BottomSheetWrapperMobile onClose={() => setIsAuthOpen(false)}>
-                        <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                        <AuthModal onClose={() => setIsAuthOpen(false)}></AuthModal>
                     </BottomSheetWrapperMobile>
                 )
             }

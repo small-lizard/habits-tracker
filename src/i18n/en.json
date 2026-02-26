@@ -15,7 +15,8 @@
         "register": "Sign up",
         "logIn": "Log in",
         "changePassword": "Change password",
-        "noHabits":"Create your first habit!"
+        "noHabits":"Create your first habit!",
+        "verifyEmail":"Verify Email"
     },
     "common": {
         "streak": "Streak",
@@ -36,7 +37,9 @@
         "deleteAccount": "Delete account?",
         "allDeleted": "All habits will be deleted.",
         "deleteHabit": "Delete habit?",
-        "deleteHabitUndone":"This action cannot be undone."
+        "deleteHabitUndone":"This action cannot be undone.",
+        "codeRequired":"Code required",
+        "sentCode": "We've sent the code to your email: "
     },
     "buttons": {
         "create": "Create",
@@ -47,7 +50,8 @@
         "delete": "Delete",
         "change": "Change",
         "signup": "Sign up",
-        "changePassword": "Change password"
+        "changePassword": "Change password",
+        "confirm":"Confirm"
     },
     "pages": {
         "habits": "Habits",

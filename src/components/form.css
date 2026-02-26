@@ -12,6 +12,7 @@ form,
 .delete-popup {
   display: flex;
   flex-direction: column;
+  width: 375px;
 }
 
 .delete-popup {
@@ -129,7 +130,7 @@ input::placeholder {
 .edit {
   color: #FFF;
   background-color: #4A64FD;
-  width: 375px;
+  width: 100%;
   height: 60px;
   text-align: center;
   border-radius: 15px;
@@ -141,14 +142,14 @@ input::placeholder {
   color: #262E4E;
   background-color: white;
   border: 2px solid #B2B2C9;
-  width: 375px;
+  width: 100%;
   height: 60px;
   text-align: center;
   border-radius: 15px;
   cursor: pointer;
 }
 
-.delete-popup-title{
+.delete-popup-title {
   margin-bottom: 15px;
 }
 
@@ -159,6 +160,7 @@ input::placeholder {
 
 .submit.delete-btn {
   background-color: #ee4e4e;
+  width: 100%;
 }
 
 .bottom-text {
@@ -177,6 +179,33 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+}
+
+.verify-form-text {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.box-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.input-tile {
+  text-align: center;
+  padding-left: 0px;
+  font-size: 30px;
+  color: #262E4E;
+  background-color: color-mix(in srgb, #4A64FD 15%, transparent);
+  border: none;
+  height: 70px;
+}
+
+.input-tile.active {
+  border: 2px solid #4A64FD;
 }
 
 @media (max-width: 768px) {

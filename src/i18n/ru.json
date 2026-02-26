@@ -15,7 +15,8 @@
         "createAccount": "Создать аккаунт",
         "register": "Регистрация",
         "changePassword": "Сменить пароль",
-        "noHabits": "Создай свою первую привычку!"
+        "noHabits": "Создай свою первую привычку!",
+        "verifyEmail":"Подтверждение Email"
     },
     "common": {
         "streak": "Серия",
@@ -36,7 +37,9 @@
         "deleteAccount": "Удалить аккаунт?",
         "allDeleted": "Все привычки будут удалены.",
         "deleteHabit": "Удалить привычку?",
-        "deleteHabitUndone": "Это действие нельзя отменить."
+        "deleteHabitUndone": "Это действие нельзя отменить.",
+        "codeRequired":"Code required",
+        "sentCode": "Мы отправили код на почту: "
     },
     "buttons": {
         "create": "Создать",
@@ -47,7 +50,8 @@
         "change": "Изменить",
         "signup": "Зарегистрироваться",
         "changePassword": "Сменить пароль",
-        "deleteAccount": "Удалить аккаунт"
+        "deleteAccount": "Удалить аккаунт",
+        "confirm":"Подтвердить"
     },
     "pages": {
         "habits": "Привычки",
