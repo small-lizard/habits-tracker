@@ -1,14 +1,14 @@
 import './sideBar.css';
 import { CalendarIcon, CheckSquareIcon, LoginIcon, SettingsIcon, ToggleIcon } from "./Icons";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { AuthPopup } from './AuthPopup';
 import { AppDispatch, RootState } from '../store/store';
 import { useSelector, useDispatch } from 'react-redux';
 import * as sidebarActions from '../store/uiSlice';
 import { Account } from './Account';
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 import { useTranslation } from 'react-i18next';
+import { AuthModal } from './AuthModal/AuthModal';
 
 export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
     const [isAuthOpen, setIsAuthOpen] = useState(false)
@@ -79,7 +79,7 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
 
             {isAuthOpen && (
                 <PopupWrapperDesctope onClose={() => setIsAuthOpen(false)}>
-                    <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                    <AuthModal onClose={() => setIsAuthOpen(false)}></AuthModal>
                 </PopupWrapperDesctope>
             )}
         </div>
