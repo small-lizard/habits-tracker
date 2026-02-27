@@ -5,6 +5,8 @@ import { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 import * as accountService from "../../services/accountService";
 import "../form.css";
+import { useState } from "react";
+import { EyeIcon, EyeOffIcon } from "../Icons";
 
 type RegisterProps = {
     onRegistered: (email: string) => void;
@@ -50,6 +52,8 @@ export function RegisterForm({ onRegistered, onSwitch }: RegisterProps) {
         }
     }
 
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h2>{t('titles.createAccount')}</h2>
@@ -81,12 +85,22 @@ export function RegisterForm({ onRegistered, onSwitch }: RegisterProps) {
             </div>
             <div className="field">
                 <label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        {...register("password")}
-                        className={errors.password ? "input-error" : ""}
-                    />
+                    <div className="input-wrapper">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            {...register("password")}
+                            className={errors.password ? "input-error" : ""}
+                        />
+                        <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => setShowPassword(prev => !prev)}
+                            className="toggle-password"
+                        >
+                            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                        </button>
+                    </div>
                 </label>
                 {errors.password && (
                     <p className="error-text">{errors.password.message}</p>
@@ -103,5 +117,4 @@ export function RegisterForm({ onRegistered, onSwitch }: RegisterProps) {
             </div>
         </form>
     )
-
 }
