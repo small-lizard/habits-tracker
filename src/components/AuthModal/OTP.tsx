@@ -25,14 +25,20 @@ export const OTP = ({ length = 6, onComplete }: OTPProps) => {
             inputsRef.current[index + 1]?.focus();
         }
 
-        if (newOtp.every((digit) => digit !== "")) {
-            onComplete?.(newOtp.join(""));
-        }
+        onComplete?.(newOtp.join(""));
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-        if (e.key === "Backspace" && !otp[index] && index > 0) {
-            inputsRef.current[index - 1]?.focus();
+        if (e.key === "Backspace") {
+            const newOtp = [...otp];
+
+            if (!newOtp[index] && index > 0) {
+                inputsRef.current[index - 1]?.focus();
+            } else {
+                newOtp[index] = "";
+                setOtp(newOtp);
+                onComplete?.(newOtp.join(""));
+            }
         }
     };
 
@@ -53,9 +59,7 @@ export const OTP = ({ length = 6, onComplete }: OTPProps) => {
 
         inputsRef.current[Math.min(i, length - 1)]?.focus();
 
-        if (newOtp.every((d) => d !== "")) {
-            onComplete?.(newOtp.join(""));
-        }
+        onComplete?.(newOtp.join(""))
     };
 
     const handleClick = (index: number) => {

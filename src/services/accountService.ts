@@ -25,10 +25,18 @@ export const registerUser = async (useData: { name: string; email: string; passw
     return data;
 }
 
-export const verifyEmail = async (email: string, code: any) => {
-    const localHabits = getLocalHabits();
+export const sendOTP = async (email: string, name: string) => {
+    const savedLang = localStorage.getItem('lang') || 'ru';
 
-    const { data } = await http.post('/verify-email', { email, code, localHabits});
+    const { data } = await http.post('/auth/otp', { email, name, savedLang });
+
+    return data;
+}
+
+export const verifyEmail = async (email: string, code: string) => {
+    const habits = getLocalHabits();
+
+    const { data } = await http.post('/verify-email', { email, code, habits });
 
     localStorage.removeItem('habits');
 

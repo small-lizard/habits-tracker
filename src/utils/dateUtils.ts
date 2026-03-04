@@ -44,7 +44,7 @@ export function getWeekDaysTitle({ weekStart = WeekStartOptions.Sunday, weekdayT
         en: 'en-US',
         ru: 'ru-RU',
     };
-    
+
     const locale = localeMap[i18n.language] || 'en-US';
     const base = new Date();
     const difference = weekStart === WeekStartOptions.Monday ? 1 : 0;
@@ -58,4 +58,11 @@ export function getWeekDaysTitle({ weekStart = WeekStartOptions.Sunday, weekdayT
     }
 
     return week;
+}
+
+export function getMinutesAndSeconds(time: number) {
+    let minutes = Math.floor(time / 60000);
+    let formattedSeconds = String(Math.floor((time % 60000) / 1000)).padStart(2, "0");
+
+    return `${minutes}:${formattedSeconds}`
 }
