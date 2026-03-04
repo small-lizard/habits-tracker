@@ -15,8 +15,8 @@
         "register": "Sign up",
         "logIn": "Log in",
         "changePassword": "Change password",
-        "noHabits":"Create your first habit!",
-        "verifyEmail":"Verify Email"
+        "noHabits": "Create your first habit!",
+        "verifyEmail": "Verify Email"
     },
     "common": {
         "streak": "Streak",
@@ -26,7 +26,9 @@
         "yourHabits": "Your habits",
         "settings": "Settings",
         "unauth": "Don't have an account yet?",
-        "haveAcc": "Already have an account?"
+        "haveAcc": "Already have an account?",
+        "requestCode": "You can request a new code in {{counter}}s.",
+        "canRequestCode": "You can request a new code."
     },
     "alert": {
         "selectDay": "Please select at least one day",
@@ -37,9 +39,16 @@
         "deleteAccount": "Delete account?",
         "allDeleted": "All habits will be deleted.",
         "deleteHabit": "Delete habit?",
-        "deleteHabitUndone":"This action cannot be undone.",
-        "codeRequired":"Code required",
-        "sentCode": "We've sent the code to your email: "
+        "deleteHabitUndone": "This action cannot be undone.",
+        "codeRequired": "Code required",
+        "sentCode": "We've sent the code to email: ",
+        "passwordTooLong": "Password must be no longer than 100 characters.",
+        "attemptsTitle": "Temporarily Limited",
+        "attemptsText": "Attempts for this email address are temporarily restricted. Please try again in {{time}}.",
+        "success": "Success",
+        "passwordChangedDesc": "Your new password has been saved. Use it to log in next time.",
+        "welcome": "Welcome!",
+        "singUpDesc": "Your account is ready. Start exploring the app now."
     },
     "buttons": {
         "create": "Create",
@@ -51,12 +60,28 @@
         "change": "Change",
         "signup": "Sign up",
         "changePassword": "Change password",
-        "confirm":"Confirm"
+        "confirm": "Confirm",
+        "resendCode": "Resend code"
     },
     "pages": {
         "habits": "Habits",
         "calendar": "Calendar",
         "settings": "Settings",
         "logIn": "Log in"
+    },
+    "placeholder": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "newPassword": "New password",
+        "currentPassword": "Current password"
+    },
+    "error": {
+        "emailNotExist": "A user with this email doesn't exists.",
+        "invalidPassword": "Invali Password.",
+        "emailNotVerified": "Email is not verified. Please sign-up again.",
+        "codeExpired": "Code expired.",
+        "invalidCode": "Invalid code.",
+        "userExist": "User is already registered."
     }
 }
