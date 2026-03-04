@@ -17,13 +17,22 @@ type LoginProps = {
     onSwitch: () => void;
 }
 
+const serverErrorMap: Record<string, { field?: string, key: string }> = {
+    USER_NOT_FOUND_BY_EMAIL: { field: "email", key: "error.emailNotExist" },
+    INVALID_PASSWORD: { field: "password", key: "error.invalidPassword" },
+    EMAIL_NOT_VERIFIED: { field: "email", key: "error.emailNotVerified" },
+}
+
 export function LoginForm({ onClose, onSwitch }: LoginProps) {
     const { t } = useTranslation();
     const dispatch = useDispatch<AppDispatch>();
 
     const loginSchema = z.object({
         email: z.string().email(t('alert.incorrectEmail')),
-        password: z.string().min(6, t('alert.passwordMinLength'))
+        password: z
+            .string()
+            .min(6, t('alert.passwordMinLength'))
+            .max(100, t("alert.passwordTooLong"))
     })
 
     type FormData = z.infer<typeof loginSchema>;
@@ -47,77 +56,79 @@ export function LoginForm({ onClose, onSwitch }: LoginProps) {
             await dispatch(initHabits());
             onClose();
         } catch (err) {
-            const axiosErr = err as AxiosError<{ error: string }>;
-            const serverMessage = axiosErr.response?.data?.error;
+            const axiosErr = err as AxiosError<{ error: string, code: string }>;
+            const serverMessage = axiosErr.response?.data?.error ?? "Server error";
+            const serverCode = axiosErr.response?.data?.code;
+            const error = serverErrorMap[serverCode ?? ""];
 
-            if (serverMessage?.toLowerCase().includes("email")) {
-                setError("email", { type: "server", message: serverMessage });
+            if (error) {
+                if (error.field) {
+                    setError(error.field as any, {
+                        type: "server",
+                        message: t(error.key)
+                    })
 
-                return;
+                    return;
+                }
             }
 
-            if (serverMessage?.toLowerCase().includes("password")) {
-                setError("password", { type: "server", message: serverMessage });
-
-                return;
-            }
-
-            alert(serverMessage || "Server error");
+            alert(serverMessage);
         }
     };
 
     const [showPassword, setShowPassword] = useState(false);
 
-    return (<form onSubmit={handleSubmit(onSubmit)}>
-        <h2>{t('titles.logIn')}</h2>
-        <div className="field">
-            <label>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    {...register("email")}
-                    className={errors.email ? "input-error" : ""}
-                />
-            </label>
-            {errors.email && (
-                <p className="error-text">{errors.email.message}</p>
-            )}
-        </div>
-        <div className="field">
-            <label>
-                <div className="input-wrapper">
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <h2>{t('titles.logIn')}</h2>
+            <div className="field">
+                <label>
                     <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        {...register("password")}
-                        className={errors.password ? "input-error" : ""}
+                        type="email"
+                        placeholder={t('placeholder.email')}
+                        {...register("email")}
+                        className={errors.email ? "input-error" : ""}
                     />
-                    <button
-                        type="button"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => setShowPassword(prev => !prev)}
-                        className="toggle-password"
-                    >
-                        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                    </button>
-                </div>
-            </label>
-            {errors.password && (
-                <p className="error-text">{errors.password.message}</p>
-            )}
-        </div>
-
-        <div className='bottom-btn-form'>
-            <button type="submit" className="submit">{t("titles.logIn")}</button>
-            <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
-
-            <div className='bottom-text'>
-                <p>
-                    {t("common.unauth")}
-                    <span onClick={onSwitch}>{t("titles.register")}</span>
-                </p>
+                </label>
+                {errors.email && (
+                    <p className="error-text">{errors.email.message}</p>
+                )}
             </div>
-        </div>
-    </form>
+            <div className="field">
+                <label>
+                    <div className="input-wrapper">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder={t('placeholder.password')}
+                            {...register("password")}
+                            className={errors.password ? "input-error" : ""}
+                        />
+                        <button
+                            type="button"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => setShowPassword(prev => !prev)}
+                            className="toggle-password"
+                        >
+                            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                        </button>
+                    </div>
+                </label>
+                {errors.password && (
+                    <p className="error-text">{errors.password.message}</p>
+                )}
+            </div>
+
+            <div className='bottom-btn-form'>
+                <button type="submit" className="submit">{t("titles.logIn")}</button>
+                <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
+
+                <div className='bottom-text'>
+                    <p>
+                        {t("common.unauth")}
+                        <span onClick={onSwitch}>{t("titles.register")}</span>
+                    </p>
+                </div>
+            </div>
+        </form>
     )
 }
