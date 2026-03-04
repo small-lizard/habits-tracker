@@ -12,7 +12,8 @@ import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 import { BottomSheetWrapperMobile } from './modalWindowVariants/BottomSheetWrapperMobile';
 import { useTranslation } from 'react-i18next';
-import { ConfirmDialog } from './ConfirmDialog';
+import { ConfirmDialog } from './notifications/ConfirmDialog';
+import { SuccessAlert } from './notifications/SuccessAlert';
 
 type DropdownProps = {
     onClose: () => void;
@@ -26,6 +27,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
     const dispatch = useDispatch<AppDispatch>();
     const [isOpen, setIsOpen] = useState(false);
     const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
+    const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
 
     useOnClickOutside(ref, onClose, !(isOpen || isResetPopupOpen), ignoreButtonRef ? [ignoreButtonRef] : []);
 
@@ -47,7 +49,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
 
     const resetPassword = async (password: string, newPassword: string) => {
         await accountService.changePassword({ password, newPassword });
-        onClose()
+        setIsSuccessAlertOpen(true);
     }
 
     const Wrapper = isMobile ? BottomSheetWrapperMobile : PopupWrapperDesctope;
@@ -85,16 +87,25 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
                 </Wrapper >
             )
         }
-{
-    isResetPopupOpen && (
-        <Wrapper onClose={() => setIsResetPopupOpen(false)}>
-            <ChangePasswordPopup
-                onClose={() => setIsResetPopupOpen(false)}
-                resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}
-                closeOpthions={onClose}
-            ></ChangePasswordPopup>
-        </Wrapper>
-    )
-}
+        {
+            isResetPopupOpen && (
+                <Wrapper onClose={() => setIsResetPopupOpen(false)}>
+                    <ChangePasswordPopup
+                        onClose={() => setIsResetPopupOpen(false)}
+                        resetPassword={(password: string, newPassword: string) => resetPassword(password, newPassword)}
+                        closeOpthions={onClose}
+                    ></ChangePasswordPopup>
+                </Wrapper>
+            )
+        }
+        {isSuccessAlertOpen && (
+            <Wrapper onClose={() => setIsResetPopupOpen(false)}>
+                <SuccessAlert
+                    title={t('alert.success')}
+                    message={t('alert.passwordChangedDesc')}
+                    onClose={() => setIsSuccessAlertOpen(false)}
+                />
+            </Wrapper>
+        )}
     </>
 }

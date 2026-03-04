@@ -8,15 +8,10 @@ h3 {
   margin-bottom: 15px;
 }
 
-form,
-.delete-popup {
+form {
   display: flex;
   flex-direction: column;
   width: 375px;
-}
-
-.delete-popup {
-  align-items: center;
 }
 
 .input-wrapper {
@@ -137,6 +132,7 @@ input::placeholder {
 .tick {
   position: absolute;
   top: 1px;
+  color: #FFF;
 }
 
 .submit,
@@ -160,20 +156,6 @@ input::placeholder {
   text-align: center;
   border-radius: 15px;
   cursor: pointer;
-}
-
-.delete-popup-title {
-  margin-bottom: 15px;
-}
-
-.delete-popup-text {
-  font-size: 16px;
-  margin-bottom: 30px;
-}
-
-.submit.delete-btn {
-  background-color: #ee4e4e;
-  width: 100%;
 }
 
 .bottom-text {
@@ -221,10 +203,28 @@ input::placeholder {
   border: 2px solid #4A64FD;
 }
 
+.timer {
+  display: flex;
+  margin-bottom: 20px;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.timer-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #4A64FD;
+}
+
+.timer-button:disabled {
+  color: #B2B2C9;
+}
+
 @media (max-width: 768px) {
 
-  form,
-  .delete-popup {
+  form {
     width: 100%;
   }
 
@@ -261,5 +261,13 @@ input::placeholder {
 
   .error-text {
     font-size: 14px;
+  }
+
+  .timer {
+    font-size: 14px;
+  }
+
+  .bottom-text {
+    font-size: 16px;
   }
 }

@@ -9,7 +9,7 @@ import './habitsItem.css';
 import { useState } from 'react';
 import { BottomSheetWrapperMobile } from '../../../../components/modalWindowVariants/BottomSheetWrapperMobile';
 import { PopupWrapperDesctope } from '../../../../components/modalWindowVariants/PopupWrapperDesctope';
-import { ConfirmDialog } from '../../../../components/ConfirmDialog';
+import { ConfirmDialog } from '../../../../components/notifications/ConfirmDialog';
 import { t } from 'i18next';
 
 type HabitListProps = {

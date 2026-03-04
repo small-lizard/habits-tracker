@@ -93,7 +93,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                 <input
                     type="text"
                     value={name}
-                    placeholder='Name habit'
+                    placeholder={t('placeholder.name')}
                     onChange={(e) => handleNameChange(e.target.value)}
                     className={errors.name ? "input-error" : ""}
                 />

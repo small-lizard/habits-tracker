@@ -1,16 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
-import { LeftSideBar } from './components/LeftSideBar';
 import { CalendarContainer } from './pages/Calendar/CalendarContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from './store/store';
 import { useIsMobile } from './hooks/useIsMobile';
 import { HabitsTrackerContainer } from './pages/HabitTracker/HabitsTrackerContainer';
-import { MobileNavbar } from './components/variants/MobileNavbar';
+import { MobileNavbar } from './components/navigationVariants/MobileNavbar';
 import { Settings } from './pages/Settings/Settings';
 import { useEffect, useState } from 'react';
 import { initHabits } from './store/habitsThunks';
 import * as accountService from '../src/services/accountService';
 import * as userActions from '../src/store/authSlice';
+import { LeftSideBar } from './components/navigationVariants/LeftSideBar';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();

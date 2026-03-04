@@ -5,9 +5,15 @@ import { VerifyForm } from "./VerifyForm";
 
 type Step = "login" | "register" | "verify";
 
-export function AuthModal({ onClose }: { onClose: () => void }) {
+type authProps = {
+    onClose: () => void;
+    onSuccess: () => void;
+};
+
+export function AuthModal({ onClose, onSuccess }: authProps) {
     const [step, setStep] = useState<Step>("login");
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
 
     return (
         <>
@@ -20,8 +26,9 @@ export function AuthModal({ onClose }: { onClose: () => void }) {
 
             {step === "register" && (
                 <RegisterForm
-                    onRegistered={(email) => {
+                    onRegistered={(email, name) => {
                         setEmail(email);
+                        setName(name);
                         setStep("verify");
                     }}
                     onSwitch={() => setStep("login")}
@@ -31,7 +38,9 @@ export function AuthModal({ onClose }: { onClose: () => void }) {
             {step === "verify" && (
                 <VerifyForm
                     email={email}
+                    name={name}
                     onClose={onClose}
+                    onSuccess={onSuccess}
                 />
             )}
         </>

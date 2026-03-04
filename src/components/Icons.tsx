@@ -1,22 +1,22 @@
-
-export const PlusIcon = () => (
+export const PlusIcon = ({ color = "#F5F5F5", rotate = 0, size = 24 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="25"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 25 24"
     fill="none"
+    style={{ transform: `rotate(${rotate}deg)` }}
   >
     <path
       d="M12.5 5V19"
-      stroke="#F5F5F5"
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M5.5 12H19.5"
-      stroke="#F5F5F5"
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -102,18 +102,18 @@ export const ArrowCircle = () => (
   </svg>
 );
 
-export const CheckIcon = () => (
+export const CheckIcon = ({size = "24"}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
   >
     <path
       d="M20 6L9 17L4 12"
-      stroke="white"
-      strokeWidth="2"
+      stroke="currentColor"
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
@@ -327,11 +327,11 @@ export const LockIcon = () => (
   </svg>
 );
 
-export const TrashIcon = () => (
+export const TrashIcon = ({size = "24"}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
   >
