@@ -39,6 +39,7 @@ export const verifyEmail = async (email: string, code: string) => {
     const { data } = await http.post('/verify-email', { email, code, habits });
 
     localStorage.removeItem('habits');
+    localStorage.setItem("guest_mode", "false");
 
     return data;
 }
@@ -51,18 +52,21 @@ export const loginUser = async (userData: { email: string; password: string }) =
     };
     const { data } = await http.post('/login', fullUserData);
     localStorage.removeItem('habits');
+    localStorage.setItem("guest_mode", "false");
 
     return data;
 };
 
 export const logoutUser = async () => {
     const { data } = await http.post('/logout', {});
+    localStorage.setItem("guest_mode", "true");
 
     return data;
 };
 
 export const deleteUser = async () => {
     await http.delete('/delete-account');
+    localStorage.setItem("guest_mode", "true");
 };
 
 export const changePassword = async (data: { password: string, newPassword: string }) => {

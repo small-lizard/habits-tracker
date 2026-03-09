@@ -27,24 +27,30 @@ function App() {
   }
 
   useEffect(() => {
-    const fetchAuth = async () => {
-      await accountService.warmUpServer();
-      
-      const response = await accountService.checkAuth();
+    const guestMode = localStorage.getItem("guest_mode");
 
-      dispatch(userActions.setUser({
-        id: response.userId ?? '',
-        isAuth: response.isAuth,
-        name: response.name ?? '',
-        email: response.email ?? '',
-      }));
+    const load = async () => {
+      if (!guestMode || guestMode === "true") {
+        localStorage.setItem("guest_mode", "true");
+        accountService.warmUpServer();
+      }
+
+      if (guestMode === "false") {
+        await accountService.warmUpServer();
+        const response = await accountService.checkAuth();
+        dispatch(userActions.setUser({
+          id: response.userId ?? '',
+          isAuth: response.isAuth,
+          name: response.name ?? '',
+          email: response.email ?? '',
+        }));
+      }
 
       await dispatch(initHabits());
-
       setLoading(false);
     }
 
-    fetchAuth();
+    load();
   }, []);
 
   return (
