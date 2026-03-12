@@ -90,7 +90,7 @@ http://localhost:5000
 
 4. Run the backend server
 
-The frontend requires the backend API to be running.
+The frontend requires the backend server to be running.
 You can find the backend repository here: ([repo](https://github.com/small-lizard/habits-tracker-server)).
 
 Follow the setup instructions in that repository to start the backend locally.
