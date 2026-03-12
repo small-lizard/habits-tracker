@@ -17,7 +17,7 @@ You can use it now https://habits-tracker-dev.vercel.app
 
 Habit Tracker is a Progressive Web App (PWA), so you can install it on your device for quick access:
 - On desktop or mobile, open the demo link in a browser.
-- On desktop, click the install icon in the address bar (usually appears on the right side)
+- On desktop, click the install icon in the address bar (usually appears on the right side in Chrome)
 - On mobile, tap the Share button or open the browser menu and select “Add to Home Screen” or “Install app”
 - After installation, Habit Tracker will appear on your home screen and can be used like a native app.
 
@@ -59,9 +59,9 @@ Styles are stored next to their components, which makes maintaining and reusing 
 ### Requirements
 - Node.js ≥ 18
 - npm
-- Running backend API ([repo](https://github.com/small-lizard/habits-tracker-server)) 
+- Running the backend server ([repo](https://github.com/small-lizard/habits-tracker-server)) 
   
-To run the backend locally, follow these steps.
+To run the frontend locally, follow these steps.
 
 1. Clone the repository
 
@@ -95,13 +95,11 @@ You can find the backend repository here: ([repo](https://github.com/small-lizar
 
 Follow the setup instructions in that repository to start the backend locally.
 
-5. Start the development server
+5. Start the application
 
 ```bash
 npm run start
 ```
-
-This will start webpack-dev-server in development mode.
 
 
 ## Future Improvements
