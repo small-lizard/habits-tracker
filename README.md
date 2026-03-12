@@ -1,8 +1,11 @@
 # ✨ Habit Tracker
-Full-stack web application for tracking habits.
+Web application for tracking habits.
 
-Allows users to create habits, mark their completion, and track progress. The interface is minimalist and not overloaded with settings, making it quick and easy to use. The backend is built with Node.js + Express and provides an API for the frontend.
+### Motivation
 
+The project was created with the goal of building a habit tracker that is simple and quick to use. The idea was to avoid unnecessary settings and complex configuration so that creating a new habit takes only a few seconds.
+
+Habit Tracker focuses on a minimal interface where users can open the app and start using it immediately. It allows users to create habits, mark their completion by day, and track progress through weekly streaks.
 
 <img width="1292" height="695" alt="habit-app" src="https://github.com/user-attachments/assets/153068b2-35db-4ab7-be75-58933ed0c245" />
 
@@ -14,8 +17,9 @@ You can use it now https://habits-tracker-dev.vercel.app
 
 Habit Tracker is a Progressive Web App (PWA), so you can install it on your device for quick access:
 - On desktop or mobile, open the demo link in a browser.
-- You may see a prompt to “Add to Home Screen” or install the app.
-- Once installed, Habit Tracker can be used like a native app
+- On desktop, click the install icon in the address bar (usually appears on the right side)
+- On mobile, tap the Share button or open the browser menu and select “Add to Home Screen” or “Install app”
+- After installation, Habit Tracker will appear on your home screen and can be used like a native app.
 
 ## Features
 
@@ -52,8 +56,53 @@ Styles are stored next to their components, which makes maintaining and reusing 
 
 ## Run Locally
 
-Demo is available at the link above.
-To run locally, you will need Node.js, npm/yarn, and access to the API.
+### Requirements
+- Node.js ≥ 18
+- npm
+- Running backend API ([repo](https://github.com/small-lizard/habits-tracker-server)) 
+  
+To run the backend locally, follow these steps.
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/small-lizard/habits-tracker.git
+cd habits-tracker
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Create a .env file
+
+```bash
+NODE_ENV=development
+```
+
+When NODE_ENV=development, the frontend automatically connects to the local backend API at:
+
+```bash
+http://localhost:5000
+```
+
+4. Run the backend server
+
+The frontend requires the backend API to be running.
+You can find the backend repository here: ([repo](https://github.com/small-lizard/habits-tracker-server)).
+
+Follow the setup instructions in that repository to start the backend locally.
+
+5. Start the development server
+
+```bash
+npm run start
+```
+
+This will start webpack-dev-server in development mode.
+
 
 ## Future Improvements
 
