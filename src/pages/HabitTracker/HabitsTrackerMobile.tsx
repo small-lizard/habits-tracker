@@ -54,7 +54,6 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
                         addHabit={addHabit}
                         updateHabit={updateHabit}
                         habit={habitToEdit}
-                        weekDates={weekDates}
                     ></HabitPopUp>
                 </BottomSheetWrapperMobile>
             )}

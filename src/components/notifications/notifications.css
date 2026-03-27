@@ -112,7 +112,11 @@
 
   .modal-message {
     font-size: 16px;
-    max-width: 260px;
+    max-width: 280px;
+  }
+
+  .modal-message.success {
+    margin-bottom: 38px;
   }
 
   .modal-icon {

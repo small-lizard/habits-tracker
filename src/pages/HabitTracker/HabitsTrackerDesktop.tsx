@@ -53,7 +53,6 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
                         addHabit={addHabit}
                         updateHabit={updateHabit}
                         habit={habitToEdit}
-                        weekDates={weekDates}
                     ></HabitPopUp>
                 </PopupWrapperDesctope>
             )}

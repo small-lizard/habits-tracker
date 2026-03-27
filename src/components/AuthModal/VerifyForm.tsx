@@ -155,7 +155,9 @@ export function VerifyForm({ email, name, onClose, onSuccess }: verifyProps) {
                     className="timer-button"
                 >{t("buttons.resendCode")}</button>
             </div>
-            <button type="submit" className="submit">{t("buttons.confirm")}</button>
+            <div className='bottom-btn-form'>
+                <button type="submit" className="submit">{t("buttons.confirm")}</button>
+            </div>
         </form>
     )
 }

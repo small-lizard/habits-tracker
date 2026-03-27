@@ -18,6 +18,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const isUserGuest = localStorage.getItem("guest_mode")
 
     return (
         <div className='nav-wrapper'>
@@ -35,7 +36,7 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
                     <span>{t('pages.settings')}</span>
                 </NavLink>
                 {
-                    user.isAuth ? (
+                    isUserGuest == 'true' ? (
                         <>
                             <button ref={buttonRef} className='mobile-nav-button' onClick={() => setIsAccOpthions(prev => !prev)}>
                                 <span className='account-icon'>{user.name.charAt(0).toUpperCase()}</span>
