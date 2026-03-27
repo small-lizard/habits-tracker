@@ -12,10 +12,9 @@ type HabitPopUpProps = {
     habit?: HabitForUpdate,
     updateHabit: (options: HabitForUpdate) => void,
     onClose: () => void,
-    weekDates: any,
 }
 
-export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDates }: HabitPopUpProps) {
+export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitPopUpProps) {
     const [name, setName] = React.useState(habit?.name ?? '');
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
@@ -84,6 +83,14 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
         togglePopUp();
     }
 
+    const placeholders = [
+        t("placeholders.nameHabit1"),
+        t("placeholders.nameHabit2"),
+        t("placeholders.nameHabit3"),
+    ];
+
+    const [placeholder, setPlaceholder] = useState(placeholders[0]);
+
     return <form action='' onSubmit={handleSubmit}>
         {
             habit ? <h2>{t('titles.editHabit')}</h2> : <h2>{t('titles.newHabit')}</h2>
@@ -93,7 +100,8 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit, weekDate
                 <input
                     type="text"
                     value={name}
-                    placeholder={t('placeholder.name')}
+                    placeholder={placeholder}
+                    onFocus={() => {setPlaceholder(placeholders[Math.floor(Math.random() * placeholders.length)])}}
                     onChange={(e) => handleNameChange(e.target.value)}
                     className={errors.name ? "input-error" : ""}
                 />

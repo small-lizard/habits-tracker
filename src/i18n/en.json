@@ -83,5 +83,10 @@
         "codeExpired": "Code expired.",
         "invalidCode": "Invalid code.",
         "userExist": "User is already registered."
+    },
+    "placeholders": {
+        "nameHabit1": "For example:  Drink water",
+        "nameHabit2": "For example:  Read for 10 minutes",
+        "nameHabit3": "For example:  Do some stretching"
     }
 }
