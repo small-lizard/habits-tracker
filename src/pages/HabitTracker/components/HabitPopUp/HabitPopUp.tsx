@@ -5,6 +5,8 @@ import { CheckIcon } from '../../../../components/Icons';
 import { HabitOptions, HabitForUpdate } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import { getWeekDaysTitle } from '../../../../utils/dateUtils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
 
 type HabitPopUpProps = {
     togglePopUp: () => void;
@@ -19,7 +21,8 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
     const [days, setDays] = useState(habit?.template ? habit.template.map((day) => !!day) : Array(7).fill(false));
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
-    const week = getWeekDaysTitle({ weekdayType: "narrow" });
+    const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.uiWeekStart)
+    const week = getWeekDaysTitle({ weekStart: firstDayOfWeekSetting, weekdayType: "narrow" });
     const { t } = useTranslation();
     const [errors, setErrors] = useState({ name: '', days: '' });
 
@@ -91,6 +94,11 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
 
     const [placeholder, setPlaceholder] = useState(placeholders[0]);
 
+    const getRealIndex = (uiIndex: number) => {
+        const offset = firstDayOfWeekSetting == 'sunday' ? 0 : 1;
+        return (uiIndex + offset) % 7
+    }
+
     return <form action='' onSubmit={handleSubmit}>
         {
             habit ? <h2>{t('titles.editHabit')}</h2> : <h2>{t('titles.newHabit')}</h2>
@@ -101,7 +109,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
                     type="text"
                     value={name}
                     placeholder={placeholder}
-                    onFocus={() => {setPlaceholder(placeholders[Math.floor(Math.random() * placeholders.length)])}}
+                    onFocus={() => { setPlaceholder(placeholders[Math.floor(Math.random() * placeholders.length)]) }}
                     onChange={(e) => handleNameChange(e.target.value)}
                     className={errors.name ? "input-error" : ""}
                 />
@@ -120,8 +128,8 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
                                 type='checkbox'
                                 name='day'
                                 value={day}
-                                checked={days[index]}
-                                onChange={(e) => handleCheckBox(index, e.target.checked)}
+                                checked={days[getRealIndex(index)]}
+                                onChange={(e) => handleCheckBox(getRealIndex(index), e.target.checked)}
                             />
                             <span>{day}</span>
                         </label>
