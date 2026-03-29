@@ -19,7 +19,6 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
     const { t } = useTranslation();
     const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
-    const isUserGuest = localStorage.getItem("guest_mode")
 
     useEffect(() => {
         if (window.innerWidth < 1280) {
@@ -57,7 +56,7 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                             </NavLink>
                         </li>
                         {
-                            isUserGuest == 'true' && (
+                            !user.isAuth && (
                                 <li>
                                     <button className="nav-button" onClick={() => setIsAuthOpen(true)}>
                                         <LoginIcon />
@@ -69,9 +68,8 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                     </ul>
                 </nav>
             </div>
-
             {
-                isUserGuest == 'false' && (
+                user.isAuth && (
                     <Account
                         name={user.name}
                         email={user.email}

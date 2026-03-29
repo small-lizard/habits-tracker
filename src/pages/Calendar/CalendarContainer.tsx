@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./calendar.css";
 import { formatDate, getStartOfWeek, getWeekDates, getWeekDaysTitle } from "../../utils/dateUtils";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { HabitStatusCalendar, HabitStatus, CalendarLayoutProps } from "../types";
