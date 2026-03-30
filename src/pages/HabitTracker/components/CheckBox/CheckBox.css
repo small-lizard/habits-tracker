@@ -10,7 +10,7 @@
   width: 40px;
   height: 40px;
   position: relative;
-  cursor: pointer;
+  cursor: default;
 }
 
 .habit-check-label input {
@@ -23,6 +23,7 @@
   border-radius: 50%;
   border: 2px solid #92959F;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .habit-check-label input:checked+.checkbox {

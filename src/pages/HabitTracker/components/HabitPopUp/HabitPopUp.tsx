@@ -22,7 +22,7 @@ export function HabitPopUp({ togglePopUp, addHabit, habit, updateHabit }: HabitP
     const [selectedColor, setColor] = useState(habit?.selectedColor ?? '#4A64FD');
     const colors = ['#4A64FD', '#8A78FF', '#FF8464', '#66d365ff', '#ffce66ff', '#f16884ff'];
     const firstDayOfWeekSetting = useSelector((state: RootState) => state.settings.uiWeekStart)
-    const week = getWeekDaysTitle({ weekStart: firstDayOfWeekSetting, weekdayType: "narrow" });
+    const week = getWeekDaysTitle({ weekStart: firstDayOfWeekSetting});
     const { t } = useTranslation();
     const [errors, setErrors] = useState({ name: '', days: '' });
 

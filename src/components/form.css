@@ -72,9 +72,6 @@ input::placeholder {
 
 .circle {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .circle input {
@@ -89,7 +86,7 @@ input::placeholder {
   height: 40px;
   border-radius: 50%;
   border: 2px solid #B2B2C9;
-  font-size: 22px;
+  font-size: 16px;
   color: #B2B2C9;
   cursor: pointer;
   user-select: none;
@@ -254,6 +251,10 @@ input::placeholder {
   input::placeholder {
     font-size: 14px;
   }
+
+  .circle span {
+  font-size: 14px;
+}
 
   .field {
     margin-bottom: 22px;
