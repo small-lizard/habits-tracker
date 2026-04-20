@@ -2,19 +2,22 @@ import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../store/store";
-import { AuthPopup } from "../AuthPopup";
 import { CheckSquareIcon, CalendarIcon, LoginIcon, SettingsIcon } from "../Icons";
 import './mobileNavBar.css';
 import { OptionsDropdown } from "../OptionsDropdown";
 import { BottomSheetWrapperMobile } from "../modalWindowVariants/BottomSheetWrapperMobile";
-import { t } from "i18next";
+import { AuthModal } from "../AuthModal/AuthModal";
+import { useTranslation } from "react-i18next";
+import { SuccessAlert } from "../notifications/SuccessAlert";
 
 export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
+    const { t } = useTranslation();
     const [isAuthOpen, setIsAuthOpen] = useState(false)
     const [isAccOpthionsOpen, setIsAccOpthions] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
+    const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
 
     return (
         <div className='nav-wrapper'>
@@ -60,10 +63,23 @@ export const MobileNavbar = ({ isMobile }: { isMobile: boolean }) => {
             {
                 isAuthOpen && (
                     <BottomSheetWrapperMobile onClose={() => setIsAuthOpen(false)}>
-                        <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                        <AuthModal
+                            onClose={() => setIsAuthOpen(false)}
+                            onSuccess={() => setIsSuccessAlertOpen(true)}
+                        ></AuthModal>
                     </BottomSheetWrapperMobile>
                 )
             }
+
+            {isSuccessAlertOpen && (
+                <BottomSheetWrapperMobile onClose={() => setIsSuccessAlertOpen(false)}>
+                    <SuccessAlert
+                        title={t('alert.welcome')}
+                        message={t('alert.singUpDesc')}
+                        onClose={() => setIsSuccessAlertOpen(false)}
+                    />
+                </BottomSheetWrapperMobile>
+            )}
         </div>
     )
 }

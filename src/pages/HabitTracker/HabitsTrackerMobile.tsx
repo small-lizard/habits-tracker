@@ -8,7 +8,7 @@ import { HabitsTrackerLayoutProps } from '../types';
 import { BottomSheetWrapperMobile } from '../../components/modalWindowVariants/BottomSheetWrapperMobile';
 import { useTranslation } from 'react-i18next';
 
-export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
+export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates, habitsLoadingStatus }: HabitsTrackerLayoutProps) {
     const { t } = useTranslation();
 
     return (
@@ -23,7 +23,15 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
                 </div>
             </div>
             <div className="mobile-habits-list">
-                {habits.map((habit, index) => (
+                {habitsLoadingStatus === 'loading' && (
+                    <div className='loader-container'>
+                        <div className="loader"></div>
+                    </div>
+                )}
+                {habitsLoadingStatus === 'noHabits' && (
+                    <p className='no-habits-text'>{t('titles.noHabits')}</p>
+                )}
+                {habitsLoadingStatus === 'hasHabits' && habits.map((habit, index) => (
                     <HabitsItem
                         habit={habit}
                         key={habit.id}
@@ -46,7 +54,6 @@ export function HabitsTrackerMobile({ habits, togglePopUp, deleteHabit, updateSt
                         addHabit={addHabit}
                         updateHabit={updateHabit}
                         habit={habitToEdit}
-                        weekDates={weekDates}
                     ></HabitPopUp>
                 </BottomSheetWrapperMobile>
             )}

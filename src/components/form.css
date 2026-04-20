@@ -4,10 +4,14 @@ h2 {
   margin-bottom: 30px;
 }
 
-form,
-.delete-popup {
+h3 {
+  margin-bottom: 15px;
+}
+
+form {
   display: flex;
   flex-direction: column;
+  width: 375px;
 }
 
 .input-wrapper {
@@ -25,7 +29,6 @@ input {
   border: 2px solid #B2B2C9;
   padding-left: 15px;
   font-size: 18px;
-  margin-bottom: 25px;
 }
 
 input::placeholder {
@@ -33,12 +36,32 @@ input::placeholder {
   font-size: 16px;
 }
 
-.frequency-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.field {
   margin-bottom: 25px;
+}
+
+.input-error {
+  border-color: #ee4e4e;
+}
+
+.error-text {
+  color: #ee4e4e;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.input-wrapper {
   position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  top: 30%;
+  right: 20px;
 }
 
 .weekdays-checkbox {
@@ -49,9 +72,6 @@ input::placeholder {
 
 .circle {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .circle input {
@@ -66,7 +86,7 @@ input::placeholder {
   height: 40px;
   border-radius: 50%;
   border: 2px solid #B2B2C9;
-  font-size: 22px;
+  font-size: 16px;
   color: #B2B2C9;
   cursor: pointer;
   user-select: none;
@@ -76,13 +96,6 @@ input::placeholder {
   background-color: none;
   border-color: #262E4E;
   color: #262E4E;
-}
-
-.color-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 25px;
 }
 
 .color-radio-btn {
@@ -116,13 +129,14 @@ input::placeholder {
 .tick {
   position: absolute;
   top: 1px;
+  color: #FFF;
 }
 
 .submit,
 .edit {
   color: #FFF;
   background-color: #4A64FD;
-  width: 375px;
+  width: 100%;
   height: 60px;
   text-align: center;
   border-radius: 15px;
@@ -134,62 +148,11 @@ input::placeholder {
   color: #262E4E;
   background-color: white;
   border: 2px solid #B2B2C9;
-  width: 375px;
+  width: 100%;
   height: 60px;
   text-align: center;
   border-radius: 15px;
   cursor: pointer;
-}
-
-.name-error,
-.checkbox-error {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 10px);
-  background: #ef9b9b;
-  border-radius: 10px;
-  border: none;
-  color: #fff;
-  font-size: 14px;
-  padding: 10px;
-  display: flex;
-  white-space: nowrap;
-  align-items: center;
-  z-index: 10;
-  width: fit-content;
-}
-
-.name-error {
-  top: 55%;
-}
-
-.checkbox-error {
-  top: 100%;
-}
-
-.name-error::before,
-.checkbox-error::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  width: 15px;
-  height: 15px;
-  background: rgb(239, 155, 155);
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.delete-popup-text {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.delete-popup-text span {
-  font-size: 20px;
-}
-
-.submit.delete-btn {
-  background-color: #ee4e4e;
 }
 
 .bottom-text {
@@ -208,12 +171,57 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+}
+
+.verify-form-text {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.box-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.input-tile {
+  text-align: center;
+  padding-left: 0px;
+  font-size: 30px;
+  color: #262E4E;
+  background-color: color-mix(in srgb, #4A64FD 15%, transparent);
+  border: none;
+  height: 70px;
+}
+
+.input-tile.active {
+  border: 2px solid #4A64FD;
+}
+
+.timer {
+  display: flex;
+  margin-bottom: 20px;
+  width: 100%;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.timer-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #4A64FD;
+}
+
+.timer-button:disabled {
+  color: #B2B2C9;
 }
 
 @media (max-width: 768px) {
 
-  form,
-  .delete-popup {
+  form {
     width: 100%;
   }
 
@@ -232,20 +240,35 @@ input::placeholder {
     margin-bottom: 24px;
   }
 
+  h3 {
+    margin-bottom: 16px;
+  }
+
   input {
     font-size: 16px;
-    margin-bottom: 18px;
   }
 
   input::placeholder {
     font-size: 14px;
   }
 
-  .frequency-wrapper {
-    margin-bottom: 18px;
+  .circle span {
+  font-size: 14px;
+}
+
+  .field {
+    margin-bottom: 22px;
   }
 
-  .color-wrapper {
-    margin-bottom: 24px;
+  .error-text {
+    font-size: 14px;
+  }
+
+  .timer {
+    font-size: 14px;
+  }
+
+  .bottom-text {
+    font-size: 16px;
   }
 }

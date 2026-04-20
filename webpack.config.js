@@ -39,7 +39,8 @@ module.exports = {
       patterns: [
         { from: path.resolve(__dirname, "public/manifest.json"), to: "manifest.json" },
         { from: path.resolve(__dirname, "public/icon192.png"), to: "icon192.png" },
-        { from: path.resolve(__dirname, "public/icon512.png"), to: "icon512.png" }
+        { from: path.resolve(__dirname, "public/icon512.png"), to: "icon512.png" },
+        { from: path.resolve(__dirname, "public/favicon.ico"), to: "favicon.ico" }
       ]
     })
   ],

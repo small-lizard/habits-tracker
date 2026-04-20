@@ -84,7 +84,11 @@ nav ul {
   gap: 10px;
 }
 
-.nav-button:hover,
+.nav-button:hover{
+  background-color: color-mix(in srgb, #4A64FD 15%, transparent);
+  color: #4A64FD;
+}
+
 .nav-button.active {
   background-color: #4A64FD;
   color: #F4F3F3;

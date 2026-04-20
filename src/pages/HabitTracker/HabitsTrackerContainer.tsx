@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HabitOptions, HabitForUpdate, HabitsTrackerLayoutProps } from '../types';
 import './habitsTracker.css';
 import { addHabitThunk, deleteHabitThunk, updateHabitThunk, updateStatusHabitThunk } from '../../store/habitsThunks';
@@ -11,9 +11,10 @@ import { selectUiFirstDay } from '../../store/selectors';
 
 type HabitsTrackerProps = {
     isMobile: boolean;
+    isLoading: boolean
 }
 
-export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
+export function HabitsTrackerContainer({ isMobile, isLoading }: HabitsTrackerProps) {
     const habits = useSelector((state: RootState) => state.habits.habits)
     const uiFirstDay = useSelector(selectUiFirstDay);
     const weekDates = getWeekDates(uiFirstDay);
@@ -45,6 +46,10 @@ export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
 
     const closePopUp = () => setIsOpen(false);
 
+    const habitsLoadingStatus = isLoading
+        ? 'loading'
+        : habits.length > 0 ? 'hasHabits' : 'noHabits';
+
     const layoutProps: HabitsTrackerLayoutProps = {
         habits,
         togglePopUp,
@@ -57,6 +62,7 @@ export function HabitsTrackerContainer({ isMobile }: HabitsTrackerProps) {
         isOpen,
         weekDates,
         isMobile,
+        habitsLoadingStatus
     }
 
     return isMobile

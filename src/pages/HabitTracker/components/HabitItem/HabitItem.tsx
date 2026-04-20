@@ -6,6 +6,11 @@ import { formatDate } from '../../../../utils/dateUtils';
 import { HabitForUpdate, HabitOptions, HabitStatus, uiHabitStatus } from '../../../types';
 import { CheckBox } from '../CheckBox/CheckBox';
 import './habitsItem.css';
+import { useState } from 'react';
+import { BottomSheetWrapperMobile } from '../../../../components/modalWindowVariants/BottomSheetWrapperMobile';
+import { PopupWrapperDesctope } from '../../../../components/modalWindowVariants/PopupWrapperDesctope';
+import { ConfirmDialog } from '../../../../components/notifications/ConfirmDialog';
+import { t } from 'i18next';
 
 type HabitListProps = {
     habit: HabitOptions,
@@ -32,7 +37,7 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
 
     const weekStatus = weekDates.map((date: any) => {
         const dateKey = formatDate(date);
-        
+
         if (habit.days[dateKey] === undefined) {
             return uiHabitStatus.Disabled;
         }
@@ -42,14 +47,29 @@ export function HabitsItem({ habit, deleteHabit, updateStatus, togglePopUp, isMo
 
     const weekStreak = countWeekStreak(habit, firstDayOfWeekSetting);
 
+    const [open, setOpen] = useState(false);
+
+    const Wrapper = isMobile ? BottomSheetWrapperMobile : PopupWrapperDesctope;
+
     return <div className='habit-line'>
         <div className='habit-details'>
             <span className='habit-name'>{habit.name}</span>
             <div className='habit-details-buttons'>
                 <button aria-label='Edit' className='icon-btn edit-btn' onClick={handleEditClick}><EditIcon /></button>
-                <button aria-label='Delete' className='icon-btn' onClick={() => deleteHabit(habit.id)}><DeleteIcon /></button>
+                <button aria-label='Delete' className='icon-btn' onClick={() => setOpen(true)}><DeleteIcon /></button>
             </div>
         </div>
+        {open && (
+            <Wrapper onClose={() => setOpen(false)} >
+                <ConfirmDialog
+                    title={t('alert.deleteHabit')}
+                    description={t('alert.deleteHabitUndone')}
+                    onConfirm={() => deleteHabit(habit.id)}
+                    onCancel={() => setOpen(false)}
+                >
+                </ConfirmDialog>
+            </Wrapper>
+        )}
         {
             isMobile ? (
                 <div className='second-habit-line'>

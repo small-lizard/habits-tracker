@@ -8,7 +8,7 @@ import { HabitsTrackerLayoutProps } from '../types';
 import { PopupWrapperDesctope } from '../../components/modalWindowVariants/PopupWrapperDesctope';
 import { useTranslation } from 'react-i18next';
 
-export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates }: HabitsTrackerLayoutProps) {
+export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateStatus, closePopUp, addHabit, updateHabit, habitToEdit, isOpen, isMobile, weekDates, habitsLoadingStatus }: HabitsTrackerLayoutProps) {
     const { t } = useTranslation();
 
     return (
@@ -25,7 +25,15 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
                     <WeekDays></WeekDays>
                     <div className='progress'>{t('common.streak')}</div>
                 </div>
-                {habits.map((habit, index) => (
+                {habitsLoadingStatus === 'loading' && (
+                    <div className='loader-container'>
+                        <div className="loader"></div>
+                    </div>
+                )}
+                {habitsLoadingStatus === 'noHabits' && (
+                    <p className='no-habits-text'>{t('titles.noHabits')}</p>
+                )}
+                {habitsLoadingStatus === 'hasHabits' && habits.map((habit, index) => (
                     <HabitsItem
                         habit={habit}
                         key={habit.id}
@@ -45,7 +53,6 @@ export function HabitsTrackerDesktop({ habits, togglePopUp, deleteHabit, updateS
                         addHabit={addHabit}
                         updateHabit={updateHabit}
                         habit={habitToEdit}
-                        weekDates={weekDates}
                     ></HabitPopUp>
                 </PopupWrapperDesctope>
             )}

@@ -1,21 +1,22 @@
 import { Route, Routes } from 'react-router-dom';
-import { LeftSideBar } from './components/LeftSideBar';
 import { CalendarContainer } from './pages/Calendar/CalendarContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from './store/store';
 import { useIsMobile } from './hooks/useIsMobile';
 import { HabitsTrackerContainer } from './pages/HabitTracker/HabitsTrackerContainer';
-import { MobileNavbar } from './components/variants/MobileNavbar';
+import { MobileNavbar } from './components/navigationVariants/MobileNavbar';
 import { Settings } from './pages/Settings/Settings';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { initHabits } from './store/habitsThunks';
 import * as accountService from '../src/services/accountService';
 import * as userActions from '../src/store/authSlice';
+import { LeftSideBar } from './components/navigationVariants/LeftSideBar';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
   const isMobile = useIsMobile();
   const isSidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
+  const [isLoading, setLoading] = useState(true);
 
   function getMainClass(isMobile: boolean, isSidebarOpen: boolean) {
     if (isMobile) {
@@ -26,20 +27,30 @@ function App() {
   }
 
   useEffect(() => {
-    const fetchAuth = async () => {
-      const response = await accountService.checkAuth();
+    const guestMode = localStorage.getItem("guest_mode");
 
-      dispatch(userActions.setUser({
-        id: response.userId ?? '',
-        isAuth: response.isAuth,
-        name: response.name ?? '',
-        email: response.email ?? '',
-      }));
+    const load = async () => {
+      if (!guestMode || guestMode === "true") {
+        localStorage.setItem("guest_mode", "true");
+        accountService.warmUpServer();
+      }
+
+      if (guestMode === "false") {
+        await accountService.warmUpServer();
+        const response = await accountService.checkAuth();
+        dispatch(userActions.setUser({
+          id: response.userId ?? '',
+          isAuth: response.isAuth,
+          name: response.name ?? '',
+          email: response.email ?? '',
+        }));
+      }
 
       await dispatch(initHabits());
+      setLoading(false);
     }
 
-    fetchAuth()
+    load();
   }, []);
 
   return (
@@ -52,8 +63,8 @@ function App() {
       <main className={getMainClass(isMobile, isSidebarOpen)}>
         <div className="content">
           <Routes>
-            <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} />} />
-            <Route path="/calendar/:habitId?"  element={<CalendarContainer isMobile={isMobile} />} />
+            <Route path="/" element={<HabitsTrackerContainer isMobile={isMobile} isLoading={isLoading} />} />
+            <Route path="/calendar/:habitId?" element={<CalendarContainer isMobile={isMobile} />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>

@@ -6,13 +6,14 @@ import { AppDispatch } from '../store/store';
 import { LockIcon, LogoutIcon, TrashIcon } from './Icons';
 import "./optionsDropdown.css";
 import { useState } from 'react';
-import { DeleteAccountPopup } from './modals/DeleteAccountPopup';
 import { ChangePasswordPopup } from './modals/ChangePasswordPopup';
 import { useRef } from "react";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
 import { BottomSheetWrapperMobile } from './modalWindowVariants/BottomSheetWrapperMobile';
 import { useTranslation } from 'react-i18next';
+import { ConfirmDialog } from './notifications/ConfirmDialog';
+import { SuccessAlert } from './notifications/SuccessAlert';
 
 type DropdownProps = {
     onClose: () => void;
@@ -26,6 +27,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
     const dispatch = useDispatch<AppDispatch>();
     const [isOpen, setIsOpen] = useState(false);
     const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
+    const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
 
     useOnClickOutside(ref, onClose, !(isOpen || isResetPopupOpen), ignoreButtonRef ? [ignoreButtonRef] : []);
 
@@ -47,7 +49,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
 
     const resetPassword = async (password: string, newPassword: string) => {
         await accountService.changePassword({ password, newPassword });
-        onClose()
+        setIsSuccessAlertOpen(true);
     }
 
     const Wrapper = isMobile ? BottomSheetWrapperMobile : PopupWrapperDesctope;
@@ -76,12 +78,13 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
         {
             isOpen && (
                 <Wrapper onClose={() => setIsOpen(false)} >
-                    <DeleteAccountPopup
-                        onClose={() => setIsOpen(false)}
-                        deleteUser={() => deleteAccount()}
-                        closeOpthions={onClose}
-                    ></DeleteAccountPopup>
-                </Wrapper>
+                    <ConfirmDialog
+                        title={t('alert.deleteAccount')}
+                        description={t('alert.allDeleted')}
+                        onConfirm={() => deleteAccount()}
+                        onCancel={() => setIsOpen(false)}
+                    ></ConfirmDialog>
+                </Wrapper >
             )
         }
         {
@@ -95,5 +98,14 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
                 </Wrapper>
             )
         }
+        {isSuccessAlertOpen && (
+            <Wrapper onClose={() => setIsResetPopupOpen(false)}>
+                <SuccessAlert
+                    title={t('alert.success')}
+                    message={t('alert.passwordChangedDesc')}
+                    onClose={() => setIsSuccessAlertOpen(false)}
+                />
+            </Wrapper>
+        )}
     </>
 }

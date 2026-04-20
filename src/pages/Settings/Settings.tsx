@@ -3,6 +3,7 @@ import { WeekStartOptions } from "../../components/enumWeekStartOpthions";
 import { RootState, AppDispatch } from "../../store/store";
 import * as settingsActions from '../../store/settingsSlice';
 import { useTranslation } from 'react-i18next';
+import { addNewDaysToHabitsThunk } from '../../store/habitsThunks';
 import i18n from 'i18next';
 import './settings.css';
 
@@ -15,7 +16,7 @@ export function Settings() {
         i18n.changeLanguage(lang);
         localStorage.setItem('lang', lang);
     };
-2
+    2
     const getCurrentLanguage = () => i18n.language;
 
     return (
@@ -31,9 +32,10 @@ export function Settings() {
                                 name="weekStart"
                                 value="mon"
                                 checked={uiWeekStart === 'monday'}
-                                onChange={() =>
+                                onChange={() => {
                                     dispatch(settingsActions.setWeekStart(WeekStartOptions.Monday))
-                                }
+                                    dispatch(addNewDaysToHabitsThunk())
+                                }}
                             />
                             <span className="checkmark"></span>
                             {t('titles.mon')}
@@ -44,9 +46,10 @@ export function Settings() {
                                 name="weekStart"
                                 value="sun"
                                 checked={uiWeekStart === 'sunday'}
-                                onChange={() =>
+                                onChange={() => {
                                     dispatch(settingsActions.setWeekStart(WeekStartOptions.Sunday))
-                                }
+                                    dispatch(addNewDaysToHabitsThunk())
+                                }}
                             />
                             <span className="checkmark"></span>
                             {t('titles.sun')}

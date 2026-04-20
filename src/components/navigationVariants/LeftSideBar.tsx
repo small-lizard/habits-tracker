@@ -1,22 +1,24 @@
 import './sideBar.css';
-import { CalendarIcon, CheckSquareIcon, LoginIcon, SettingsIcon, ToggleIcon } from "./Icons";
-import { NavLink, useParams } from "react-router-dom";
+import { CalendarIcon, CheckSquareIcon, LoginIcon, SettingsIcon, ToggleIcon } from "../Icons";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { AuthPopup } from './AuthPopup';
-import { AppDispatch, RootState } from '../store/store';
+import { AppDispatch, RootState } from '../../store/store';
 import { useSelector, useDispatch } from 'react-redux';
-import * as sidebarActions from '../store/uiSlice';
-import { Account } from './Account';
-import { PopupWrapperDesctope } from './modalWindowVariants/PopupWrapperDesctope';
+import * as sidebarActions from '../../store/uiSlice';
+import { Account } from '../Account';
+import { PopupWrapperDesctope } from '../modalWindowVariants/PopupWrapperDesctope';
 import { useTranslation } from 'react-i18next';
+import { AuthModal } from '../AuthModal/AuthModal';
+import { SuccessAlert } from '../notifications/SuccessAlert';
 
 export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
-    const [isAuthOpen, setIsAuthOpen] = useState(false)
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
     const user = useSelector((state: RootState) => state.auth);
     const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
     const dispatch = useDispatch<AppDispatch>();
     const { t } = useTranslation();
     const currentHabitId = useSelector((state: RootState) => state.ui.currentHabitId);
+    const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
 
     useEffect(() => {
         if (window.innerWidth < 1280) {
@@ -66,7 +68,6 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
                     </ul>
                 </nav>
             </div>
-
             {
                 user.isAuth && (
                     <Account
@@ -79,7 +80,20 @@ export const LeftSideBar = ({ isMobile }: { isMobile: boolean }) => {
 
             {isAuthOpen && (
                 <PopupWrapperDesctope onClose={() => setIsAuthOpen(false)}>
-                    <AuthPopup onClose={() => setIsAuthOpen(false)} />
+                    <AuthModal
+                        onClose={() => setIsAuthOpen(false)}
+                        onSuccess={() => setIsSuccessAlertOpen(true)}
+                    ></AuthModal>
+                </PopupWrapperDesctope>
+            )}
+
+            {isSuccessAlertOpen && (
+                <PopupWrapperDesctope onClose={() => setIsSuccessAlertOpen(false)}>
+                    <SuccessAlert
+                        title={t('alert.welcome')}
+                        message={t('alert.singUpDesc')}
+                        onClose={() => setIsSuccessAlertOpen(false)}
+                    />
                 </PopupWrapperDesctope>
             )}
         </div>
