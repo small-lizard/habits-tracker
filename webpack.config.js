@@ -34,7 +34,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.REACT_APP_BACKEND_URL': JSON.stringify(process.env.REACT_APP_BACKEND_URL),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
+      'process.env.REACT_APP_GOOGLE_CLIENT_ID': JSON.stringify(process.env.REACT_APP_GOOGLE_CLIENT_ID),
     }),
     new CopyWebpackPlugin({
       patterns: [
