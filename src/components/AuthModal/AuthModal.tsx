@@ -32,6 +32,8 @@ export function AuthModal({ onClose, onSuccess }: authProps) {
                         setStep("verify");
                     }}
                     onSwitch={() => setStep("login")}
+                    onClose={onClose}
+                    onSuccess = { onSuccess }
                 />
             )}
 

@@ -61,7 +61,8 @@
         "changePassword": "Сменить пароль",
         "deleteAccount": "Удалить аккаунт",
         "confirm": "Подтвердить",
-        "resendCode": "Отправить код"
+        "resendCode": "Отправить код",
+        "googleAuth": "Продолжить с Goggle"
     },
     "pages": {
         "habits": "Привычки",

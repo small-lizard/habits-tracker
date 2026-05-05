@@ -1,4 +1,3 @@
-import { ObjectId } from "bson";
 import { http } from "./http";
 
 export const warmUpServer = async () => {
@@ -12,11 +11,9 @@ export const checkAuth = async () => {
 }
 
 export const registerUser = async (useData: { name: string; email: string; password: string }) => {
-    const id = new ObjectId().toString();
     const savedLang = localStorage.getItem('lang') || 'ru';
 
     const fullUserData = {
-        id,
         savedLang,
         ...useData,
     };
@@ -42,6 +39,17 @@ export const verifyEmail = async (email: string, code: string) => {
     localStorage.setItem("guest_mode", "false");
 
     return data;
+}
+
+export const googleAuth = async (code: string) => {
+    const habits = getLocalHabits();
+
+    const response = await http.post('/auth/google/callback', { code, habits });
+
+    localStorage.removeItem('habits');
+    localStorage.setItem("guest_mode", "false");
+
+    return response.data;
 }
 
 export const loginUser = async (userData: { email: string; password: string }) => {

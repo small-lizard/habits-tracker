@@ -1,8 +1,8 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as accountService from '../services/accountService';
 import * as userActions from '../store/authSlice';
 import * as habitsActions from '../store/habitsSlice';
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { LockIcon, LogoutIcon, TrashIcon } from './Icons';
 import "./optionsDropdown.css";
 import { useState } from 'react';
@@ -28,6 +28,7 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
     const [isOpen, setIsOpen] = useState(false);
     const [isResetPopupOpen, setIsResetPopupOpen] = useState(false);
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const userHasPassword = useSelector((state: RootState) => state.auth.hasPassword)
 
     useOnClickOutside(ref, onClose, !(isOpen || isResetPopupOpen), ignoreButtonRef ? [ignoreButtonRef] : []);
 
@@ -56,12 +57,14 @@ export const OptionsDropdown = ({ onClose, ignoreButtonRef, isMobile }: Dropdown
 
     return <>
         <ul ref={ref} className='options-list'>
-            <li>
-                <button className="nav-button options" onClick={() => setIsResetPopupOpen(true)} >
-                    <LockIcon />
-                    <span className='nav-item-text'>{t('buttons.changePassword')}</span>
-                </button>
-            </li>
+            {userHasPassword && (
+                <li>
+                    <button className="nav-button options" onClick={() => setIsResetPopupOpen(true)} >
+                        <LockIcon />
+                        <span className='nav-item-text'>{t('buttons.changePassword')}</span>
+                    </button>
+                </li>
+            )}
             <li>
                 <button className="nav-button options" onClick={() => setIsOpen(true)} >
                     <TrashIcon />

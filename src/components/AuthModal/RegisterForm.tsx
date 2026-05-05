@@ -9,21 +9,49 @@ import { useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "../Icons";
 import { ErrorAlert } from "../notifications/Error";
 import { getMinutesAndSeconds } from "../../utils/dateUtils";
+import { useGoogleLogin } from '@react-oauth/google';
+import { FcGoogle } from 'react-icons/fc';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import * as userActions from "../../store/authSlice";
+import { initHabits } from "../../store/habitsThunks";
 
 type RegisterProps = {
     onRegistered: (email: string, name: string) => void;
     onSwitch: () => void;
+    onClose: () => void;
+    onSuccess: () => void;
 }
 
 const serverErrorMap: Record<string, { field?: string, key: string }> = {
     USER_ALREADY_EXISTS: { field: "email", key: "error.userExist" },
 }
 
-export function RegisterForm({ onRegistered, onSwitch }: RegisterProps) {
+export function RegisterForm({ onRegistered, onSwitch, onClose, onSuccess }: RegisterProps) {
     const { t } = useTranslation();
     const [isAlert, setAlert] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [remaining, setRemaining] = useState(0);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const login = useGoogleLogin({
+        onSuccess: async (response) => {
+            const userData = await accountService.googleAuth(response.code);
+
+            dispatch(userActions.setUser({
+                id: userData.id,
+                isAuth: true,
+                name: userData.name,
+                email: userData.email
+            }));
+
+            onClose();
+            await dispatch(initHabits());
+            onSuccess();
+        },
+        onError: () => console.log('error'),
+        flow: 'auth-code',
+    });
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -85,72 +113,91 @@ export function RegisterForm({ onRegistered, onSwitch }: RegisterProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <h2>{t('titles.createAccount')}</h2>
-            {isAlert && (
-                <ErrorAlert
-                    title={t('alert.attemptsTitle')}
-                    message={t('alert.attemptsText', {
-                        time: getMinutesAndSeconds(remaining),
-                    })}
-                    onClose={() => setAlert(false)}
-                ></ErrorAlert>
-            )}
-            <div className="field">
-                <label>
-                    <input
-                        type="text"
-                        placeholder={t('placeholder.name')}
-                        {...register("name")}
-                        className={errors.name ? "input-error" : ""}
-                    />
-                </label>
-                {errors.name && (
-                    <p className="error-text">{errors.name.message}</p>
+
+            <div className="form-wrapper">
+
+                {isAlert && (
+                    <ErrorAlert
+                        title={t('alert.attemptsTitle')}
+                        message={t('alert.attemptsText', {
+                            time: getMinutesAndSeconds(remaining),
+                        })}
+                        onClose={() => setAlert(false)}
+                    ></ErrorAlert>
                 )}
-            </div>
-            <div className="field">
-                <label>
-                    <input
-                        type="email"
-                        placeholder={t('placeholder.email')}
-                        {...register("email")}
-                        className={errors.email ? "input-error" : ""}
-                    />
-                </label>
-                {errors.email && (
-                    <p className="error-text">{errors.email.message}</p>
-                )}
-            </div>
-            <div className="field">
-                <label>
-                    <div className="input-wrapper">
+
+                <button
+                    type="button"
+                    onClick={() => login()}
+                    className="google-login-btn"
+                >
+                    <FcGoogle size={30} />
+                    {t("buttons.googleAuth")}
+                </button>
+
+                <div className="divider">
+                    <span>or</span>
+                </div>
+
+                <div>
+                    <label>
                         <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder={t('placeholder.password')}
-                            {...register("password")}
-                            className={errors.password ? "input-error" : ""}
+                            type="text"
+                            placeholder={t('placeholder.name')}
+                            {...register("name")}
+                            className={errors.name ? "input-error" : ""}
                         />
-                        <button
-                            type="button"
-                            onMouseDown={(e) => e.preventDefault()}
-                            onClick={() => setShowPassword(prev => !prev)}
-                            className="toggle-password"
-                        >
-                            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                        </button>
-                    </div>
-                </label>
-                {errors.password && (
-                    <p className="error-text">{errors.password.message}</p>
-                )}
-            </div>
+                    </label>
+                    {errors.name && (
+                        <p className="error-text">{errors.name.message}</p>
+                    )}
+                </div>
+                <div>
+                    <label>
+                        <input
+                            type="email"
+                            placeholder={t('placeholder.email')}
+                            {...register("email")}
+                            className={errors.email ? "input-error" : ""}
+                        />
+                    </label>
+                    {errors.email && (
+                        <p className="error-text">{errors.email.message}</p>
+                    )}
+                </div>
+                <div>
+                    <label>
+                        <div className="input-wrapper">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder={t('placeholder.password')}
+                                {...register("password")}
+                                className={errors.password ? "input-error" : ""}
+                            />
+                            <button
+                                type="button"
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => setShowPassword(prev => !prev)}
+                                className="toggle-password"
+                            >
+                                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                            </button>
+                        </div>
+                    </label>
+                    {errors.password && (
+                        <p className="error-text">{errors.password.message}</p>
+                    )}
+                </div>
 
-            <div className='bottom-btn-form'>
-                <button type="submit" className="submit">{t("buttons.signup")}</button>
+                <div className='bottom-btn-form'>
+                    <button type="submit" className="submit">{t("buttons.signup")}</button>
+                    <button type="button" onClick={onClose} className='cancel'>{t('buttons.cancel')}</button>
 
-                <p className='bottom-text'>
-                    {t('common.haveAcc')}
-                    <span onClick={onSwitch}>{t("titles.logIn")}</span>
-                </p>
+                    <p className='bottom-text'>
+                        {t('common.haveAcc')}
+                        <span onClick={onSwitch}>{t("titles.logIn")}</span>
+                    </p>
+                </div>
             </div>
         </form>
     )

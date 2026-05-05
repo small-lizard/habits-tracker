@@ -61,7 +61,8 @@
         "signup": "Sign up",
         "changePassword": "Change password",
         "confirm": "Confirm",
-        "resendCode": "Resend code"
+        "resendCode": "Resend code",
+        "googleAuth": "Continue with Google"
     },
     "pages": {
         "habits": "Habits",
