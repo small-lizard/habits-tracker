@@ -38,7 +38,7 @@ function App() {
       if (guestMode === "false") {
         await accountService.warmUpServer();
         const response = await accountService.checkAuth();
-        console.log(response)
+
         dispatch(userActions.setUser({
           id: response.userId ?? '',
           isAuth: response.isAuth,

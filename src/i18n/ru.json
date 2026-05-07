@@ -62,7 +62,7 @@
         "deleteAccount": "Удалить аккаунт",
         "confirm": "Подтвердить",
         "resendCode": "Отправить код",
-        "googleAuth": "Продолжить с Goggle"
+        "googleAuth": "Продолжить с Google"
     },
     "pages": {
         "habits": "Привычки",
