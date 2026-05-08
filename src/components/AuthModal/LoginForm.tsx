@@ -39,9 +39,10 @@ export function LoginForm({ onClose, onSwitch }: LoginProps) {
                 name: userData.name,
                 email: userData.email
             }));
+            await new Promise(resolve => setTimeout(resolve, 300));
 
-            onClose();
             await dispatch(initHabits());
+            onClose();
         },
         onError: () => console.log('error'),
         flow: 'auth-code',
@@ -72,6 +73,8 @@ export function LoginForm({ onClose, onSwitch }: LoginProps) {
                 name: userData.name,
                 email: userData.email
             }));
+
+            await new Promise(resolve => setTimeout(resolve, 300));
 
             await dispatch(initHabits());
             onClose();

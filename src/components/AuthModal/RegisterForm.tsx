@@ -44,9 +44,10 @@ export function RegisterForm({ onRegistered, onSwitch, onClose, onSuccess }: Reg
                 name: userData.name,
                 email: userData.email
             }));
+            await new Promise(resolve => setTimeout(resolve, 300));
 
-            onClose();
             await dispatch(initHabits());
+            onClose();
             onSuccess();
         },
         onError: () => console.log('error'),

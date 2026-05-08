@@ -71,6 +71,7 @@ export function VerifyForm({ email, name, onClose, onSuccess }: verifyProps) {
                 name: userData.name,
                 email: userData.email
             }));
+await new Promise(resolve => setTimeout(resolve, 300));
 
             await dispatch(initHabits());
             onClose();
