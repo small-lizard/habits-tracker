@@ -42,7 +42,8 @@ export function RegisterForm({ onRegistered, onSwitch, onClose, onSuccess }: Reg
                 id: userData.id,
                 isAuth: true,
                 name: userData.name,
-                email: userData.email
+                email: userData.email,
+                hasPassword: null
             }));
             await new Promise(resolve => setTimeout(resolve, 300));
 

@@ -69,7 +69,8 @@ export function VerifyForm({ email, name, onClose, onSuccess }: verifyProps) {
                 id: userData.id,
                 isAuth: true,
                 name: userData.name,
-                email: userData.email
+                email: userData.email,
+                hasPassword: true
             }));
 await new Promise(resolve => setTimeout(resolve, 300));
 

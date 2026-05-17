@@ -37,7 +37,8 @@ export function LoginForm({ onClose, onSwitch }: LoginProps) {
                 id: userData.id,
                 isAuth: true,
                 name: userData.name,
-                email: userData.email
+                email: userData.email,
+                hasPassword: null
             }));
             await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -71,7 +72,8 @@ export function LoginForm({ onClose, onSwitch }: LoginProps) {
                 id: userData.id,
                 isAuth: true,
                 name: userData.name,
-                email: userData.email
+                email: userData.email,
+                hasPassword: true
             }));
 
             await new Promise(resolve => setTimeout(resolve, 300));
