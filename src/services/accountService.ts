@@ -5,10 +5,16 @@ export const warmUpServer = async () => {
 }
 
 export const checkAuth = async () => {
-    const { data } = await http.get('/auth/check');
-
-    return data;
-}
+    try {
+        const { data } = await http.get('/auth/check');
+        return { authenticated: true, ...data };
+    } catch (err: any) {
+        if (err?.response?.status === 401) {
+             return { authenticated: false };
+        }
+        throw err;
+    }
+};
 
 export const registerUser = async (useData: { name: string; email: string; password: string }) => {
     const savedLang = localStorage.getItem('lang') || 'ru';
@@ -34,11 +40,7 @@ export const verifyEmail = async (email: string, code: string) => {
     const habits = getLocalHabits();
 
     const { data } = await http.post('/verify-email', { email, code, habits });
-
-    localStorage.removeItem('habits');
-    localStorage.setItem("guest_mode", "false");
-    localStorage.setItem("sessionId", data.sessionId);
-    localStorage.setItem("userId", data.userId);
+    setAuthState(data.sessionId);
 
     return data;
 }
@@ -47,11 +49,7 @@ export const googleAuth = async (code: string) => {
     const habits = getLocalHabits();
 
     const { data } = await http.post('/auth/google/callback', { code, habits });
-
-    localStorage.removeItem('habits');
-    localStorage.setItem("guest_mode", "false");
-    localStorage.setItem("sessionId", data.sessionId);
-    localStorage.setItem("userId", data.userId);
+    setAuthState(data.sessionId);
 
     return data;
 }
@@ -63,10 +61,7 @@ export const loginUser = async (userData: { email: string; password: string }) =
         ...userData,
     };
     const { data } = await http.post('/login', fullUserData);
-    localStorage.removeItem('habits');
-    localStorage.setItem("guest_mode", "false");
-    localStorage.setItem("sessionId", data.sessionId);
-    localStorage.setItem("userId", data.userId);
+    setAuthState(data.sessionId);
 
     return data;
 };
@@ -75,7 +70,6 @@ export const logoutUser = async () => {
     const { data } = await http.post('/logout', {});
     localStorage.setItem("guest_mode", "true");
     localStorage.removeItem("sessionId");
-    localStorage.removeItem("userId");
 
     return data;
 };
@@ -84,7 +78,6 @@ export const deleteUser = async () => {
     await http.delete('/delete-account');
     localStorage.setItem("guest_mode", "true");
     localStorage.removeItem("sessionId");
-    localStorage.removeItem("userId");
 };
 
 export const changePassword = async (data: { password: string, newPassword: string }) => {
@@ -97,4 +90,12 @@ const getLocalHabits = () => {
     } catch {
         return [];
     }
+};
+
+const setAuthState = (sessionId?: string) => {
+    if (!sessionId) return;
+
+    localStorage.removeItem("habits");
+    localStorage.setItem("guest_mode", "false");
+    localStorage.setItem("sessionId", sessionId);
 };

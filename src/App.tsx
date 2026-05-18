@@ -39,11 +39,19 @@ function App() {
         await accountService.warmUpServer();
         const response = await accountService.checkAuth();
 
+        if (!response.authenticated) {
+          dispatch(userActions.clearUser());
+
+          await dispatch(initHabits());
+          setLoading(false);
+          return;
+        }
+
         dispatch(userActions.setUser({
-          id: response.userId ?? '',
-          isAuth: response.isAuth,
-          name: response.name ?? '',
-          email: response.email ?? '',
+          id: response.userId,
+          isAuth: true,
+          name: response.name,
+          email: response.email,
           hasPassword: response.hasPassword
         }));
       }
