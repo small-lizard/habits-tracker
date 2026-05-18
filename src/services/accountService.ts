@@ -37,6 +37,8 @@ export const verifyEmail = async (email: string, code: string) => {
 
     localStorage.removeItem('habits');
     localStorage.setItem("guest_mode", "false");
+    localStorage.setItem("sessionId", data.sessionId);
+    localStorage.setItem("userId", data.userId);
 
     return data;
 }
@@ -44,12 +46,14 @@ export const verifyEmail = async (email: string, code: string) => {
 export const googleAuth = async (code: string) => {
     const habits = getLocalHabits();
 
-    const response = await http.post('/auth/google/callback', { code, habits });
+    const { data } = await http.post('/auth/google/callback', { code, habits });
 
     localStorage.removeItem('habits');
     localStorage.setItem("guest_mode", "false");
+    localStorage.setItem("sessionId", data.sessionId);
+    localStorage.setItem("userId", data.userId);
 
-    return response.data;
+    return data;
 }
 
 export const loginUser = async (userData: { email: string; password: string }) => {
@@ -61,6 +65,8 @@ export const loginUser = async (userData: { email: string; password: string }) =
     const { data } = await http.post('/login', fullUserData);
     localStorage.removeItem('habits');
     localStorage.setItem("guest_mode", "false");
+    localStorage.setItem("sessionId", data.sessionId);
+    localStorage.setItem("userId", data.userId);
 
     return data;
 };
@@ -68,6 +74,8 @@ export const loginUser = async (userData: { email: string; password: string }) =
 export const logoutUser = async () => {
     const { data } = await http.post('/logout', {});
     localStorage.setItem("guest_mode", "true");
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("userId");
 
     return data;
 };
@@ -75,6 +83,8 @@ export const logoutUser = async () => {
 export const deleteUser = async () => {
     await http.delete('/delete-account');
     localStorage.setItem("guest_mode", "true");
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("userId");
 };
 
 export const changePassword = async (data: { password: string, newPassword: string }) => {
